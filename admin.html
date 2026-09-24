@@ -298,13 +298,6 @@
     transition: all 0.2s ease; white-space: nowrap;
   }
   .photo-remove-btn:hover { background: var(--danger-bg); }
-  .upload-progress {
-    display: none; margin-top: 10px; padding: 10px 14px;
-    background: var(--success-bg); border: 1px solid var(--success);
-    border-radius: 8px; font-size: 12px; color: var(--success);
-    font-weight: 600; text-align: center;
-  }
-  .upload-progress.show { display: block; }
   .admin-filters {
     display: flex; gap: 12px; margin-bottom: 24px;
     flex-wrap: wrap; align-items: center;
@@ -946,7 +939,6 @@
     </div>
   </nav>
 
-  <!-- GİRİŞ -->
   <div class="admin-login" id="adminLogin">
     <div class="admin-login-box">
       <span class="admin-login-icon">🔐</span>
@@ -963,7 +955,6 @@
     </div>
   </div>
 
-  <!-- PANEL -->
   <div class="admin-panel" id="adminPanel" style="display:none;">
     <div class="admin-container">
 
@@ -1036,10 +1027,8 @@
                   <span class="photo-upload-icon">📷</span>
                   <div class="photo-upload-text">Fotoğrafı buraya sürükleyin veya</div>
                   <label for="photoInput" class="photo-file-btn">📁 Dosya Seç</label>
-                  <div class="photo-upload-hint">JPG, PNG, WEBP · Maks 5MB</div>
+                  <div class="photo-upload-hint">JPG, PNG, WEBP · Maks 5MB (otomatik küçültülür)</div>
                 </div>
-
-                <div class="upload-progress" id="uploadProgress">⏳ Fotoğraf yükleniyor...</div>
 
                 <div class="photo-preview-wrap" id="photoPreviewWrap">
                   <img class="photo-preview-img" id="photoPreviewImg" alt="Önizleme">
@@ -1233,8 +1222,7 @@
       getOrders, updateOrder, deleteOrder,
       getUsers, deleteUser,
       getDiscounts, setDiscount,
-      getAdminPassword, setAdminPassword,
-      uploadImage, deleteImage
+      getAdminPassword, setAdminPassword
     } from './firebase-config.js';
 
     /* ============================================================
@@ -1318,9 +1306,7 @@
     let currentFilter = 'all';
     let currentSearch = '';
     let editingId = null;
-    let currentPhoto = '';       // Firebase Storage URL
-    let currentPhotoPath = '';   // silmek için path
-    let pendingPhotoData = null; // base64 (henüz yüklenmedi)
+    let currentPhoto = ''; // base64 string
 
     let currentOrderFilter = 'all';
     let currentOrderSearch = '';
@@ -1512,7 +1498,7 @@
     });
 
     /* ============================================================
-       VERİ YÜKLEME (Firebase)
+       VERİ YÜKLEME
        ============================================================ */
     async function loadAllData() {
       showLoading('adminList');
@@ -1855,7 +1841,8 @@
     function getUserOrders(user) {
       if (!user || !user.name || !user.phone) return [];
       return allOrders.filter(o =>
-        o.user && o.user.name === user.name && o.user.phone === user.phone      );
+        o.user && o.user.name === user.name && o.user.phone === user.phone
+      );
     }
 
     function getDiscountFor(phone) {
@@ -1992,7 +1979,7 @@
       }).join('');
     }
 
-    /* İndirim input değişikliği — Firebase'e kaydet */
+    /* İndirim input değişikliği */
     let discountSaveTimer = null;
     document.getElementById('usersList').addEventListener('input', function (e) {
       const percentInp = e.target.closest('[data-discount-input]');
@@ -2057,7 +2044,7 @@
       renderUsers();
     });
 
-    /* KULLANICI SİLME — Firebase */
+    /* KULLANICI SİLME */
     async function removeUser(phone) {
       if (!phone) return;
       const user = allUsers.find(u => u.phone === phone);
@@ -2074,27 +2061,20 @@
       if (!confirm(confirmMsg)) return;
 
       try {
-        // Siparişleri sil
         for (const o of userOrders) {
           await deleteOrder(o.id);
         }
         allOrders = allOrders.filter(o => !(o.user && o.user.phone === phone));
-
-        // Kullanıcıyı sil
         await deleteUser(phone);
         allUsers = allUsers.filter(u => u.phone !== phone);
-
-        // İndirimi sil
         if (allDiscounts[phone]) {
           await setDiscount(phone, 0, 0);
           delete allDiscounts[phone];
         }
-
         closeUserModal();
         renderUsers();
         renderOrders();
         updateOrdersBadge();
-
         showToast('🗑️ "' + userName + '" silindi (' + orderCount + ' sipariş ile birlikte)', 'danger');
       } catch (err) {
         console.error(err);
@@ -2227,7 +2207,6 @@
       if (phone) removeUser(phone);
     });
 
-    /* Modal indirim inputları */
     let modalDiscountTimer = null;
     function handleModalDiscountChange() {
       const phone = document.getElementById('userModalDiscountInput').getAttribute('data-phone');
@@ -2288,7 +2267,7 @@
     });
 
     /* ============================================================
-       FOTOĞRAF YÜKLEME — Firebase Storage
+       FOTOĞRAF — BASE64
        ============================================================ */
     const photoInput = document.getElementById('photoInput');
     const photoUploadZone = document.getElementById('photoUploadZone');
@@ -2297,11 +2276,9 @@
     const photoPreviewName = document.getElementById('photoPreviewName');
     const photoPreviewSize = document.getElementById('photoPreviewSize');
     const photoRemoveBtn = document.getElementById('photoRemoveBtn');
-    const uploadProgress = document.getElementById('uploadProgress');
 
-    function setPhoto(url, name, size, path) {
-      currentPhoto = url || '';
-      currentPhotoPath = path || '';
+    function setPhoto(dataUrl, name, size) {
+      currentPhoto = dataUrl || '';
       if (!currentPhoto) {
         photoPreviewWrap.classList.remove('show');
         photoPreviewImg.removeAttribute('src');
@@ -2311,7 +2288,7 @@
       }
       photoPreviewImg.src = currentPhoto;
       photoPreviewName.textContent = name || 'Fotoğraf';
-      photoPreviewSize.textContent = size ? formatBytes(size) : 'URL';
+      photoPreviewSize.textContent = size ? formatBytes(size) : 'base64';
       photoPreviewWrap.classList.add('show');
     }
 
@@ -2337,20 +2314,6 @@
       img.src = dataUrl;
     }
 
-    async function uploadPhoto(dataUrl, originalName) {
-      uploadProgress.classList.add('show');
-      try {
-        const result = await uploadImage(dataUrl, 'menu');
-        if (!result) throw new Error('Yükleme başarısız');
-        setPhoto(result.url, originalName, dataUrl.length, result.path);
-        showToast('📷 Fotoğraf yüklendi', 'success');
-      } catch (err) {
-        console.error(err);
-        showToast('❌ Fotoğraf yüklenemedi. Tekrar deneyin.', 'danger');
-      }
-      uploadProgress.classList.remove('show');
-    }
-
     function handleFile(file) {
       if (!file) return;
       if (!file.type.startsWith('image/')) {
@@ -2361,8 +2324,9 @@
       }
       const reader = new FileReader();
       reader.onload = function (ev) {
-        compressImage(ev.target.result, 800, 0.82, async function (compressed) {
-          await uploadPhoto(compressed, file.name);
+        compressImage(ev.target.result, 600, 0.75, function (compressed) {
+          setPhoto(compressed, file.name, compressed.length);
+          showToast('📷 Fotoğraf eklendi', 'success');
         });
       };
       reader.readAsDataURL(file);
@@ -2390,13 +2354,9 @@
       if (file) handleFile(file);
     });
 
-    photoRemoveBtn.addEventListener('click', async function () {
-      const oldPath = currentPhotoPath;
+    photoRemoveBtn.addEventListener('click', function () {
       setPhoto('', '', 0);
       photoInput.value = '';
-      if (oldPath) {
-        try { await deleteImage(oldPath); } catch (e) {}
-      }
     });
 
     /* ============================================================
@@ -2427,7 +2387,7 @@
       const radio = document.getElementById('cat-' + item.category);
       if (radio) radio.checked = true;
 
-      if (item.photo) setPhoto(item.photo, 'Mevcut fotoğraf', 0, item.photoPath || '');
+      if (item.photo) setPhoto(item.photo, 'Mevcut fotoğraf', 0);
       else setPhoto('', '', 0);
 
       document.getElementById('formTitle').textContent = '✏️ Ürünü Düzenle';
@@ -2445,11 +2405,6 @@
       try {
         const ok = await deleteMenuItem(id);
         if (!ok) throw new Error();
-
-        if (item.photoPath) {
-          try { await deleteImage(item.photoPath); } catch (e) {}
-        }
-
         allItems = allItems.filter(i => i.id !== id);
         renderAll();
         showToast('🗑️ "' + item.name + '" silindi', 'danger');
@@ -2472,14 +2427,19 @@
       if (isNaN(price) || price < 0) { showToast('⚠️ Geçerli bir fiyat girin', 'danger'); return; }
       if (!CATEGORIES[category]) { showToast('⚠️ Kategori seçin', 'danger'); return; }
 
+      // Base64 boyut kontrolü (~1MB Firestore limiti için)
+      if (currentPhoto && currentPhoto.length > 900000) {
+        showToast('⚠️ Fotoğraf çok büyük. Daha küçük bir fotoğraf seçin.', 'danger');
+        return;
+      }
+
       const submitBtn = document.getElementById('submitBtn');
       submitBtn.disabled = true;
       submitBtn.textContent = '⏳ Kaydediliyor...';
 
       const payload = {
         name, price, desc, category,
-        photo: currentPhoto,
-        photoPath: currentPhotoPath
+        photo: currentPhoto
       };
 
       try {
@@ -2559,7 +2519,6 @@
 
       try {
         const freshOrders = await getOrders();
-        const freshIds = new Set(freshOrders.map(o => o.id));
         const newOnes = freshOrders.filter(o => !knownOrderIds.has(o.id));
 
         if (newOnes.length > 0 && firstLoadDone) {
@@ -2581,19 +2540,14 @@
               } catch (e) {}
             });
           }
-
-          newOnes.forEach(o => knownOrderIds.add(o.id));
         }
 
         newOnes.forEach(o => knownOrderIds.add(o.id));
-
         allOrders = freshOrders;
         renderOrders();
         updateOrdersBadge();
         renderUsers();
-      } catch (e) {
-        // sessiz geç
-      }
+      } catch (e) {}
     }
 
     function requestNotificationPermission() {
