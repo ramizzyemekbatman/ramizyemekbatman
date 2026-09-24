@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Giriş Yap | Ramiz Köfte Batman</title>
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="shortcut icon" href="favicon-source.png">
+<script>
+  (function() {
+    try {
+      var saved = localStorage.getItem('theme');
+      if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+      else if (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.setAttribute('data-theme', 'dark');
+    } catch (e) {}
+  })();
+</script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #ffffff; --bg-alt: #f5f5f5; --text: #1a1a1a; --text-muted: #888;
+    --border: #f0f0f0; --border-input: #ddd; --btn-bg: #1a1a1a; --btn-text: #ffffff;
+    --btn-hover: #333; --danger: #c0392b; --danger-bg: rgba(192,57,43,0.08);
+    --success: #2a5040; --success-bg: rgba(42,80,64,0.08);
+    --transition: 0.4s cubic-bezier(0.4,0,0.2,1);
+  }
+  [data-theme="dark"] {
+    --bg: #0f0f0f; --bg-alt: #1a1a1a; --text: #f5f5f5; --text-muted: #888;
+    --border: #2a2a2a; --border-input: #333; --btn-bg: #f5f5f5; --btn-text: #0f0f0f;
+    --btn-hover: #d4d4d4; --danger: #e74c3c; --danger-bg: rgba(231,76,60,0.1);
+    --success: #7aa589; --success-bg: rgba(122,165,137,0.1);
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: var(--text); background: var(--bg);
+    -webkit-font-smoothing: antialiased; overflow-x: hidden;
+    transition: background var(--transition), color var(--transition);
+    display: flex; flex-direction: column; min-height: 100vh;
+  }
+  .navbar {
+    position: fixed; top: 0; left: 0; right: 0; height: 70px;
+    background: var(--bg); display: flex; align-items: center;
+    justify-content: center; z-index: 9999; border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    display: flex; align-items: center; gap: 24px;
+    max-width: 1400px; width: 100%; padding: 0 24px; justify-content: space-between;
+  }
+  .nav-logo { display: flex; flex-direction: row; align-items: center; gap: 12px; text-decoration: none; flex-shrink: 0; }
+  .nav-logo-img { width: 52px; height: 52px; object-fit: contain; flex-shrink: 0; display: block; }
+  .nav-logo-text { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1; }
+  .nav-logo-main {
+    font-size: 24px; font-weight: 700; letter-spacing: -0.01em; color: var(--text);
+    font-family: Georgia, 'Times New Roman', serif; line-height: 1; margin-bottom: 3px;
+  }
+  .nav-logo-sub {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--text-muted); line-height: 1;
+  }
+  .nav-spacer { flex: 1; }
+  .nav-back {
+    font-size: 13px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text); text-decoration: none; opacity: 0.7; transition: opacity 0.3s;
+  }
+  .nav-back:hover { opacity: 1; }
+  .theme-toggle {
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 1px solid var(--border-input); background: transparent;
+    color: var(--text); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; transition: all 0.3s ease;
+    position: relative; overflow: hidden; font-family: inherit;
+  }
+  .theme-toggle:hover { border-color: var(--text); transform: scale(1.08); }
+  .theme-toggle .icon {
+    position: absolute;
+    transition: transform 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease; line-height: 1;
+  }
+  .theme-toggle .icon-sun { transform: rotate(0deg) scale(1); opacity: 0; }
+  .theme-toggle .icon-moon { transform: rotate(0deg) scale(1); opacity: 1; }
+  [data-theme="dark"] .theme-toggle .icon-sun { transform: rotate(180deg) scale(1); opacity: 1; }
+  [data-theme="dark"] .theme-toggle .icon-moon { transform: rotate(-180deg) scale(0); opacity: 0; }
+
+  .login-wrap {
+    flex: 1; min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 100px 20px; background: var(--bg-alt);
+  }
+  .login-box {
+    max-width: 420px; width: 100%; background: var(--bg);
+    border: 1px solid var(--border); border-radius: 20px;
+    padding: 48px 36px; box-shadow: 0 12px 48px rgba(0,0,0,0.08);
+  }
+  .login-icon { font-size: 48px; text-align: center; margin-bottom: 16px; display: block; }
+  .login-box h2 {
+    font-size: 28px; font-weight: 400; font-style: italic; color: var(--text);
+    text-align: center; margin-bottom: 6px; font-family: Georgia, 'Times New Roman', serif;
+  }
+  .login-box .login-sub { font-size: 14px; color: var(--text-muted); text-align: center; margin-bottom: 32px; }
+  .form-group { margin-bottom: 18px; }
+  .form-group label {
+    display: block; font-size: 12px; font-weight: 400;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px;
+  }
+  .form-group input {
+    width: 100%; padding: 14px 16px; border: 1px solid var(--border-input);
+    border-radius: 10px; font-size: 15px; font-weight: 300; color: var(--text);
+    background: var(--bg); outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s; font-family: inherit;
+  }
+  .form-group input:focus { border-color: var(--text); box-shadow: 0 0 0 3px var(--border); }
+  .form-group input::placeholder { color: var(--text-muted); opacity: 0.5; }
+  .msg-box {
+    display: none; padding: 12px 16px; border-radius: 8px;
+    font-size: 13px; text-align: center; margin-bottom: 18px; line-height: 1.5;
+  }
+  .msg-box.show { display: block; }
+  .msg-error { background: var(--danger-bg); border: 1px solid var(--danger); color: var(--danger); }
+  .msg-success { background: var(--success-bg); border: 1px solid var(--success); color: var(--success); }
+  .phone-row { display: flex; gap: 8px; }
+  .phone-prefix {
+    padding: 14px 12px; background: var(--bg-alt);
+    border: 1px solid var(--border-input); border-radius: 10px;
+    font-size: 15px; color: var(--text); font-weight: 500;
+    white-space: nowrap; display: flex; align-items: center;
+  }
+  .phone-row input {
+    flex: 1; padding: 14px 16px; border: 1px solid var(--border-input);
+    border-radius: 10px; font-size: 15px; color: var(--text);
+    background: var(--bg); outline: none; font-family: inherit;
+    letter-spacing: 0.05em; transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .phone-row input:focus { border-color: var(--text); box-shadow: 0 0 0 3px var(--border); }
+  .login-btn {
+    width: 100%; padding: 16px; background: var(--btn-bg); color: var(--btn-text);
+    font-size: 13px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase;
+    border: none; cursor: pointer; font-family: inherit; transition: all 0.3s;
+    margin-top: 8px; border-radius: 10px;
+  }
+  .login-btn:hover { background: var(--btn-hover); }
+  .login-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .register-box {
+    margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center;
+  }
+  .register-text { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; }
+  .register-link {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: 8px; width: 100%; padding: 14px 20px;
+    background: transparent; color: var(--text);
+    border: 1px solid var(--border-input); border-radius: 10px;
+    font-size: 12px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; text-decoration: none; transition: all 0.25s ease;
+  }
+  .register-link:hover { border-color: var(--text); background: var(--bg-alt); transform: translateY(-1px); }
+  footer { background: #000; color: #fff; padding: 60px 40px 30px; margin-top: auto; }
+  .footer-container {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 40px 60px; padding-bottom: 40px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .footer-col h4 {
+    font-size: 13px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #fff; margin-bottom: 20px;
+  }
+  .footer-col p, .footer-col a {
+    font-size: 14px; color: #fff; opacity: 0.75;
+    text-decoration: none; line-height: 1.8; display: block;
+    margin-bottom: 6px; transition: opacity 0.3s;
+  }
+  .footer-col a:hover { opacity: 1; }
+  .footer-copyright { text-align: center; padding-top: 30px; font-size: 13px; color: #666; }
+  @media (max-width: 768px) {
+    .nav-inner { padding: 0 16px; }
+    .nav-logo-main { font-size: 15px; }
+    .nav-logo-sub { font-size: 9px; }
+    .nav-logo-img { width: 44px; height: 44px; }
+    .theme-toggle { width: 40px; height: 40px; }
+    .login-box { padding: 36px 24px; border-radius: 16px; }
+    .login-box h2 { font-size: 22px; }
+    footer { padding: 50px 24px 25px; }
+    .footer-container { grid-template-columns: 1fr 1fr; gap: 32px 24px; }
+    .footer-col h4 { font-size: 12px; margin-bottom: 14px; }
+    .footer-col p, .footer-col a { font-size: 13px; }
+    .footer-copyright { font-size: 12px; }
+  }
+  @media (max-width: 480px) {
+    .footer-container { grid-template-columns: 1fr; gap: 28px; }
+  }
+</style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <img src="favicon-source.png" alt="Ramiz Köfte" class="nav-logo-img">
+        <div class="nav-logo-text">
+          <span class="nav-logo-main">Ramiz Köfte</span>
+          <span class="nav-logo-sub">Batman · Est. 1928</span>
+        </div>
+      </a>
+      <div class="nav-spacer"></div>
+      <a href="index.html" class="nav-back">← Ana Sayfa</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Tema değiştir">
+        <span class="icon icon-sun">☀️</span>
+        <span class="icon icon-moon">🌙</span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="login-wrap">
+    <div class="login-box">
+      <span class="login-icon">🔑</span>
+      <h2>Giriş Yap</h2>
+      <p class="login-sub">Kayıtlı bilgilerinizle giriş yapın</p>
+
+      <div class="msg-box" id="msgBox"></div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="nameInput">Ad Soyad</label>
+          <input type="text" id="nameInput" placeholder="Adınız Soyadınız" required maxlength="60" autocomplete="name">
+        </div>
+        <div class="form-group">
+          <label for="phoneInput">Telefon Numarası</label>
+          <div class="phone-row">
+            <span class="phone-prefix">🇹🇷 +90</span>
+            <input type="tel" id="phoneInput" placeholder="5XX XXX XX XX" required inputmode="numeric" autocomplete="tel">
+          </div>
+        </div>
+        <button type="submit" class="login-btn" id="loginBtn">🔓 Giriş Yap</button>
+      </form>
+
+      <div class="register-box">
+        <p class="register-text">Hesabınız yok mu?</p>
+        <a href="kayit.html" class="register-link">📝 Kayıt Ol</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-col">
+        <h4>İletişim</h4>
+        <p>Gültepe Mah. Demokrasi Bul. Petrol City 2. Kat</p>
+        <a href="tel:+905015715272">📞 0501 571 52 72</a>
+      </div>
+      <div class="footer-col">
+        <h4>Çalışma Saatleri</h4>
+        <p>Hafta içi &amp; Hafta sonu: 10:00 – 22:00</p>
+        <p>Alo Paket Servis: 10:00 – 01:00</p>
+      </div>
+      <div class="footer-col">
+        <h4>Sosyal Medya</h4>
+        <a href="https://www.instagram.com/ramizkofte_batman" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.tiktok.com/@ramiz.kftebatman" target="_blank" rel="noopener">TikTok</a>
+      </div>
+      <div class="footer-col">
+        <h4>Kurumsal</h4>
+        <a href="hakkimizda.html">Hakkımızda</a>
+        <a href="kvkk.html">KVKK Aydınlatma Metni</a>
+        <a href="cerez.html">Çerez Politikası</a>
+      </div>
+    </div>
+    <div class="footer-copyright">© 2026 Ramiz Köfte · Tüm hakları saklıdır.</div>
+  </footer>
+
+  <script type="module">
+    import { getUserByPhone, getDiscounts } from './firebase-config.js';
+
+    (function() {
+      const themeToggle = document.getElementById('themeToggle');
+      themeToggle.addEventListener('click', function() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        if (newTheme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+        else document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('theme', newTheme);
+      });
+    })();
+
+    function showMsg(type, text) {
+      const box = document.getElementById('msgBox');
+      box.className = 'msg-box show msg-' + type;
+      box.textContent = text;
+    }
+    function hideMsg() {
+      document.getElementById('msgBox').className = 'msg-box';
+    }
+    function formatPhoneInput(value) {
+      let digits = value.replace(/\D/g, '');
+      if (digits.startsWith('0')) digits = digits.slice(1);
+      if (digits.startsWith('90')) digits = digits.slice(2);
+      digits = digits.slice(0, 10);
+      let formatted = '';
+      if (digits.length > 0) formatted = digits.slice(0, 3);
+      if (digits.length > 3) formatted += ' ' + digits.slice(3, 6);
+      if (digits.length > 6) formatted += ' ' + digits.slice(6, 8);
+      if (digits.length > 8) formatted += ' ' + digits.slice(8, 10);
+      return formatted;
+    }
+    function getFullPhone(formattedPhone) {
+      const digits = formattedPhone.replace(/\D/g, '');
+      return '90' + digits;
+    }
+    function normalizeName(str) {
+      return String(str || '')
+        .toLocaleLowerCase('tr-TR')
+        .replace(/ı/g, 'i').replace(/İ/g, 'i')
+        .replace(/ş/g, 's').replace(/ç/g, 'c')
+        .replace(/ğ/g, 'g').replace(/ü/g, 'u')
+        .replace(/ö/g, 'o')
+        .replace(/\s+/g, ' ').trim();
+    }
+
+    const nameInput = document.getElementById('nameInput');
+    const phoneInput = document.getElementById('phoneInput');
+    const loginBtn = document.getElementById('loginBtn');
+
+    phoneInput.addEventListener('input', function (e) {
+      e.target.value = formatPhoneInput(e.target.value);
+    });
+
+    document.getElementById('loginForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      hideMsg();
+
+      const name = nameInput.value.trim();
+      const digits = phoneInput.value.replace(/\D/g, '');
+
+      if (name.length < 3) {
+        showMsg('error', '⚠️ Lütfen adınızı ve soyadınızı girin'); nameInput.focus(); return;
+      }
+      if (digits.length !== 10 || !digits.startsWith('5')) {
+        showMsg('error', '⚠️ Geçerli bir telefon numarası girin (5XX XXX XX XX)'); phoneInput.focus(); return;
+      }
+
+      const fullPhone = getFullPhone(phoneInput.value);
+      loginBtn.disabled = true;
+      loginBtn.textContent = '⏳ Kontrol ediliyor...';
+
+      try {
+        const matched = await getUserByPhone(fullPhone);
+
+        if (!matched || normalizeName(matched.name) !== normalizeName(name)) {
+          showMsg('error', '❌ Bu isim ve telefon numarası ile kayıtlı bir hesap bulunamadı. Bilgilerinizi kontrol edin veya kayıt olun.');
+          loginBtn.disabled = false;
+          loginBtn.textContent = '🔓 Giriş Yap';
+          return;
+        }
+
+        // İndirim bilgisi
+        let discount = { minAmount: 0, percent: 0 };
+        try {
+          const d = await getDiscounts();
+          const raw = d[fullPhone];
+          if (raw) {
+            if (typeof raw === 'number') discount = { minAmount: 0, percent: Math.max(0, Math.min(100, Math.floor(raw))) };
+            else discount = {
+              minAmount: Math.max(0, Number(raw.minAmount) || 0),
+              percent: Math.max(0, Math.min(100, Math.floor(Number(raw.percent) || 0)))
+            };
+          }
+        } catch (err) {}
+
+        localStorage.setItem('user', JSON.stringify({
+          name: matched.name,
+          phone: matched.phone,
+          displayPhone: matched.displayPhone || phoneInput.value,
+          discount: discount.percent,
+          minAmount: discount.minAmount,
+          loginAt: Date.now()
+        }));
+
+        showMsg('success', '✅ Giriş başarılı! Yönlendiriliyorsunuz...');
+        setTimeout(() => { window.location.href = 'index.html'; }, 1000);
+      } catch (err) {
+        console.error(err);
+        showMsg('error', '❌ Bağlantı hatası. İnternetinizi kontrol edip tekrar deneyin.');
+        loginBtn.disabled = false;
+        loginBtn.textContent = '🔓 Giriş Yap';
+      }
+    });
+  </script>
+
+</body>
+</html>

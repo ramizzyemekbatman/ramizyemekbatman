@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Çerez Politikası | Ramiz Köfte Batman</title>
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="shortcut icon" href="favicon-source.png">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #ffffff;
+    --bg-alt: #f5f5f5;
+    --text: #1a1a1a;
+    --text-muted: #666666;
+    --text-light: #333333;
+    --border: #f0f0f0;
+    --border-input: #ddd;
+    --btn-bg: #1a1a1a;
+    --btn-text: #ffffff;
+    --btn-hover: #333;
+    --nav-bg: #ffffff;
+    --card-bg: #ffffff;
+    --success: #2a5040;
+    --success-bg: rgba(42, 80, 64, 0.08);
+    --transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  [data-theme="dark"] {
+    --bg: #0f0f0f;
+    --bg-alt: #1a1a1a;
+    --text: #f5f5f5;
+    --text-muted: #aaaaaa;
+    --text-light: #dddddd;
+    --border: #2a2a2a;
+    --border-input: #333;
+    --btn-bg: #f5f5f5;
+    --btn-text: #0f0f0f;
+    --btn-hover: #d4d4d4;
+    --nav-bg: #0f0f0f;
+    --card-bg: #1a1a1a;
+    --success: #7aa589;
+    --success-bg: rgba(122, 165, 137, 0.1);
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: var(--text); background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    transition: background var(--transition), color var(--transition);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .navbar {
+    position: fixed; top: 0; left: 0; right: 0; height: 70px;
+    background: var(--nav-bg); display: flex; align-items: center;
+    justify-content: center; z-index: 9999;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-inner {
+    display: flex; align-items: center; gap: 24px;
+    max-width: 1400px; width: 100%; padding: 0 1px;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    display: flex; flex-direction: row;
+    align-items: center; gap: 12px;
+    line-height: 1;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .nav-logo-img {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+    flex-shrink: 0;
+    display: block;
+  }
+
+  .nav-logo-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.1;
+  }
+
+  .nav-logo-main {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    font-family: Georgia, 'Times New Roman', serif;
+    line-height: 1;
+    margin-bottom: 3px;
+  }
+
+  .nav-logo-sub {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    line-height: 1;
+  }
+
+  .nav-spacer { flex: 1; }
+
+  .nav-back {
+    font-size: 13px; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--text);
+    text-decoration: none; opacity: 0.7;
+    transition: opacity 0.3s;
+    white-space: nowrap;
+  }
+  .nav-back:hover { opacity: 1; }
+
+  .theme-toggle {
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 1px solid var(--border-input); background: transparent;
+    color: var(--text); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; transition: all 0.3s ease;
+    position: relative; overflow: hidden; font-family: inherit;
+  }
+  .theme-toggle:hover { border-color: var(--text); transform: scale(1.08); }
+
+  .theme-toggle .icon {
+    position: absolute;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+    line-height: 1;
+  }
+  .theme-toggle .icon-sun { transform: rotate(0deg) scale(1); opacity: 0; }
+  .theme-toggle .icon-moon { transform: rotate(0deg) scale(1); opacity: 1; }
+  [data-theme="dark"] .theme-toggle .icon-sun { transform: rotate(180deg) scale(1); opacity: 1; }
+  [data-theme="dark"] .theme-toggle .icon-moon { transform: rotate(-180deg) scale(0); opacity: 0; }
+
+  .wrap {
+    flex: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 110px 24px 80px;
+    width: 100%;
+  }
+
+  .page-title {
+    font-size: 42px;
+    font-weight: 600;
+    font-style: italic;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+
+  .page-sub {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 40px;
+    letter-spacing: 0.05em;
+  }
+
+  .content-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 48px 44px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+  }
+
+  .content-card h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text);
+    margin-top: 32px;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .content-card h2:first-child { margin-top: 0; }
+
+  .content-card h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    margin-top: 20px;
+    margin-bottom: 8px;
+  }
+
+  .content-card p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text-light);
+    margin-bottom: 14px;
+  }
+
+  .content-card ul {
+    margin: 8px 0 16px 24px;
+    font-size: 15px;
+    line-height: 1.9;
+    color: var(--text-light);
+  }
+
+  .content-card ul li {
+    margin-bottom: 6px;
+  }
+
+  .info-box {
+    background: var(--bg-alt);
+    border-left: 3px solid var(--success);
+    padding: 18px 22px;
+    border-radius: 8px;
+    margin: 20px 0;
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--text-light);
+  }
+
+  .cookie-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 20px;
+    font-size: 13px;
+  }
+
+  .cookie-table th {
+    background: var(--bg-alt);
+    color: var(--text);
+    text-align: left;
+    padding: 12px 14px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-size: 11px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .cookie-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-light);
+    vertical-align: top;
+  }
+
+  .cookie-table tr:last-child td { border-bottom: none; }
+
+  .cookie-table .cookie-name {
+    font-family: monospace;
+    font-weight: 600;
+    color: var(--text);
+    white-space: nowrap;
+  }
+
+  .footer-date {
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+    font-style: italic;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  footer {
+    background: #000;
+    color: #fff;
+    padding: 60px 40px 30px;
+    margin-top: auto;
+  }
+
+  .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px 60px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .footer-col h4 {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+
+  .footer-col p,
+  .footer-col a {
+    font-size: 14px;
+    color: #fff;
+    opacity: 0.75;
+    text-decoration: none;
+    line-height: 1.8;
+    display: block;
+    margin-bottom: 6px;
+    transition: opacity 0.3s;
+  }
+  .footer-col a:hover { opacity: 1; }
+
+  .footer-copyright {
+    text-align: center;
+    padding-top: 30px;
+    font-size: 13px;
+    color: #666;
+  }
+
+  @media (max-width: 768px) {
+    .nav-inner { padding: 0 16px; }
+    .nav-logo-main { font-size: 15px; }
+    .nav-logo-sub { font-size: 9px; }
+    .nav-logo-img { width: 44px; height: 44px; }
+    .theme-toggle { width: 40px; height: 40px; }
+
+    .wrap { padding: 90px 16px 50px; }
+    .page-title { font-size: 28px; }
+    .content-card { padding: 32px 22px; border-radius: 16px; }
+    .content-card h2 { font-size: 18px; }
+    .content-card h3 { font-size: 15px; }
+    .content-card p, .content-card ul { font-size: 14px; }
+
+    .cookie-table { font-size: 12px; }
+    .cookie-table th { padding: 10px 8px; font-size: 10px; }
+    .cookie-table td { padding: 10px 8px; }
+
+    footer { padding: 50px 24px 25px; }
+    .footer-container { grid-template-columns: 1fr 1fr; gap: 32px 24px; }
+    .footer-col h4 { font-size: 12px; margin-bottom: 14px; }
+    .footer-col p, .footer-col a { font-size: 13px; }
+    .footer-copyright { font-size: 12px; }
+  }
+
+  @media (max-width: 480px) {
+    .footer-container { grid-template-columns: 1fr; gap: 28px; }
+    .cookie-table { display: block; overflow-x: auto; white-space: nowrap; }
+  }
+</style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <img src="favicon-source.png" alt="Ramiz Köfte" class="nav-logo-img">
+        <div class="nav-logo-text">
+          <span class="nav-logo-main">Ramiz Köfte</span>
+          <span class="nav-logo-sub">Batman · Est. 1928</span>
+        </div>
+      </a>
+      <div class="nav-spacer"></div>
+      <a href="index.html" class="nav-back">← Ana Sayfa</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Tema değiştir">
+        <span class="icon icon-sun">☀️</span>
+        <span class="icon icon-moon">🌙</span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <h1 class="page-title">Çerez Politikası</h1>
+    <p class="page-sub">6698 Sayılı KVKK ve Çerez Yönetmeliği Kapsamında</p>
+
+    <div class="content-card">
+
+      <div class="info-box">
+        <strong>Ramiz Köfte Batman</strong> olarak, web sitemizde ziyaretçilerimize daha iyi bir deneyim sunmak amacıyla çerezler (cookies) kullanmaktayız. Bu politika, hangi çerezleri neden kullandığımızı ve nasıl kontrol edebileceğinizi açıklar.
+      </div>
+
+      <h2>1. Çerez Nedir?</h2>
+      <p>
+        Çerezler, web sitemizi ziyaret ettiğinizde tarayıcınız (Chrome, Safari, Firefox vb.) aracılığıyla cihazınıza (bilgisayar, telefon, tablet) kaydedilen küçük metin dosyalarıdır. Bu dosyalar; siteyi tekrar ziyaret ettiğinizde sizi tanımamıza, tercihlerinizi hatırlamamıza ve siteyi daha verimli çalıştırmamıza yardımcı olur.
+      </p>
+
+      <h2>2. Kullandığımız Çerez Türleri</h2>
+      <p>Sitemizde kullandığımız çerezler işlevlerine göre 3 ana başlıkta toplanır:</p>
+
+      <h3>A) Zorunlu Çerezler</h3>
+      <p>
+        Sitenin temel işlevlerini yerine getirebilmesi için gerekli olan çerezlerdir. Bu çerezler olmadan sepet, giriş, sipariş gibi işlemler çalışmaz.
+      </p>
+
+      <h3>B) İşlevsel Çerezler</h3>
+      <p>
+        Tercihlerinizi hatırlamak (örn: karanlık tema seçimi, dil tercihi) ve siteyi size özel hale getirmek için kullanılır. Bu çerezler zorunlu değildir, ancak deneyiminizi iyileştirir.
+      </p>
+
+      <h3>C) Analitik Çerezler (Şu an kullanılmıyor)</h3>
+      <p>
+        İleride siteyi daha iyi anlamak için kullanım istatistikleri toplayabiliriz. Bu çerezler devre dışı bırakılabilir ve kimliğinizi kişisel olarak tanımlamaz.
+      </p>
+
+      <h2>3. Sitemizde Kullanılan Çerezler</h2>
+      <p>Aşağıdaki tabloda sitemizde kullanılan çerezlerin listesi yer almaktadır:</p>
+
+      <table class="cookie-table">
+        <thead>
+          <tr>
+            <th>Çerez Adı</th>
+            <th>Amacı</th>
+            <th>Tür</th>
+            <th>Süre</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cookie-name">theme</td>
+            <td>Açık/koyu tema tercihinizi hatırlar</td>
+            <td>İşlevsel</td>
+            <td>Kalıcı</td>
+          </tr>
+          <tr>
+            <td class="cookie-name">user</td>
+            <td>Giriş yapan kullanıcı bilgilerini tutar</td>
+            <td>Zorunlu</td>
+            <td>Oturum</td>
+          </tr>
+          <tr>
+            <td class="cookie-name">ramiz_cart</td>
+            <td>Sepetinizdeki ürünleri saklar</td>
+            <td>Zorunlu</td>
+            <td>Kalıcı</td>
+          </tr>
+          <tr>
+            <td class="cookie-name">ramiz_orders</td>
+            <td>Sipariş geçmişinizi tutar</td>
+            <td>Zorunlu</td>
+            <td>Kalıcı</td>
+          </tr>
+          <tr>
+            <td class="cookie-name">ramiz_menu_items</td>
+            <td>Menü ürünlerini saklar</td>
+            <td>Zorunlu</td>
+            <td>Kalıcı</td>
+          </tr>
+          <tr>
+            <td class="cookie-name">admin_sound_enabled</td>
+            <td>Yönetici panelindeki ses tercihinizi hatırlar</td>
+            <td>İşlevsel</td>
+            <td>Kalıcı</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>4. Çerezleri Nasıl Kontrol Edebilirsiniz?</h2>
+      <p>
+        Tarayıcınızın ayarlarından çerezleri dilediğiniz zaman silebilir veya engelleyebilirsiniz. Ancak, çerezleri engellerseniz sitemizin bazı işlevleri (sepet, giriş vb.) düzgün çalışmayabilir.
+      </p>
+      <ul>
+        <li><strong>Google Chrome:</strong> Ayarlar → Gizlilik ve Güvenlik → Çerezler</li>
+        <li><strong>Mozilla Firefox:</strong> Ayarlar → Gizlilik ve Güvenlik → Çerezler</li>
+        <li><strong>Safari:</strong> Tercihler → Gizlilik → Çerezler</li>
+        <li><strong>Microsoft Edge:</strong> Ayarlar → Çerezler ve Site İzinleri</li>
+      </ul>
+
+      <h2>5. Üçüncü Taraf Çerezleri</h2>
+      <p>
+        Sitemiz şu anda üçüncü taraf çerezleri (Google Analytics, Facebook Pixel vb.) **kullanmamaktadır**. İleride kullanılması durumunda bu politika güncellenecek ve kullanıcılar bilgilendirilecektir.
+      </p>
+
+      <h2>6. KVKK Kapsamında Haklarınız</h2>
+      <p>
+        6698 Sayılı Kişisel Verilerin Korunması Kanunu kapsamında; kişisel verilerinizin işlenip işlenmediğini öğrenme, düzeltilmesini/silinmesini isteme, işlemeye itiraz etme gibi haklara sahipsiniz. Detaylı bilgi için sitemizdeki <strong>KVKK Aydınlatma Metni</strong>'ni inceleyebilirsiniz.
+      </p>
+
+      <h2>7. Politika Değişiklikleri</h2>
+      <p>
+        Bu Çerez Politikası, yasal düzenlemeler ve hizmetlerimizdeki değişikliklere bağlı olarak güncellenebilir. Güncel sürüm her zaman bu sayfada yayımlanır.
+      </p>
+
+      <h2>8. İletişim</h2>
+      <p>
+        Çerez politikamız hakkında soru ve görüşleriniz için bize ulaşabilirsiniz:
+      </p>
+      <ul>
+        <li><strong>Telefon:</strong> 0501 571 52 72</li>
+        <li><strong>Adres:</strong> Gültepe Mah. Demokrasi Bul. Petrol City 2. Kat, Batman</li>
+        <li><strong>Instagram:</strong> @ramizkofte_batman</li>
+      </ul>
+
+      <div class="footer-date">
+        Son güncelleme: Eylül 2026 — Ramiz Köfte Batman
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-col">
+        <h4>İletişim</h4>
+        <p>Gültepe Mah. Demokrasi Bul. Petrol City 2. Kat</p>
+        <a href="tel:05015715272">📞 0501 571 52 72</a>
+      </div>
+      <div class="footer-col">
+        <h4>Çalışma Saatleri</h4>
+        <p>Hafta içi &amp; Hafta sonu: 10:00 – 22:00</p>
+        <p>Alo Paket Servis: 10:00 – 01:00</p>
+      </div>
+      <div class="footer-col">
+        <h4>Sosyal Medya</h4>
+        <a href="https://www.instagram.com/ramizkofte_batman" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.tiktok.com/@ramiz.kftebatman" target="_blank" rel="noopener">TikTok</a>
+      </div>
+      <div class="footer-col">
+        <h4>Kurumsal</h4>
+        <a href="hakkimizda.html">Hakkımızda</a>
+        <a href="cerez.html">Çerez Politikası</a>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      © 2026 Ramiz Köfte · Tüm hakları saklıdır.
+    </div>
+  </footer>
+
+  <script>
+    /* TEMA */
+    (function () {
+      const themeToggle = document.getElementById('themeToggle');
+      if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+      themeToggle.addEventListener('click', function () {
+        const current = document.documentElement.getAttribute('data-theme');
+        if (current === 'dark') {
+          document.documentElement.removeAttribute('data-theme');
+          localStorage.setItem('theme', 'light');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          localStorage.setItem('theme', 'dark');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>

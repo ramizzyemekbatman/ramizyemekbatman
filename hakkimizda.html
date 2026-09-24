@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hakkımızda | Ramiz Köfte Batman</title>
+<meta name="description" content="Ramiz Köfte Batman - 1928'den günümüze uzanan lezzet mirası. Asırlık kurumsal güven, eşsiz lezzet ve samimi hizmet.">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="shortcut icon" href="favicon-source.png">
+<script>
+  (function() {
+    try {
+      var saved = localStorage.getItem('theme');
+      if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+      else if (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.setAttribute('data-theme', 'dark');
+    } catch (e) {}
+  })();
+</script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #ffffff;
+    --bg-alt: #f5f5f5;
+    --text: #1a1a1a;
+    --text-muted: #666666;
+    --text-light: #333333;
+    --border: #f0f0f0;
+    --border-input: #ddd;
+    --btn-bg: #1a1a1a;
+    --btn-text: #ffffff;
+    --btn-hover: #333;
+    --nav-bg: #ffffff;
+    --card-bg: #ffffff;
+    --success: #2a5040;
+    --success-bg: rgba(42, 80, 64, 0.08);
+    --transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  [data-theme="dark"] {
+    --bg: #0f0f0f;
+    --bg-alt: #1a1a1a;
+    --text: #f5f5f5;
+    --text-muted: #aaaaaa;
+    --text-light: #dddddd;
+    --border: #2a2a2a;
+    --border-input: #333;
+    --btn-bg: #f5f5f5;
+    --btn-text: #0f0f0f;
+    --btn-hover: #d4d4d4;
+    --nav-bg: #0f0f0f;
+    --card-bg: #1a1a1a;
+    --success: #7aa589;
+    --success-bg: rgba(122, 165, 137, 0.1);
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: var(--text); background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    transition: background var(--transition), color var(--transition);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .navbar {
+    position: fixed; top: 0; left: 0; right: 0; height: 70px;
+    background: var(--nav-bg); display: flex; align-items: center;
+    justify-content: center; z-index: 9999;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-inner {
+    display: flex; align-items: center; gap: 24px;
+    max-width: 1400px; width: 100%; padding: 0 24px;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    display: flex; flex-direction: row;
+    align-items: center; gap: 12px;
+    line-height: 1;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .nav-logo-img {
+    width: 52px; height: 52px;
+    object-fit: contain;
+    flex-shrink: 0; display: block;
+  }
+
+  .nav-logo-text {
+    display: flex; flex-direction: column;
+    align-items: flex-start; line-height: 1.1;
+  }
+
+  .nav-logo-main {
+    font-size: 24px; font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    font-family: Georgia, 'Times New Roman', serif;
+    line-height: 1; margin-bottom: 3px;
+  }
+
+  .nav-logo-sub {
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted); line-height: 1;
+  }
+
+  .nav-spacer { flex: 1; }
+
+  .nav-back {
+    font-size: 13px; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--text);
+    text-decoration: none; opacity: 0.7;
+    transition: opacity 0.3s;
+    white-space: nowrap;
+  }
+  .nav-back:hover { opacity: 1; }
+
+  .theme-toggle {
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 1px solid var(--border-input); background: transparent;
+    color: var(--text); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; transition: all 0.3s ease;
+    position: relative; overflow: hidden; font-family: inherit;
+  }
+  .theme-toggle:hover { border-color: var(--text); transform: scale(1.08); }
+
+  .theme-toggle .icon {
+    position: absolute;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+    line-height: 1;
+  }
+  .theme-toggle .icon-sun { transform: rotate(0deg) scale(1); opacity: 0; }
+  .theme-toggle .icon-moon { transform: rotate(0deg) scale(1); opacity: 1; }
+  [data-theme="dark"] .theme-toggle .icon-sun { transform: rotate(180deg) scale(1); opacity: 1; }
+  [data-theme="dark"] .theme-toggle .icon-moon { transform: rotate(-180deg) scale(0); opacity: 0; }
+
+  /* HERO */
+  .hero {
+    margin-top: 70px;
+    padding: 100px 24px 60px;
+    background: linear-gradient(180deg, var(--bg-alt) 0%, var(--bg) 100%);
+    text-align: center;
+  }
+
+  .hero-label {
+    display: inline-block;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--success);
+    background: var(--success-bg);
+    padding: 8px 20px;
+    border-radius: 100px;
+    margin-bottom: 24px;
+    border: 1px solid var(--success);
+  }
+
+  .hero-title {
+    font-size: 72px; font-weight: 600; font-style: italic;
+    line-height: 1.1; letter-spacing: -0.03em;
+    color: var(--text);
+    margin-bottom: 20px;
+    font-family: Georgia, 'Times New Roman', serif;
+  }
+
+  .hero-sub {
+    font-size: 17px; color: var(--text-muted);
+    max-width: 700px; margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* İÇERİK */
+  .wrap {
+    max-width: 900px; margin: 0 auto;
+    padding: 60px 24px 80px;
+    width: 100%;
+  }
+
+  .content-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 48px 44px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+    margin-bottom: 30px;
+  }
+
+  .content-card h2 {
+    font-size: 26px; font-weight: 700;
+    color: var(--text);
+    margin-bottom: 20px;
+    letter-spacing: -0.01em;
+    font-family: Georgia, 'Times New Roman', serif;
+    line-height: 1.3;
+  }
+
+  .content-card h2::after {
+    content: "";
+    display: block;
+    width: 50px; height: 3px;
+    background: var(--success);
+    margin-top: 12px;
+    border-radius: 3px;
+  }
+
+  .content-card h3 {
+    font-size: 18px; font-weight: 700;
+    color: var(--text);
+    margin-top: 24px;
+    margin-bottom: 10px;
+    font-family: Georgia, 'Times New Roman', serif;
+  }
+
+  .content-card p {
+    font-size: 15px; line-height: 1.9;
+    color: var(--text-light);
+    margin-bottom: 16px;
+  }
+
+  .content-card p:last-child { margin-bottom: 0; }
+
+  .content-card strong {
+    color: var(--text);
+    font-weight: 700;
+  }
+
+  .mission-quote {
+    background: var(--success-bg);
+    border-left: 4px solid var(--success);
+    padding: 22px 26px;
+    border-radius: 10px;
+    margin: 24px 0;
+    font-size: 17px;
+    font-style: italic;
+    font-weight: 600;
+    color: var(--success);
+    line-height: 1.6;
+    font-family: Georgia, 'Times New Roman', serif;
+  }
+
+  .features-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .feature-item {
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--success);
+    border-radius: 10px;
+    padding: 18px 22px;
+    transition: all 0.25s ease;
+  }
+
+  .feature-item:hover {
+    transform: translateX(4px);
+    border-left-color: var(--btn-bg);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  }
+
+  .feature-item h4 {
+    font-size: 15px; font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  .feature-item p {
+    font-size: 14px; line-height: 1.7;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .closing-box {
+    background: linear-gradient(135deg, #2a5040 0%, #3d6b57 100%);
+    color: #fff;
+    border-radius: 20px;
+    padding: 48px 44px;
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .closing-box h2 {
+    font-size: 28px; font-weight: 700; font-style: italic;
+    margin-bottom: 16px;
+    font-family: Georgia, 'Times New Roman', serif;
+    color: #fff;
+  }
+
+  .closing-box p {
+    font-size: 16px; line-height: 1.8;
+    opacity: 0.95;
+    margin-bottom: 12px;
+    color: #fff;
+  }
+
+  .closing-box p:last-child {
+    margin-bottom: 0;
+    font-weight: 700;
+    font-style: italic;
+    letter-spacing: 0.05em;
+  }
+
+  .cta-box {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 40px 32px;
+    text-align: center;
+    margin-top: 30px;
+  }
+
+  .cta-box h3 {
+    font-size: 22px; font-weight: 700;
+    color: var(--text);
+    margin-bottom: 12px;
+    font-family: Georgia, 'Times New Roman', serif;
+  }
+
+  .cta-box p {
+    font-size: 15px; color: var(--text-muted);
+    margin-bottom: 24px;
+    line-height: 1.7;
+  }
+
+  .cta-btn {
+    display: inline-flex; align-items: center;
+    gap: 10px;
+    padding: 16px 36px;
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    border-radius: 100px;
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.25s;
+  }
+
+  .cta-btn:hover {
+    background: var(--btn-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  footer {
+    background: #000; color: #fff;
+    padding: 60px 40px 30px;
+    margin-top: auto;
+  }
+
+  .footer-container {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 40px 60px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .footer-col h4 {
+    font-size: 13px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: #fff; margin-bottom: 20px;
+  }
+
+  .footer-col p,
+  .footer-col a {
+    font-size: 14px; color: #fff;
+    opacity: 0.75; text-decoration: none;
+    line-height: 1.8; display: block;
+    margin-bottom: 6px;
+    transition: opacity 0.3s;
+  }
+  .footer-col a:hover { opacity: 1; }
+
+  .footer-copyright {
+    text-align: center; padding-top: 30px;
+    font-size: 13px; color: #666;
+  }
+
+  @media (max-width: 900px) {
+    .hero-title { font-size: 52px; }
+  }
+
+  @media (max-width: 768px) {
+    .nav-inner { padding: 0 16px; }
+    .nav-logo-main { font-size: 15px; }
+    .nav-logo-sub { font-size: 9px; }
+    .nav-logo-img { width: 44px; height: 44px; }
+    .theme-toggle { width: 40px; height: 40px; }
+
+    .hero { padding: 70px 20px 40px; }
+    .hero-title { font-size: 38px; }
+    .hero-label { font-size: 10px; letter-spacing: 0.25em; padding: 6px 16px; }
+    .hero-sub { font-size: 14px; }
+
+    .wrap { padding: 40px 16px 60px; }
+    .content-card { padding: 32px 22px; border-radius: 16px; }
+    .content-card h2 { font-size: 20px; }
+    .content-card h3 { font-size: 16px; }
+    .content-card p { font-size: 14px; }
+
+    .mission-quote { padding: 18px 20px; font-size: 15px; }
+
+    .feature-item { padding: 14px 18px; }
+    .feature-item h4 { font-size: 14px; }
+    .feature-item p { font-size: 13px; }
+
+    .closing-box { padding: 32px 22px; border-radius: 16px; }
+    .closing-box h2 { font-size: 22px; }
+    .closing-box p { font-size: 14px; }
+
+    .cta-box { padding: 30px 20px; }
+    .cta-box h3 { font-size: 18px; }
+    .cta-btn { padding: 14px 28px; font-size: 12px; }
+
+    footer { padding: 50px 24px 25px; }
+    .footer-container { grid-template-columns: 1fr 1fr; gap: 32px 24px; }
+    .footer-col h4 { font-size: 12px; margin-bottom: 14px; }
+    .footer-col p, .footer-col a { font-size: 13px; }
+    .footer-copyright { font-size: 12px; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-title { font-size: 30px; }
+    .footer-container { grid-template-columns: 1fr; gap: 28px; }
+  }
+</style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <img src="favicon-source.png" alt="Ramiz Köfte" class="nav-logo-img">
+        <div class="nav-logo-text">
+          <span class="nav-logo-main">Ramiz Köfte</span>
+          <span class="nav-logo-sub">Batman · Est. 1928</span>
+        </div>
+      </a>
+      <div class="nav-spacer"></div>
+      <a href="index.html" class="nav-back">← Ana Sayfa</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Tema değiştir">
+        <span class="icon icon-sun">☀️</span>
+        <span class="icon icon-moon">🌙</span>
+      </button>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-label">1928'den Beri</div>
+    <h1 class="hero-title">Hakkımızda</h1>
+    <p class="hero-sub">
+      Bir asırlık lezzet mirasının Batman'daki temsilcisi. Geleneksel reçeteler, kurumsal kalite ve samimi hizmet.
+    </p>
+  </section>
+
+  <div class="wrap">
+
+    <div class="content-card">
+      <h2>1928'den Günümüze Uzanan Lezzet Mirası: Ramiz Köfte Batman</h2>
+      <p>
+        1928 yılında küçük bir lezzet durağı olarak başlayan yolculuğumuz, bugün Türkiye'nin dört bir yanında nesillerdir süregelen köklü bir gastronomi mirasına dönüştü. Kurumsal yapımızdan, kalitemizden ve geleneksel reçetelerimizden asla ödün vermeden sürdürdüğümüz bu asırlık tecrübeyi, <strong>20 Eylül 2025</strong> tarihi itibarıyla <strong>Ramiz Köfte Batman</strong> çatısı altında Batmanlı lezzet severlerle buluşturmanın büyük heyecanını ve gururunu yaşıyoruz.
+      </p>
+    </div>
+
+    <div class="content-card">
+      <h2>Misyonumuz</h2>
+
+      <div class="mission-quote">
+        "Açlığı En Lezzetli ve En Hesaplı Yoldan Unutturmak"
+      </div>
+
+      <p>
+        Bizim varlık sebebimiz son derece net ve içten: İnsanları gerçekten kaliteli malzemelerle, doyurucu porsiyonlarla ve güler yüzle doyurmak.
+      </p>
+      <p>
+        Günümüzde kaliteli ve güvenilir bir yemeğe ulaşmanın zorlaştığının farkındayız. Ramiz Köfte Batman olarak misyonumuz; kapımızdan içeri giren ya da sofrasına konuk olduğumuz her lezzet tutkununa, bütçesini zorlamadan kurumsal bir markanın güvencesiyle mükemmel bir yemek deneyimi sunmaktır. Acıktığınız her an, ne yiyeceğinizi düşünmeden güvenle tercih edebileceğiniz ilk adres olmak için çalışıyoruz.
+      </p>
+    </div>
+
+    <div class="content-card">
+      <h2>Neden Ramiz Köfte Batman?</h2>
+      <p>
+        Sizi sadece bir müşteri olarak değil, asırlık soframızın bir misafiri olarak görüyoruz. Bizi diğer mekanlardan ayıran en temel özelliklerimiz:
+      </p>
+
+      <div class="features-list">
+        <div class="feature-item">
+          <h4>🏛️ Asırlık Kurumsal Güven (1928'den Beri)</h4>
+          <p>Yaklaşık yüz yıllık deneyimimiz, yüksek hijyen standartlarımız ve gıda güvenliğine verdiğimiz önemle ne yediğinizden her zaman emin olursunuz.</p>
+        </div>
+
+        <div class="feature-item">
+          <h4>🔥 Damak Çatlatan Eşsiz Lezzet</h4>
+          <p>Ustalıkla seçilen etlerimiz, özel baharat dengemiz ve yılların getirdiği pişirme teknikleriyle hazırlanan menülerimizle gerçek köfte lezzetini sunuyoruz.</p>
+        </div>
+
+        <div class="feature-item">
+          <h4>💰 Kaliteli Hizmet, Uygun Fiyat</h4>
+          <p>"İyi yemek herkesin hakkıdır" anlayışıyla, kurumsal standartlardaki lezzetlerimizi piyasa şartlarına göre çok daha cazip ve ekonomik fiyatlarla sofranıza getiriyoruz.</p>
+        </div>
+
+        <div class="feature-item">
+          <h4>🤝 Hem Kurumsal Hem Samimi</h4>
+          <p>Bir yandan ulusal bir markanın profesyonelliğini sunarken, diğer yandan Batman'ın sıcak, güler yüzlü ve misafirperver ruhunu dükkanımızda yaşatıyoruz.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Sofranızda Yerimiz Hazır!</h2>
+      <p>
+        Karnınız acıktığında, ister hızlı bir öğle molasında ister aileniz ve sevdiklerinizle keyifli bir akşam yemeğinde; hem cebinizi hem de damağınızı düşünen çözümlerimizle yanınızdayız.
+      </p>
+      <p>
+        Geleneksel lezzetin, kurumsal kalitenin ve samimi hizmetin Batman'daki adresi <strong>Ramiz Köfte Batman</strong>'a hepinizi bekliyoruz.
+      </p>
+    </div>
+
+    <div class="closing-box">
+      <h2>Kapımız da Soframız da Sizlere Her Zaman Açık.</h2>
+      <p>Afiyet Olsun!</p>
+    </div>
+
+    <div class="cta-box">
+      <h3>Lezzetlerimizi Keşfedin</h3>
+      <p>Köfteden tavuğa, sucuktan ekmek arasına kadar tüm menümüzü inceleyin.</p>
+      <a href="kategori.html?cat=all" class="cta-btn">
+        🍽️ Menüye Git
+      </a>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-col">
+        <h4>İletişim</h4>
+        <p>Gültepe Mah. Demokrasi Bul. Petrol City 2. Kat</p>
+        <a href="tel:+905015715272">📞 0501 571 52 72</a>
+      </div>
+      <div class="footer-col">
+        <h4>Çalışma Saatleri</h4>
+        <p>Hafta içi &amp; Hafta sonu: 10:00 – 22:00</p>
+        <p>Alo Paket Servis: 10:00 – 01:00</p>
+      </div>
+      <div class="footer-col">
+        <h4>Sosyal Medya</h4>
+        <a href="https://www.instagram.com/ramizkofte_batman" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.tiktok.com/@ramiz.kftebatman" target="_blank" rel="noopener">TikTok</a>
+      </div>
+      <div class="footer-col">
+        <h4>Kurumsal</h4>
+        <a href="hakkimizda.html">Hakkımızda</a>
+        <a href="kvkk.html">KVKK Aydınlatma Metni</a>
+        <a href="cerez.html">Çerez Politikası</a>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      © 2026 Ramiz Köfte · Tüm hakları saklıdır.
+    </div>
+  </footer>
+
+  <script>
+    /* TEMA */
+    (function () {
+      const themeToggle = document.getElementById('themeToggle');
+      themeToggle.addEventListener('click', function () {
+        const current = document.documentElement.getAttribute('data-theme');
+        if (current === 'dark') {
+          document.documentElement.removeAttribute('data-theme');
+          localStorage.setItem('theme', 'light');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          localStorage.setItem('theme', 'dark');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>

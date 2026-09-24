@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kayıt Ol | Ramiz Köfte Batman</title>
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="shortcut icon" href="favicon-source.png">
+<script>
+  (function() {
+    try {
+      var saved = localStorage.getItem('theme');
+      if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+      else if (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.setAttribute('data-theme', 'dark');
+    } catch (e) {}
+  })();
+</script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #ffffff; --bg-alt: #f5f5f5; --text: #1a1a1a; --text-muted: #888;
+    --border: #f0f0f0; --border-input: #ddd; --btn-bg: #1a1a1a; --btn-text: #ffffff;
+    --btn-hover: #333; --danger: #c0392b; --danger-bg: rgba(192,57,43,0.08);
+    --success: #2a5040; --success-bg: rgba(42,80,64,0.08);
+    --warning: #b8860b; --warning-bg: rgba(184,134,11,0.1);
+    --transition: 0.4s cubic-bezier(0.4,0,0.2,1);
+  }
+  [data-theme="dark"] {
+    --bg: #0f0f0f; --bg-alt: #1a1a1a; --text: #f5f5f5; --text-muted: #888;
+    --border: #2a2a2a; --border-input: #333; --btn-bg: #f5f5f5; --btn-text: #0f0f0f;
+    --btn-hover: #d4d4d4; --danger: #e74c3c; --danger-bg: rgba(231,76,60,0.1);
+    --success: #7aa589; --success-bg: rgba(122,165,137,0.1);
+    --warning: #d4a017; --warning-bg: rgba(212,160,23,0.12);
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: var(--text); background: var(--bg);
+    -webkit-font-smoothing: antialiased; overflow-x: hidden;
+    transition: background var(--transition), color var(--transition);
+    display: flex; flex-direction: column; min-height: 100vh;
+  }
+  .navbar {
+    position: fixed; top: 0; left: 0; right: 0; height: 70px;
+    background: var(--bg); display: flex; align-items: center;
+    justify-content: center; z-index: 9999; border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    display: flex; align-items: center; gap: 24px;
+    max-width: 1400px; width: 100%; padding: 0 24px; justify-content: space-between;
+  }
+  .nav-logo { display: flex; flex-direction: row; align-items: center; gap: 12px; text-decoration: none; flex-shrink: 0; }
+  .nav-logo-img { width: 52px; height: 52px; object-fit: contain; flex-shrink: 0; display: block; }
+  .nav-logo-text { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1; }
+  .nav-logo-main {
+    font-size: 24px; font-weight: 700; letter-spacing: -0.01em; color: var(--text);
+    font-family: Georgia, 'Times New Roman', serif; line-height: 1; margin-bottom: 3px;
+  }
+  .nav-logo-sub {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--text-muted); line-height: 1;
+  }
+  .nav-spacer { flex: 1; }
+  .nav-back {
+    font-size: 13px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text); text-decoration: none; opacity: 0.7; transition: opacity 0.3s;
+  }
+  .nav-back:hover { opacity: 1; }
+  .theme-toggle {
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 1px solid var(--border-input); background: transparent;
+    color: var(--text); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; transition: all 0.3s ease;
+    position: relative; overflow: hidden; font-family: inherit;
+  }
+  .theme-toggle:hover { border-color: var(--text); transform: scale(1.08); }
+  .theme-toggle .icon {
+    position: absolute;
+    transition: transform 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease;
+    line-height: 1;
+  }
+  .theme-toggle .icon-sun { transform: rotate(0deg) scale(1); opacity: 0; }
+  .theme-toggle .icon-moon { transform: rotate(0deg) scale(1); opacity: 1; }
+  [data-theme="dark"] .theme-toggle .icon-sun { transform: rotate(180deg) scale(1); opacity: 1; }
+  [data-theme="dark"] .theme-toggle .icon-moon { transform: rotate(-180deg) scale(0); opacity: 0; }
+
+  .login-wrap {
+    flex: 1; min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 100px 20px; background: var(--bg-alt);
+  }
+  .login-box {
+    max-width: 420px; width: 100%; background: var(--bg);
+    border: 1px solid var(--border); border-radius: 20px;
+    padding: 48px 36px; box-shadow: 0 12px 48px rgba(0,0,0,0.08);
+  }
+  .login-icon { font-size: 48px; text-align: center; margin-bottom: 16px; display: block; }
+  .login-box h2 {
+    font-size: 28px; font-weight: 400; font-style: italic; color: var(--text);
+    text-align: center; margin-bottom: 6px; font-family: Georgia, 'Times New Roman', serif;
+  }
+  .login-box .login-sub {
+    font-size: 14px; color: var(--text-muted); text-align: center; margin-bottom: 32px;
+  }
+  .form-group { margin-bottom: 18px; }
+  .form-group label {
+    display: block; font-size: 12px; font-weight: 400;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 8px;
+  }
+  .form-group input {
+    width: 100%; padding: 14px 16px; border: 1px solid var(--border-input);
+    border-radius: 10px; font-size: 15px; font-weight: 300; color: var(--text);
+    background: var(--bg); outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s; font-family: inherit;
+  }
+  .form-group input:focus { border-color: var(--text); box-shadow: 0 0 0 3px var(--border); }
+  .form-group input::placeholder { color: var(--text-muted); opacity: 0.5; }
+  .steps {
+    display: flex; align-items: center; justify-content: center;
+    gap: 8px; margin-bottom: 28px;
+  }
+  .step {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--text-muted); opacity: 0.5; transition: opacity 0.3s;
+  }
+  .step.active { opacity: 1; } .step.done { opacity: 1; }
+  .step-num {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--bg-alt); border: 1px solid var(--border-input);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600; transition: all 0.3s;
+  }
+  .step.active .step-num { background: var(--btn-bg); color: var(--btn-text); border-color: var(--btn-bg); }
+  .step.done .step-num { background: var(--success); color: #fff; border-color: var(--success); }
+  .step-line { width: 24px; height: 1px; background: var(--border-input); }
+  .msg-box {
+    display: none; padding: 12px 16px; border-radius: 8px;
+    font-size: 13px; text-align: center; margin-bottom: 18px; line-height: 1.5;
+  }
+  .msg-box.show { display: block; }
+  .msg-error { background: var(--danger-bg); border: 1px solid var(--danger); color: var(--danger); }
+  .msg-success { background: var(--success-bg); border: 1px solid var(--success); color: var(--success); }
+  .phone-row { display: flex; gap: 8px; }
+  .phone-prefix {
+    padding: 14px 12px; background: var(--bg-alt);
+    border: 1px solid var(--border-input); border-radius: 10px;
+    font-size: 15px; color: var(--text); font-weight: 500;
+    white-space: nowrap; display: flex; align-items: center;
+  }
+  .phone-row input {
+    flex: 1; padding: 14px 16px; border: 1px solid var(--border-input);
+    border-radius: 10px; font-size: 15px; color: var(--text);
+    background: var(--bg); outline: none; font-family: inherit;
+    letter-spacing: 0.05em; transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .phone-row input:focus { border-color: var(--text); box-shadow: 0 0 0 3px var(--border); }
+  .code-row { display: flex; gap: 10px; justify-content: center; margin-bottom: 8px; }
+  .code-input {
+    width: 50px; height: 60px; text-align: center;
+    font-size: 24px; font-weight: 600; color: var(--text);
+    background: var(--bg); border: 2px solid var(--border-input);
+    border-radius: 12px; outline: none; font-family: inherit;
+    transition: all 0.2s ease;
+  }
+  .code-input:focus {
+    border-color: var(--btn-bg); box-shadow: 0 0 0 3px var(--border);
+    transform: translateY(-2px);
+  }
+  .code-input.filled { border-color: var(--success); background: var(--success-bg); }
+  @media (max-width: 480px) {
+    .code-input { width: 42px; height: 52px; font-size: 20px; border-radius: 10px; }
+    .code-row { gap: 6px; }
+  }
+  .login-btn {
+    width: 100%; padding: 16px; background: var(--btn-bg); color: var(--btn-text);
+    font-size: 13px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase;
+    border: none; cursor: pointer; font-family: inherit; transition: all 0.3s;
+    margin-top: 8px; border-radius: 10px;
+  }
+  .login-btn:hover { background: var(--btn-hover); }
+  .login-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .resend-row { text-align: center; margin-top: 16px; font-size: 13px; color: var(--text-muted); }
+  .resend-btn {
+    background: none; border: none; color: var(--text);
+    font-weight: 600; cursor: pointer; font-family: inherit;
+    font-size: 13px; text-decoration: underline; padding: 0; margin-left: 4px;
+  }
+  .resend-btn:disabled { color: var(--text-muted); cursor: not-allowed; text-decoration: none; opacity: 0.6; }
+  .back-row { text-align: center; margin-top: 20px; }
+  .back-btn {
+    background: none; border: none; color: var(--text-muted);
+    font-size: 13px; cursor: pointer; font-family: inherit; padding: 4px 8px;
+  }
+  .back-btn:hover { color: var(--text); }
+  .test-code-box {
+    display: none; margin-top: 16px; padding: 14px;
+    background: var(--warning-bg); border: 1px dashed var(--warning);
+    border-radius: 10px; text-align: center; font-size: 13px; color: var(--warning);
+  }
+  .test-code-box.show { display: block; }
+  .test-code-box strong { font-size: 20px; letter-spacing: 0.3em; display: block; margin-top: 6px; color: var(--warning); }
+  .test-code-box .test-note { font-size: 11px; opacity: 0.8; margin-top: 8px; font-style: italic; }
+  .kvkk-check {
+    display: flex; align-items: flex-start; gap: 10px;
+    margin-top: 14px; margin-bottom: 14px; padding: 14px 16px;
+    background: var(--bg-alt); border: 1px solid var(--border);
+    border-radius: 10px; font-size: 13px; line-height: 1.6;
+  }
+  .kvkk-check input[type="checkbox"] {
+    margin-top: 3px; width: 18px; height: 18px;
+    accent-color: var(--success); cursor: pointer; flex-shrink: 0;
+  }
+  .kvkk-check label {
+    cursor: pointer; color: var(--text-light); font-size: 13px;
+    margin: 0; text-transform: none; letter-spacing: 0;
+  }
+  .kvkk-check a { color: var(--success); font-weight: 600; text-decoration: underline; }
+  .login-footer-box {
+    margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center;
+  }
+  .login-footer-text { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; }
+  .login-footer-link {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: 8px; width: 100%; padding: 14px 20px;
+    background: transparent; color: var(--text);
+    border: 1px solid var(--border-input); border-radius: 10px;
+    font-size: 12px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; text-decoration: none; transition: all 0.25s ease;
+  }
+  .login-footer-link:hover { border-color: var(--text); background: var(--bg-alt); transform: translateY(-1px); }
+  footer { background: #000; color: #fff; padding: 60px 40px 30px; margin-top: auto; }
+  .footer-container {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 40px 60px; padding-bottom: 40px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .footer-col h4 {
+    font-size: 13px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #fff; margin-bottom: 20px;
+  }
+  .footer-col p, .footer-col a {
+    font-size: 14px; color: #fff; opacity: 0.75;
+    text-decoration: none; line-height: 1.8; display: block;
+    margin-bottom: 6px; transition: opacity 0.3s;
+  }
+  .footer-col a:hover { opacity: 1; }
+  .footer-copyright { text-align: center; padding-top: 30px; font-size: 13px; color: #666; }
+  @media (max-width: 768px) {
+    .nav-inner { padding: 0 16px; }
+    .nav-logo-main { font-size: 15px; }
+    .nav-logo-sub { font-size: 9px; }
+    .nav-logo-img { width: 44px; height: 44px; }
+    .theme-toggle { width: 40px; height: 40px; }
+    .login-box { padding: 36px 24px; border-radius: 16px; }
+    .login-box h2 { font-size: 22px; }
+    footer { padding: 50px 24px 25px; }
+    .footer-container { grid-template-columns: 1fr 1fr; gap: 32px 24px; }
+    .footer-col h4 { font-size: 12px; margin-bottom: 14px; }
+    .footer-col p, .footer-col a { font-size: 13px; }
+    .footer-copyright { font-size: 12px; }
+  }
+  @media (max-width: 480px) {
+    .footer-container { grid-template-columns: 1fr; gap: 28px; }
+  }
+</style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <img src="favicon-source.png" alt="Ramiz Köfte" class="nav-logo-img">
+        <div class="nav-logo-text">
+          <span class="nav-logo-main">Ramiz Köfte</span>
+          <span class="nav-logo-sub">Batman · Est. 1928</span>
+        </div>
+      </a>
+      <div class="nav-spacer"></div>
+      <a href="index.html" class="nav-back">← Ana Sayfa</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Tema değiştir">
+        <span class="icon icon-sun">☀️</span>
+        <span class="icon icon-moon">🌙</span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="login-wrap">
+    <div class="login-box">
+      <span class="login-icon">📝</span>
+      <h2>Kayıt Ol</h2>
+      <p class="login-sub">Yeni hesap oluşturun</p>
+
+      <div class="steps">
+        <div class="step active" id="step1Indicator">
+          <span class="step-num">1</span><span>Bilgiler</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step" id="step2Indicator">
+          <span class="step-num">2</span><span>Doğrulama</span>
+        </div>
+      </div>
+
+      <div class="msg-box" id="msgBox"></div>
+
+      <form id="registerForm">
+        <div class="form-group">
+          <label for="nameInput">Ad Soyad</label>
+          <input type="text" id="nameInput" placeholder="Adınız Soyadınız" required maxlength="60">
+        </div>
+        <div class="form-group">
+          <label for="phoneInput">Telefon Numarası</label>
+          <div class="phone-row">
+            <span class="phone-prefix">🇹🇷 +90</span>
+            <input type="tel" id="phoneInput" placeholder="5XX XXX XX XX" required inputmode="numeric" autocomplete="tel">
+          </div>
+        </div>
+        <div class="kvkk-check">
+          <input type="checkbox" id="kvkkCheckbox">
+          <label for="kvkkCheckbox">
+            <a href="kvkk.html" target="_blank">KVKK Aydınlatma Metni</a>'ni ve
+            <a href="cerez.html" target="_blank">Çerez Politikası</a>'nı okudum, kişisel verilerimin işlenmesine onay veriyorum.
+          </label>
+        </div>
+        <button type="submit" class="login-btn" id="sendCodeBtn">📩 SMS Kodu Gönder</button>
+      </form>
+
+      <form id="codeForm" style="display:none;">
+        <div class="form-group">
+          <label>Doğrulama Kodu</label>
+          <p style="font-size:13px; color:var(--text-muted); margin-bottom:14px; text-align:center;">
+            <strong id="phoneDisplay" style="color:var(--text);"></strong> numaralı telefona gönderilen 4 haneli kodu girin
+          </p>
+          <div class="code-row">
+            <input type="text" class="code-input" id="code1" maxlength="1" inputmode="numeric" autocomplete="one-time-code">
+            <input type="text" class="code-input" id="code2" maxlength="1" inputmode="numeric">
+            <input type="text" class="code-input" id="code3" maxlength="1" inputmode="numeric">
+            <input type="text" class="code-input" id="code4" maxlength="1" inputmode="numeric">
+          </div>
+        </div>
+        <div class="test-code-box" id="testCodeBox">
+          🧪 <strong>TEST MODU</strong>
+          Kod: <strong id="testCode"></strong>
+          <div class="test-note">Gerçek SMS entegrasyonu yapıldığında bu kutu kaldırılacak.</div>
+        </div>
+        <button type="submit" class="login-btn" id="verifyBtn" disabled>✅ Doğrula ve Kaydol</button>
+        <div class="resend-row">
+          <span id="resendTimer">Kod gelmedi mi?</span>
+          <button type="button" class="resend-btn" id="resendBtn" disabled>Tekrar Gönder</button>
+        </div>
+        <div class="back-row">
+          <button type="button" class="back-btn" id="backBtn">← Bilgileri Değiştir</button>
+        </div>
+      </form>
+
+      <div class="login-footer-box" id="loginFooterBox">
+        <p class="login-footer-text">Zaten hesabınız var mı?</p>
+        <a href="giris.html" class="login-footer-link">🔑 Giriş Yap</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-col">
+        <h4>İletişim</h4>
+        <p>Gültepe Mah. Demokrasi Bul. Petrol City 2. Kat</p>
+        <a href="tel:+905015715272">📞 0501 571 52 72</a>
+      </div>
+      <div class="footer-col">
+        <h4>Çalışma Saatleri</h4>
+        <p>Hafta içi &amp; Hafta sonu: 10:00 – 22:00</p>
+        <p>Alo Paket Servis: 10:00 – 01:00</p>
+      </div>
+      <div class="footer-col">
+        <h4>Sosyal Medya</h4>
+        <a href="https://www.instagram.com/ramizkofte_batman" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.tiktok.com/@ramiz.kftebatman" target="_blank" rel="noopener">TikTok</a>
+      </div>
+      <div class="footer-col">
+        <h4>Kurumsal</h4>
+        <a href="hakkimizda.html">Hakkımızda</a>
+        <a href="kvkk.html">KVKK Aydınlatma Metni</a>
+        <a href="cerez.html">Çerez Politikası</a>
+      </div>
+    </div>
+    <div class="footer-copyright">© 2026 Ramiz Köfte · Tüm hakları saklıdır.</div>
+  </footer>
+
+  <script type="module">
+    import { getUserByPhone, addUser } from './firebase-config.js';
+
+    async function sendSMS(phone, code) {
+      console.log('%c📩 [TEST MODU] SMS Gönderildi', 'background:#2a5040;color:#fff;padding:4px 10px;border-radius:4px;font-weight:bold;');
+      console.log('📱 Telefon:', phone);
+      console.log('🔑 Kod:', code);
+      return { success: true, testCode: code };
+    }
+
+    (function() {
+      const themeToggle = document.getElementById('themeToggle');
+      themeToggle.addEventListener('click', function() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        if (newTheme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+        else document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('theme', newTheme);
+      });
+    })();
+
+    let currentName = '';
+    let currentPhone = '';
+    let currentCode = '';
+    let resendCountdown = null;
+    let resendSeconds = 0;
+    let attemptCount = 0;
+    const MAX_ATTEMPTS = 5;
+
+    function showMsg(type, text) {
+      const box = document.getElementById('msgBox');
+      box.className = 'msg-box show msg-' + type;
+      box.textContent = text;
+    }
+    function hideMsg() {
+      document.getElementById('msgBox').className = 'msg-box';
+    }
+    function formatPhoneInput(value) {
+      let digits = value.replace(/\D/g, '');
+      if (digits.startsWith('0')) digits = digits.slice(1);
+      if (digits.startsWith('90')) digits = digits.slice(2);
+      digits = digits.slice(0, 10);
+      let formatted = '';
+      if (digits.length > 0) formatted = digits.slice(0, 3);
+      if (digits.length > 3) formatted += ' ' + digits.slice(3, 6);
+      if (digits.length > 6) formatted += ' ' + digits.slice(6, 8);
+      if (digits.length > 8) formatted += ' ' + digits.slice(8, 10);
+      return formatted;
+    }
+    function getFullPhone(formattedPhone) {
+      const digits = formattedPhone.replace(/\D/g, '');
+      return '90' + digits;
+    }
+    function generateCode() {
+      return Math.floor(1000 + Math.random() * 9000).toString();
+    }
+
+    const nameInput = document.getElementById('nameInput');
+    const phoneInput = document.getElementById('phoneInput');
+    const kvkkCheckbox = document.getElementById('kvkkCheckbox');
+    const registerForm = document.getElementById('registerForm');
+    const codeForm = document.getElementById('codeForm');
+    const sendCodeBtn = document.getElementById('sendCodeBtn');
+    const step1Indicator = document.getElementById('step1Indicator');
+    const step2Indicator = document.getElementById('step2Indicator');
+    const loginFooterBox = document.getElementById('loginFooterBox');
+
+    phoneInput.addEventListener('input', function (e) {
+      e.target.value = formatPhoneInput(e.target.value);
+    });
+
+    registerForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      hideMsg();
+
+      const name = nameInput.value.trim();
+      const digits = phoneInput.value.replace(/\D/g, '');
+
+      if (name.length < 3) { showMsg('error', '⚠️ Ad soyad en az 3 karakter olmalı'); return; }
+      if (digits.length !== 10 || !digits.startsWith('5')) {
+        showMsg('error', '⚠️ Geçerli bir telefon numarası girin (5XX XXX XX XX)'); return;
+      }
+      if (!kvkkCheckbox.checked) {
+        showMsg('error', '⚠️ KVKK Aydınlatma Metni\'ni onaylamanız gerekiyor'); return;
+      }
+
+      currentName = name;
+      currentPhone = getFullPhone(phoneInput.value);
+
+      sendCodeBtn.disabled = true;
+      sendCodeBtn.textContent = '⏳ Kontrol ediliyor...';
+
+      try {
+        const existing = await getUserByPhone(currentPhone);
+        if (existing) {
+          showMsg('error', '⚠️ Bu numara zaten kayıtlı. Giriş yapmayı deneyin.');
+          sendCodeBtn.disabled = false;
+          sendCodeBtn.textContent = '📩 SMS Kodu Gönder';
+          return;
+        }
+      } catch (err) {
+        console.warn('Kullanıcı kontrol hatası:', err);
+      }
+
+      currentCode = generateCode();
+      attemptCount = 0;
+      sendCodeBtn.textContent = '📤 Gönderiliyor...';
+
+      try {
+        const result = await sendSMS(currentPhone, currentCode);
+        if (!result.success) throw new Error('SMS gönderilemedi');
+
+        document.getElementById('phoneDisplay').textContent = phoneInput.value;
+
+        registerForm.style.display = 'none';
+        codeForm.style.display = 'block';
+        loginFooterBox.style.display = 'none';
+        step1Indicator.classList.remove('active');
+        step1Indicator.classList.add('done');
+        step2Indicator.classList.add('active');
+
+        document.getElementById('testCodeBox').classList.add('show');
+        document.getElementById('testCode').textContent = currentCode;
+
+        ['code1','code2','code3','code4'].forEach(id => {
+          document.getElementById(id).value = '';
+          document.getElementById(id).classList.remove('filled');
+        });
+        document.getElementById('code1').focus();
+
+        startResendCountdown(30);
+        showMsg('success', '✅ Doğrulama kodu gönderildi!');
+      } catch (err) {
+        showMsg('error', '❌ SMS gönderilemedi. Lütfen tekrar deneyin.');
+        sendCodeBtn.disabled = false;
+        sendCodeBtn.textContent = '📩 SMS Kodu Gönder';
+      }
+    });
+
+    const codeInputs = ['code1','code2','code3','code4'].map(id => document.getElementById(id));
+    const verifyBtn = document.getElementById('verifyBtn');
+
+    codeInputs.forEach((input, index) => {
+      input.addEventListener('input', function (e) {
+        e.target.value = e.target.value.replace(/\D/g, '').slice(0, 1);
+        if (e.target.value) {
+          e.target.classList.add('filled');
+          if (index < 3) codeInputs[index + 1].focus();
+        } else {
+          e.target.classList.remove('filled');
+        }
+        checkCodeComplete();
+      });
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Backspace' && !e.target.value && index > 0) {
+          codeInputs[index - 1].focus();
+          codeInputs[index - 1].value = '';
+          codeInputs[index - 1].classList.remove('filled');
+          checkCodeComplete();
+        }
+      });
+      input.addEventListener('paste', function (e) {
+        e.preventDefault();
+        const pasted = (e.clipboardData || window.clipboardData).getData('text');
+        const digits = pasted.replace(/\D/g, '').slice(0, 4);
+        if (digits.length > 0) {
+          digits.split('').forEach((digit, i) => {
+            if (codeInputs[i]) {
+              codeInputs[i].value = digit;
+              codeInputs[i].classList.add('filled');
+            }
+          });
+          const nextEmpty = codeInputs.findIndex(inp => !inp.value);
+          if (nextEmpty > -1) codeInputs[nextEmpty].focus();
+          else codeInputs[3].focus();
+          checkCodeComplete();
+        }
+      });
+    });
+
+    function checkCodeComplete() {
+      const fullCode = codeInputs.map(inp => inp.value).join('');
+      verifyBtn.disabled = fullCode.length !== 4;
+    }
+
+    codeForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      hideMsg();
+
+      const enteredCode = codeInputs.map(inp => inp.value).join('');
+      if (enteredCode.length !== 4) { showMsg('error', '⚠️ Lütfen 4 haneli kodu girin'); return; }
+
+      if (enteredCode !== currentCode) {
+        attemptCount++;
+        if (attemptCount >= MAX_ATTEMPTS) {
+          showMsg('error', '❌ Çok fazla hatalı deneme. Lütfen yeni kod isteyin.');
+          verifyBtn.disabled = true;
+          codeInputs.forEach(inp => {
+            inp.value = ''; inp.classList.remove('filled'); inp.disabled = true;
+          });
+          return;
+        }
+        const remaining = MAX_ATTEMPTS - attemptCount;
+        showMsg('error', '❌ Kod hatalı. Tekrar deneyin. (Kalan hak: ' + remaining + ')');
+        codeInputs.forEach(inp => { inp.value = ''; inp.classList.remove('filled'); });
+        codeInputs[0].focus();
+        checkCodeComplete();
+        return;
+      }
+
+      verifyBtn.disabled = true;
+      verifyBtn.textContent = '⏳ Kaydediliyor...';
+
+      try {
+        const ok = await addUser({
+          name: currentName,
+          phone: currentPhone,
+          displayPhone: phoneInput.value
+        });
+
+        if (!ok) throw new Error('Kullanıcı kaydedilemedi');
+
+        localStorage.setItem('user', JSON.stringify({
+          name: currentName,
+          phone: currentPhone,
+          displayPhone: phoneInput.value,
+          loginAt: Date.now()
+        }));
+
+        showMsg('success', '✅ Kayıt başarılı! Yönlendiriliyorsunuz...');
+        setTimeout(() => { window.location.href = 'index.html'; }, 1200);
+      } catch (err) {
+        showMsg('error', '❌ Kayıt sırasında hata oluştu. Tekrar deneyin.');
+        verifyBtn.disabled = false;
+        verifyBtn.textContent = '✅ Doğrula ve Kaydol';
+      }
+    });
+
+    const resendBtn = document.getElementById('resendBtn');
+    const resendTimer = document.getElementById('resendTimer');
+
+    function startResendCountdown(seconds) {
+      resendSeconds = seconds;
+      resendBtn.disabled = true;
+      resendBtn.textContent = 'Tekrar Gönder';
+      clearInterval(resendCountdown);
+      updateResendTimer();
+      resendCountdown = setInterval(() => {
+        resendSeconds--;
+        updateResendTimer();
+        if (resendSeconds <= 0) {
+          clearInterval(resendCountdown);
+          resendBtn.disabled = false;
+          resendTimer.textContent = 'Kod gelmedi mi?';
+        }
+      }, 1000);
+    }
+    function updateResendTimer() {
+      if (resendSeconds > 0) {
+        resendTimer.textContent = `Tekrar göndermek için ${resendSeconds} sn`;
+      }
+    }
+
+    resendBtn.addEventListener('click', async function () {
+      hideMsg();
+      currentCode = generateCode();
+      attemptCount = 0;
+      resendBtn.disabled = true;
+      resendBtn.textContent = 'Gönderiliyor...';
+      codeInputs.forEach(inp => inp.disabled = false);
+      try {
+        await sendSMS(currentPhone, currentCode);
+        document.getElementById('testCode').textContent = currentCode;
+        codeInputs.forEach(inp => { inp.value = ''; inp.classList.remove('filled'); });
+        codeInputs[0].focus();
+        checkCodeComplete();
+        showMsg('success', '✅ Yeni kod gönderildi!');
+        startResendCountdown(30);
+      } catch (err) {
+        showMsg('error', '❌ Gönderilemedi. Tekrar deneyin.');
+        resendBtn.disabled = false;
+        resendBtn.textContent = 'Tekrar Gönder';
+      }
+    });
+
+    document.getElementById('backBtn').addEventListener('click', function () {
+      hideMsg();
+      currentCode = '';
+      attemptCount = 0;
+      clearInterval(resendCountdown);
+      codeForm.style.display = 'none';
+      registerForm.style.display = 'block';
+      loginFooterBox.style.display = 'block';
+      step1Indicator.classList.add('active');
+      step1Indicator.classList.remove('done');
+      step2Indicator.classList.remove('active');
+      sendCodeBtn.disabled = false;
+      sendCodeBtn.textContent = '📩 SMS Kodu Gönder';
+      codeInputs.forEach(inp => inp.disabled = false);
+      document.getElementById('testCodeBox').classList.remove('show');
+      nameInput.focus();
+    });
+  </script>
+
+</body>
+</html>

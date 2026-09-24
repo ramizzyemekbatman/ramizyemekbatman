@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KVKK Aydınlatma Metni | Ramiz Köfte Batman</title>
+<meta name="description" content="Ramiz Köfte Batman KVKK Aydınlatma Metni - 6698 Sayılı Kişisel Verilerin Korunması Kanunu kapsamında kişisel verilerinizin işlenmesi hakkında bilgilendirme.">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="shortcut icon" href="favicon-source.png">
+<script>
+  (function() {
+    try {
+      var saved = localStorage.getItem('theme');
+      if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+      else if (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.setAttribute('data-theme', 'dark');
+    } catch (e) {}
+  })();
+</script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #ffffff;
+    --bg-alt: #f5f5f5;
+    --text: #1a1a1a;
+    --text-muted: #666666;
+    --text-light: #333333;
+    --border: #f0f0f0;
+    --border-input: #ddd;
+    --btn-bg: #1a1a1a;
+    --btn-text: #ffffff;
+    --btn-hover: #333;
+    --nav-bg: #ffffff;
+    --card-bg: #ffffff;
+    --success: #2a5040;
+    --success-bg: rgba(42, 80, 64, 0.08);
+    --transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  [data-theme="dark"] {
+    --bg: #0f0f0f;
+    --bg-alt: #1a1a1a;
+    --text: #f5f5f5;
+    --text-muted: #aaaaaa;
+    --text-light: #dddddd;
+    --border: #2a2a2a;
+    --border-input: #333;
+    --btn-bg: #f5f5f5;
+    --btn-text: #0f0f0f;
+    --btn-hover: #d4d4d4;
+    --nav-bg: #0f0f0f;
+    --card-bg: #1a1a1a;
+    --success: #7aa589;
+    --success-bg: rgba(122, 165, 137, 0.1);
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: var(--text); background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    transition: background var(--transition), color var(--transition);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .navbar {
+    position: fixed; top: 0; left: 0; right: 0; height: 70px;
+    background: var(--nav-bg); display: flex; align-items: center;
+    justify-content: center; z-index: 9999;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-inner {
+    display: flex; align-items: center; gap: 24px;
+    max-width: 1400px; width: 100%; padding: 0 24px;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    display: flex; flex-direction: row;
+    align-items: center; gap: 12px;
+    line-height: 1;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .nav-logo-img {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+    flex-shrink: 0;
+    display: block;
+  }
+
+  .nav-logo-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.1;
+  }
+
+  .nav-logo-main {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    font-family: Georgia, 'Times New Roman', serif;
+    line-height: 1;
+    margin-bottom: 3px;
+  }
+
+  .nav-logo-sub {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    line-height: 1;
+  }
+
+  .nav-spacer { flex: 1; }
+
+  .nav-back {
+    font-size: 13px; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--text);
+    text-decoration: none; opacity: 0.7;
+    transition: opacity 0.3s;
+    white-space: nowrap;
+  }
+  .nav-back:hover { opacity: 1; }
+
+  .theme-toggle {
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 1px solid var(--border-input); background: transparent;
+    color: var(--text); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; transition: all 0.3s ease;
+    position: relative; overflow: hidden; font-family: inherit;
+  }
+  .theme-toggle:hover { border-color: var(--text); transform: scale(1.08); }
+
+  .theme-toggle .icon {
+    position: absolute;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+    line-height: 1;
+  }
+  .theme-toggle .icon-sun { transform: rotate(0deg) scale(1); opacity: 0; }
+  .theme-toggle .icon-moon { transform: rotate(0deg) scale(1); opacity: 1; }
+  [data-theme="dark"] .theme-toggle .icon-sun { transform: rotate(180deg) scale(1); opacity: 1; }
+  [data-theme="dark"] .theme-toggle .icon-moon { transform: rotate(-180deg) scale(0); opacity: 0; }
+
+  /* HERO */
+  .hero {
+    margin-top: 70px;
+    padding: 80px 24px 40px;
+    background: linear-gradient(180deg, var(--bg-alt) 0%, var(--bg) 100%);
+    text-align: center;
+  }
+
+  .hero-label {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--success);
+    background: var(--success-bg);
+    padding: 8px 20px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+    border: 1px solid var(--success);
+  }
+
+  .hero-title {
+    font-size: 56px;
+    font-weight: 600;
+    font-style: italic;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    margin-bottom: 14px;
+    font-family: Georgia, 'Times New Roman', serif;
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    color: var(--text-muted);
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* İÇERİK */
+  .wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+    width: 100%;
+  }
+
+  .content-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 48px 44px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+  }
+
+  .content-card h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    margin-top: 36px;
+    margin-bottom: 14px;
+    letter-spacing: -0.01em;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    font-family: Georgia, 'Times New Roman', serif;
+  }
+
+  .content-card h2:first-child { margin-top: 0; }
+
+  .content-card h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    margin-top: 22px;
+    margin-bottom: 8px;
+  }
+
+  .content-card p {
+    font-size: 15px;
+    line-height: 1.9;
+    color: var(--text-light);
+    margin-bottom: 14px;
+  }
+
+  .content-card ul {
+    margin: 8px 0 16px 24px;
+    font-size: 15px;
+    line-height: 1.9;
+    color: var(--text-light);
+  }
+
+  .content-card ul li {
+    margin-bottom: 8px;
+  }
+
+  .content-card strong {
+    color: var(--text);
+    font-weight: 700;
+  }
+
+  .info-box {
+    background: var(--bg-alt);
+    border-left: 3px solid var(--success);
+    padding: 20px 24px;
+    border-radius: 8px;
+    margin: 20px 0;
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--text-light);
+  }
+
+  .warning-box {
+    background: var(--success-bg);
+    border: 1px solid var(--success);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 24px 0;
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--text-light);
+  }
+
+  .warning-box strong {
+    color: var(--success);
+  }
+
+  .footer-date {
+    margin-top: 36px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+    font-style: italic;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  footer {
+    background: #000;
+    color: #fff;
+    padding: 60px 40px 30px;
+    margin-top: auto;
+  }
+
+  .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px 60px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .footer-col h4 {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+
+  .footer-col p,
+  .footer-col a {
+    font-size: 14px;
+    color: #fff;
+    opacity: 0.75;
+    text-decoration: none;
+    line-height: 1.8;
+    display: block;
+    margin-bottom: 6px;
+    transition: opacity 0.3s;
+  }
+  .footer-col a:hover { opacity: 1; }
+
+  .footer-copyright {
+    text-align: center;
+    padding-top: 30px;
+    font-size: 13px;
+    color: #666;
+  }
+
+  @media (max-width: 768px) {
+    .nav-inner { padding: 0 16px; }
+    .nav-logo-main { font-size: 15px; }
+    .nav-logo-sub { font-size: 9px; }
+    .nav-logo-img { width: 44px; height: 44px; }
+    .theme-toggle { width: 40px; height: 40px; }
+
+    .hero { padding: 60px 20px 30px; }
+    .hero-title { font-size: 34px; }
+    .hero-label { font-size: 10px; letter-spacing: 0.25em; padding: 6px 16px; }
+    .hero-sub { font-size: 14px; }
+
+    .wrap { padding: 30px 16px 60px; }
+    .content-card { padding: 32px 22px; border-radius: 16px; }
+    .content-card h2 { font-size: 18px; }
+    .content-card h3 { font-size: 15px; }
+    .content-card p, .content-card ul { font-size: 14px; }
+
+    footer { padding: 50px 24px 25px; }
+    .footer-container { grid-template-columns: 1fr 1fr; gap: 32px 24px; }
+    .footer-col h4 { font-size: 12px; margin-bottom: 14px; }
+    .footer-col p, .footer-col a { font-size: 13px; }
+    .footer-copyright { font-size: 12px; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-title { font-size: 26px; }
+    .footer-container { grid-template-columns: 1fr; gap: 28px; }
+  }
+</style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <img src="favicon-source.png" alt="Ramiz Köfte" class="nav-logo-img">
+        <div class="nav-logo-text">
+          <span class="nav-logo-main">Ramiz Köfte</span>
+          <span class="nav-logo-sub">Batman · Est. 1928</span>
+        </div>
+      </a>
+      <div class="nav-spacer"></div>
+      <a href="index.html" class="nav-back">← Ana Sayfa</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Tema değiştir">
+        <span class="icon icon-sun">☀️</span>
+        <span class="icon icon-moon">🌙</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-label">6698 Sayılı Kanun Kapsamında</div>
+    <h1 class="hero-title">KVKK Aydınlatma Metni</h1>
+    <p class="hero-sub">
+      Kişisel Verilerin Korunması Kanunu kapsamında verilerinizin nasıl toplandığı, işlendiği ve korunduğu hakkında bilgilendirme.
+    </p>
+  </section>
+
+  <!-- İÇERİK -->
+  <div class="wrap">
+    <div class="content-card">
+
+      <div class="warning-box">
+        <strong>⚠️ ÖNEMLİ:</strong> Bu metin, 6698 Sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") madde 10 uyarınca <strong>veri sorumlusu</strong> sıfatıyla <strong>Ramiz Köfte Batman</strong> tarafından hazırlanmıştır. Sitemizi kullanarak, aşağıda belirtilen şartlar dahilinde kişisel verilerinizin işlenmesine onay vermiş sayılırsınız.
+      </div>
+
+      <h2>1. Veri Sorumlusu</h2>
+      <p>
+        KVKK uyarınca kişisel verileriniz, veri sorumlusu sıfatıyla aşağıda bilgileri yer alan <strong>Ramiz Köfte Batman</strong> tarafından işlenmektedir:
+      </p>
+      <ul>
+        <li><strong>Ticari Unvan:</strong> Ramiz Köfte Batman</li>
+        <li><strong>Adres:</strong> Gültepe Mah. Demokrasi Bul. Petrol City 2. Kat, Batman</li>
+        <li><strong>Telefon:</strong> 0501 571 52 72</li>
+        <li><strong>E-posta:</strong> info@ramizkofte.com</li>
+      </ul>
+
+      <h2>2. İşlenen Kişisel Verileriniz</h2>
+      <p>
+        Sitemiz üzerinden aşağıdaki kişisel verileriniz toplanmaktadır:
+      </p>
+
+      <h3>A) Kimlik Bilgileri</h3>
+      <ul>
+        <li>Ad ve soyad</li>
+      </ul>
+
+      <h3>B) İletişim Bilgileri</h3>
+      <ul>
+        <li>Telefon numarası</li>
+        <li>E-posta adresi (varsa)</li>
+        <li>Sipariş teslimat adresi (varsa)</li>
+      </ul>
+
+      <h3>C) İşlem Güvenliği Bilgileri</h3>
+      <ul>
+        <li>Sipariş kayıtları ve geçmişi</li>
+        <li>Giriş-çıkış tarihleri (IP adresi tutulmaz)</li>
+        <li>Sepet içeriği</li>
+      </ul>
+
+      <h3>D) Müşteri İşlem Bilgileri</h3>
+      <ul>
+        <li>Sipariş geçmişi</li>
+        <li>Toplam harcama tutarı</li>
+        <li>İndirim ve kampanya kullanım bilgileri</li>
+      </ul>
+
+      <h2>3. Kişisel Verilerin İşlenme Amaçları</h2>
+      <p>
+        Toplanan kişisel verileriniz, KVKK madde 5 ve 6'da belirtilen şartlar dahilinde aşağıdaki amaçlarla işlenmektedir:
+      </p>
+      <ul>
+        <li>Sipariş ve rezervasyon süreçlerinin yürütülmesi</li>
+        <li>Ürün ve hizmetlerimizin sunulması</li>
+        <li>Müşteri ilişkilerinin yönetimi ve müşteri memnuniyetinin sağlanması</li>
+        <li>Talep ve şikayetlerin değerlendirilmesi</li>
+        <li>Kampanya, indirim ve promosyon faaliyetlerinin yürütülmesi</li>
+        <li>Yasal yükümlülüklerin yerine getirilmesi</li>
+        <li>Hizmet kalitesinin ölçülmesi ve iyileştirilmesi</li>
+        <li>Suç önleme ve güvenlik hizmetleri (varsa)</li>
+      </ul>
+
+      <h2>4. Kişisel Verilerin Aktarılması</h2>
+      <p>
+        Kişisel verileriniz; yasal yükümlülükler çerçevesinde aşağıdaki taraflara <strong>KVKK madde 8 ve 9'da</strong> belirtilen şartlar dahilinde aktarılabilecektir:
+      </p>
+      <ul>
+        <li><strong>Yetkili Kamu Kurum ve Kuruluşları:</strong> Vergi Dairesi, Savcılık, Mahkemeler (yasal talep halinde)</li>
+        <li><strong>Hizmet Sağlayıcılar:</strong> SMS gönderim, kargo/teslimat firmaları, ödeme aracıları</li>
+        <li><strong>İş Ortakları:</strong> Sitemizin teknik altyapısını sağlayan hizmet sağlayıcıları</li>
+      </ul>
+      <p>
+        Verileriniz <strong>hiçbir koşulda</strong> üçüncü kişilere <strong>ticari amaçla satılmaz</strong>, kiralanmaz veya pazarlama amacıyla paylaşılmaz.
+      </p>
+
+      <h2>5. Kişisel Verilerin Toplanma Yöntemi ve Hukuki Sebebi</h2>
+      <p>
+        Kişisel verileriniz, sitemizin <strong>kayıt, giriş, sipariş ve iletişim formları</strong> aracılığıyla elektronik ortamda toplanmaktadır.
+      </p>
+      <p>
+        Bu verilerin işlenmesinin hukuki sebepleri:
+      </p>
+      <ul>
+        <li><strong>KVKK madde 5/2-c:</strong> Sözleşmenin kurulması veya ifasıyla doğrudan ilgili olması</li>
+        <li><strong>KVKK madde 5/2-ç:</strong> Veri sorumlusunun hukuki yükümlülüğünü yerine getirebilmesi</li>
+        <li><strong>KVKK madde 5/2-f:</strong> Meşru menfaatlerimiz için zorunlu olması</li>
+        <li><strong>KVKK madde 5/1:</strong> Açık rızanız (pazarlama faaliyetleri için)</li>
+      </ul>
+
+      <h2>6. Kişisel Verilerin Saklama Süresi</h2>
+      <p>
+        Kişisel verileriniz, işlenme amaçlarının gerektirdiği süre boyunca ve ilgili mevzuatta öngörülen yasal süreler dikkate alınarak saklanır:
+      </p>
+      <ul>
+        <li><strong>Kimlik ve iletişim bilgileri:</strong> Hesabınız aktif olduğu sürece + 1 yıl</li>
+        <li><strong>Sipariş kayıtları:</strong> 10 yıl (Vergi Usul Kanunu gereği)</li>
+        <li><strong>İşlem güvenliği bilgileri:</strong> 2 yıl</li>
+        <li><strong>Pazarlama verileri:</strong> Onay verdiğiniz sürece</li>
+      </ul>
+      <p>
+        Sürelerin sonunda kişisel verileriniz <strong>silinir, yok edilir veya anonim hale getirilir</strong>.
+      </p>
+
+      <h2>7. Veri Sahibi Olarak Haklarınız</h2>
+      <p>
+        KVKK madde 11 uyarınca, veri sorumlusuna başvurarak aşağıdaki haklara sahipsiniz:
+      </p>
+      <ul>
+        <li>✔️ Kişisel verilerinizin <strong>işlenip işlenmediğini öğrenme</strong></li>
+        <li>✔️ İşlenmişse buna ilişkin <strong>bilgi talep etme</strong></li>
+        <li>✔️ İşlenme amacını ve <strong>amacına uygun kullanılıp kullanılmadığını öğrenme</strong></li>
+        <li>✔️ Yurt içinde/yurt dışında aktarıldığı <strong>üçüncü kişileri öğrenme</strong></li>
+        <li>✔️ Eksik veya yanlış işlenmişse <strong>düzeltilmesini isteme</strong></li>
+        <li>✔️ Silinmesini veya yok edilmesini <strong>isteme</strong></li>
+        <li>✔️ Düzeltme/silme işlemlerinin aktarıldığı üçüncü kişilere <strong>bildirilmesini isteme</strong></li>
+        <li>✔️ İşlenen verilerin münhasıran otomatik sistemler ile analiz edilmesi nedeniyle aleyhinize bir sonucun ortaya çıkmasına <strong>itiraz etme</strong></li>
+        <li>✔️ Kanuna aykırı işleme sebebiyle <strong>zararın giderilmesini talep etme</strong></li>
+      </ul>
+
+      <h2>8. Haklarınızı Kullanma Yöntemi</h2>
+      <p>
+        Yukarıda belirtilen haklarınızı kullanmak için, kimliğinizi tespit edici belgeler ile birlikte aşağıdaki kanallardan başvurabilirsiniz:
+      </p>
+
+      <div class="info-box">
+        <strong>📧 E-posta ile:</strong> info@ramizkofte.com<br>
+        <strong>📞 Telefon ile:</strong> 0501 571 52 72<br>
+        <strong>📮 Yazılı olarak:</strong> Gültepe Mah. Demokrasi Bul. Petrol City 2. Kat, Batman
+      </div>
+
+      <p>
+        Başvurunuz, talebinizin niteliğine göre <strong>en geç 30 gün içinde</strong> ücretsiz olarak sonuçlandırılır. Ancak, işlemin ayrıca bir maliyeti gerektirmesi halinde, Kişisel Verileri Koruma Kurulu tarafından belirlenen tarifedeki ücret alınabilir.
+      </p>
+
+      <h2>9. Veri Güvenliği</h2>
+      <p>
+        Ramiz Köfte Batman olarak, kişisel verilerinizin güvenliğini sağlamak için aşağıdaki teknik ve idari tedbirleri almaktayız:
+      </p>
+      <ul>
+        <li>Veri iletiminde <strong>SSL/HTTPS</strong> şifreleme kullanımı</li>
+        <li>Yetkisiz erişime karşı <strong>erişim kontrol sistemleri</strong></li>
+        <li>Düzenli <strong>veri güvenliği denetimleri</strong></li>
+        <li>Çalışanlarımıza <strong>KVKK eğitimleri</strong></li>
+        <li>Veri ihlali durumunda <strong>72 saat içinde bildirim</strong> yükümlülüğü</li>
+      </ul>
+
+      <h2>10. Çerezler (Cookies)</h2>
+      <p>
+        Sitemizde, kullanıcı deneyimini iyileştirmek amacıyla çerezler kullanılmaktadır. Çerez kullanımı hakkında detaylı bilgi için <a href="cerez.html" style="color: var(--success); font-weight: 600; text-decoration: underline;">Çerez Politikası</a> sayfamızı inceleyebilirsiniz.
+      </p>
+
+      <h2>11. Değişiklikler</h2>
+      <p>
+        Bu KVKK Aydınlatma Metni, yasal düzenlemelerdeki değişikliklere bağlı olarak güncellenebilir. Güncel sürüm her zaman bu sayfada yayımlanır. Önemli değişiklikler olduğunda kullanıcılarımız bilgilendirilir.
+      </p>
+
+      <h2>12. Onay</h2>
+      <p>
+        Sitemize kayıt olarak, sipariş vererek veya hizmetlerimizi kullanarak işbu <strong>KVKK Aydınlatma Metni</strong>'ni okuduğunuzu ve kişisel verilerinizin yukarıda açıklanan şekilde işlenmesine onay verdiğinizi kabul etmiş sayılırsınız.
+      </p>
+
+      <div class="warning-box">
+        <strong>ℹ️ Not:</strong> KVKK Aydınlatma Metni hakkında sorularınız için bize <strong>0501 571 52 72</strong> numaralı telefondan veya <strong>info@ramizkofte.com</strong> e-posta adresinden ulaşabilirsiniz.
+      </div>
+
+      <div class="footer-date">
+        Son güncelleme: Eylül 2026 — Ramiz Köfte Batman
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-col">
+        <h4>İletişim</h4>
+        <p>Gültepe Mah. Demokrasi Bul. Petrol City 2. Kat</p>
+        <a href="tel:+905015715272">📞 0501 571 52 72</a>
+      </div>
+      <div class="footer-col">
+        <h4>Çalışma Saatleri</h4>
+        <p>Hafta içi &amp; Hafta sonu: 10:00 – 22:00</p>
+        <p>Alo Paket Servis: 10:00 – 01:00</p>
+      </div>
+      <div class="footer-col">
+        <h4>Sosyal Medya</h4>
+        <a href="https://www.instagram.com/ramizkofte_batman" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.tiktok.com/@ramiz.kftebatman" target="_blank" rel="noopener">TikTok</a>
+      </div>
+      <div class="footer-col">
+        <h4>Kurumsal</h4>
+        <a href="hakkimizda.html">Hakkımızda</a>
+        <a href="kvkk.html">KVKK Aydınlatma Metni</a>
+        <a href="cerez.html">Çerez Politikası</a>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      © 2026 Ramiz Köfte · Tüm hakları saklıdır.
+    </div>
+  </footer>
+
+  <script>
+    /* TEMA */
+    (function () {
+      const themeToggle = document.getElementById('themeToggle');
+      themeToggle.addEventListener('click', function () {
+        const current = document.documentElement.getAttribute('data-theme');
+        if (current === 'dark') {
+          document.documentElement.removeAttribute('data-theme');
+          localStorage.setItem('theme', 'light');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          localStorage.setItem('theme', 'dark');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>

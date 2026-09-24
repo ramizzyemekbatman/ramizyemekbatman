@@ -1,0 +1,2634 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yönetici Paneli | Ramiz Köfte Batman</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="shortcut icon" href="favicon-source.png">
+<script>
+  (function() {
+    try {
+      var saved = localStorage.getItem('theme');
+      if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+      else if (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.setAttribute('data-theme', 'dark');
+    } catch (e) {}
+  })();
+</script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #ffffff; --bg-alt: #f5f5f5; --text: #1a1a1a; --text-muted: #888;
+    --text-light: #555; --text-lighter: #ccc; --border: #f0f0f0; --border-input: #ddd;
+    --btn-bg: #1a1a1a; --btn-text: #ffffff; --btn-hover: #333; --nav-bg: #ffffff;
+    --success: #2a5040; --success-bg: rgba(42,80,64,0.08);
+    --warning: #b8860b; --warning-bg: rgba(184,134,11,0.1);
+    --danger: #c0392b; --danger-bg: rgba(192,57,43,0.08);
+    --transition: 0.4s cubic-bezier(0.4,0,0.2,1);
+  }
+  [data-theme="dark"] {
+    --bg: #0f0f0f; --bg-alt: #1a1a1a; --text: #f5f5f5; --text-muted: #888;
+    --text-light: #aaa; --text-lighter: #444; --border: #2a2a2a; --border-input: #333;
+    --btn-bg: #f5f5f5; --btn-text: #0f0f0f; --btn-hover: #d4d4d4; --nav-bg: #0f0f0f;
+    --success: #7aa589; --success-bg: rgba(122,165,137,0.1);
+    --warning: #d4a017; --warning-bg: rgba(212,160,23,0.12);
+    --danger: #e74c3c; --danger-bg: rgba(231,76,60,0.1);
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: var(--text); background: var(--bg);
+    -webkit-font-smoothing: antialiased; overflow-x: hidden;
+    transition: background var(--transition), color var(--transition);
+    display: flex; flex-direction: column; min-height: 100vh;
+  }
+  .navbar {
+    position: fixed; top: 0; left: 0; right: 0; height: 70px;
+    background: var(--nav-bg); display: flex; align-items: center;
+    justify-content: center; z-index: 9999; border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    display: flex; align-items: center; gap: 24px;
+    max-width: 1400px; width: 100%; padding: 0 24px; justify-content: space-between;
+  }
+  .nav-logo { display: flex; flex-direction: row; align-items: center; gap: 12px; line-height: 1; text-decoration: none; flex-shrink: 0; }
+  .nav-logo-img { width: 52px; height: 52px; object-fit: contain; flex-shrink: 0; display: block; }
+  .nav-logo-text { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1; }
+  .nav-logo-main {
+    font-size: 24px; font-weight: 700; letter-spacing: -0.01em; color: var(--text);
+    font-family: Georgia, 'Times New Roman', serif; line-height: 1; margin-bottom: 3px;
+  }
+  .nav-logo-sub {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--text-muted); line-height: 1;
+  }
+  .nav-spacer { flex: 1; }
+  .nav-icons { display: flex; gap: 20px; align-items: center; }
+  .theme-toggle {
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 1px solid var(--border-input); background: transparent;
+    color: var(--text); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; transition: all 0.3s ease;
+    position: relative; overflow: hidden; font-family: inherit;
+  }
+  .theme-toggle:hover { border-color: var(--text); transform: scale(1.08); }
+  .theme-toggle .icon {
+    position: absolute;
+    transition: transform 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease; line-height: 1;
+  }
+  .theme-toggle .icon-sun { transform: rotate(0deg) scale(1); opacity: 0; }
+  .theme-toggle .icon-moon { transform: rotate(0deg) scale(1); opacity: 1; }
+  [data-theme="dark"] .theme-toggle .icon-sun { transform: rotate(180deg) scale(1); opacity: 1; }
+  [data-theme="dark"] .theme-toggle .icon-moon { transform: rotate(-180deg) scale(0); opacity: 0; }
+
+  .admin-login {
+    flex: 1; min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 100px 20px; background: var(--bg-alt);
+  }
+  .admin-login-box {
+    max-width: 400px; width: 100%; background: var(--bg);
+    border: 1px solid var(--border); border-radius: 20px;
+    padding: 48px 36px; box-shadow: 0 12px 48px rgba(0,0,0,0.08);
+  }
+  .admin-login-icon { font-size: 48px; text-align: center; margin-bottom: 20px; display: block; }
+  .admin-login-box h2 {
+    font-size: 28px; font-weight: 400; font-style: italic;
+    color: var(--text); text-align: center; margin-bottom: 8px;
+    font-family: Georgia, 'Times New Roman', serif;
+  }
+  .admin-login-box p {
+    font-size: 14px; color: var(--text-muted); text-align: center; margin-bottom: 32px;
+  }
+  .form-group { margin-bottom: 20px; }
+  .form-group label {
+    display: block; font-size: 12px; font-weight: 400;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 8px;
+  }
+  .form-group input[type="text"],
+  .form-group input[type="number"],
+  .form-group input[type="password"],
+  .form-group textarea {
+    width: 100%; padding: 14px 16px; border: 1px solid var(--border-input);
+    border-radius: 10px; font-size: 15px; font-weight: 300; color: var(--text);
+    background: var(--bg); outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s; font-family: inherit;
+  }
+  .form-group input:focus, .form-group textarea:focus {
+    border-color: var(--text); box-shadow: 0 0 0 3px var(--border);
+  }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: var(--text-lighter); }
+  .form-group textarea { resize: vertical; min-height: 70px; }
+  .admin-login-error {
+    display: none; padding: 12px 16px;
+    background: var(--danger-bg); border: 1px solid var(--danger);
+    border-radius: 8px; color: var(--danger);
+    font-size: 13px; text-align: center; margin-bottom: 20px;
+  }
+  .admin-login-error.show { display: block; }
+  .admin-login-btn {
+    width: 100%; padding: 16px; background: var(--btn-bg); color: var(--btn-text);
+    font-size: 13px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase;
+    border: none; cursor: pointer; font-family: inherit;
+    transition: background 0.3s; margin-top: 8px; border-radius: 8px;
+  }
+  .admin-login-btn:hover { background: var(--btn-hover); }
+  .admin-login-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .admin-panel { flex: 1; min-height: 100vh; padding: 100px 40px 60px; background: var(--bg); }
+  .admin-container { max-width: 1400px; margin: 0 auto; }
+  .admin-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 32px; flex-wrap: wrap; gap: 20px;
+    padding-bottom: 24px; border-bottom: 1px solid var(--border);
+  }
+  .admin-header h1 {
+    font-size: 36px; font-weight: 300; font-style: italic;
+    color: var(--text); letter-spacing: -0.02em;
+    font-family: Georgia, 'Times New Roman', serif;
+  }
+  .admin-header-actions { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  .admin-btn {
+    padding: 10px 20px; font-size: 12px; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    border-radius: 8px; cursor: pointer; font-family: inherit;
+    transition: all 0.25s ease; border: 1px solid var(--border-input);
+    background: transparent; color: var(--text);
+    white-space: nowrap; text-decoration: none; display: inline-block;
+  }
+  .admin-btn:hover { background: var(--bg-alt); border-color: var(--text); }
+  .admin-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .admin-btn-primary { background: var(--btn-bg); color: var(--btn-text); border-color: var(--btn-bg); }
+  .admin-btn-primary:hover { background: var(--btn-hover); border-color: var(--btn-hover); }
+  .admin-btn-danger { border-color: var(--danger); color: var(--danger); }
+  .admin-btn-danger:hover { background: var(--danger-bg); border-color: var(--danger); }
+  .sound-toggle-btn {
+    padding: 10px 16px; border-radius: 8px; border: 1px solid var(--border-input);
+    background: var(--bg); color: var(--text);
+    font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+    cursor: pointer; font-family: inherit; transition: all 0.25s ease;
+    display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
+  }
+  .sound-toggle-btn:hover { border-color: var(--text); background: var(--bg-alt); }
+  .sound-toggle-btn.muted { opacity: 0.5; }
+  .test-sound-btn {
+    padding: 10px 16px; border-radius: 8px;
+    border: 1px solid var(--success); background: var(--success-bg); color: var(--success);
+    font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+    cursor: pointer; font-family: inherit; transition: all 0.25s ease;
+    display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
+  }
+  .test-sound-btn:hover { background: var(--success); color: #fff; }
+  .main-tabs {
+    display: flex; gap: 10px; margin-bottom: 32px;
+    border-bottom: 1px solid var(--border); padding-bottom: 0;
+    overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  }
+  .main-tabs::-webkit-scrollbar { display: none; }
+  .main-tab {
+    padding: 12px 22px; background: transparent; border: none;
+    border-bottom: 3px solid transparent;
+    font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-muted); cursor: pointer; font-family: inherit;
+    transition: all 0.25s ease; white-space: nowrap;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .main-tab:hover { color: var(--text); }
+  .main-tab.active { color: var(--text); border-bottom-color: var(--text); }
+  .tab-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 20px; height: 20px; padding: 0 6px;
+    background: var(--danger); color: #fff; border-radius: 100px;
+    font-size: 11px; font-weight: 700;
+  }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  .admin-stats {
+    display: grid; grid-template-columns: repeat(6, 1fr);
+    gap: 14px; margin-bottom: 32px;
+  }
+  .admin-stats.four { grid-template-columns: repeat(4, 1fr); }
+  .stat-card {
+    background: var(--bg-alt); border: 1px solid var(--border);
+    border-radius: 16px; padding: 20px 18px; transition: transform 0.3s;
+  }
+  .stat-card:hover { transform: translateY(-2px); }
+  .stat-label {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px;
+  }
+  .stat-value { font-size: 28px; font-weight: 300; color: var(--text); line-height: 1; }
+  .form-card {
+    background: var(--bg-alt); border: 1px solid var(--border);
+    border-radius: 16px; padding: 28px 32px; margin-bottom: 32px;
+  }
+  .form-card-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 22px; flex-wrap: wrap; gap: 12px;
+  }
+  .form-card-title { font-size: 18px; font-weight: 600; color: var(--text); letter-spacing: -0.01em; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .form-grid-full { grid-column: 1 / -1; }
+  .category-pills { display: flex; flex-wrap: wrap; gap: 10px; }
+  .category-pill { position: relative; }
+  .category-pill input { position: absolute; opacity: 0; pointer-events: none; }
+  .category-pill label {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 18px; font-size: 12px; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text); background: var(--bg);
+    border: 1px solid var(--border-input); border-radius: 100px;
+    cursor: pointer; transition: all 0.2s ease; user-select: none; margin: 0;
+  }
+  .category-pill label:hover { border-color: var(--text); }
+  .category-pill input:checked + label {
+    background: var(--btn-bg); color: var(--btn-text); border-color: var(--btn-bg);
+  }
+  .category-pill .pill-emoji { font-size: 15px; }
+  .photo-upload-zone {
+    border: 2px dashed var(--border-input); border-radius: 12px;
+    padding: 24px; text-align: center;
+    transition: all 0.25s ease; background: var(--bg); position: relative;
+  }
+  .photo-upload-zone:hover { border-color: var(--text); background: var(--bg-alt); }
+  .photo-upload-zone.dragover { border-color: var(--success); background: var(--success-bg); }
+  .photo-upload-icon { font-size: 36px; margin-bottom: 8px; display: block; opacity: 0.6; }
+  .photo-upload-text { font-size: 13px; color: var(--text-muted); margin-bottom: 14px; }
+  .photo-upload-hint { font-size: 11px; color: var(--text-lighter); letter-spacing: 0.05em; margin-top: 10px; }
+  .photo-upload-zone input[type="file"] { display: none; }
+  .photo-file-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 26px; font-size: 12px; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    border-radius: 100px; background: var(--btn-bg); color: var(--btn-text);
+    border: none; cursor: pointer; font-family: inherit;
+    transition: all 0.25s ease; user-select: none;
+  }
+  .photo-file-btn:hover {
+    background: var(--btn-hover); transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  }
+  .photo-preview-wrap {
+    margin-top: 14px; display: none; align-items: center; gap: 16px;
+    padding: 14px; background: var(--bg);
+    border: 1px solid var(--border); border-radius: 12px;
+  }
+  .photo-preview-wrap.show { display: flex; }
+  .photo-preview-img {
+    width: 90px; height: 90px; border-radius: 10px;
+    object-fit: cover; border: 1px solid var(--border);
+    background: var(--bg-alt); flex-shrink: 0;
+  }
+  .photo-preview-info { flex: 1; min-width: 0; }
+  .photo-preview-name {
+    font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 4px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .photo-preview-size { font-size: 11px; color: var(--text-muted); }
+  .photo-remove-btn {
+    padding: 8px 14px; font-size: 11px; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    border-radius: 8px; border: 1px solid var(--danger);
+    background: transparent; color: var(--danger);
+    cursor: pointer; font-family: inherit;
+    transition: all 0.2s ease; white-space: nowrap;
+  }
+  .photo-remove-btn:hover { background: var(--danger-bg); }
+  .upload-progress {
+    display: none; margin-top: 10px; padding: 10px 14px;
+    background: var(--success-bg); border: 1px solid var(--success);
+    border-radius: 8px; font-size: 12px; color: var(--success);
+    font-weight: 600; text-align: center;
+  }
+  .upload-progress.show { display: block; }
+  .admin-filters {
+    display: flex; gap: 12px; margin-bottom: 24px;
+    flex-wrap: wrap; align-items: center;
+  }
+  .admin-search {
+    flex: 1; min-width: 240px; padding: 14px 18px;
+    border: 1px solid var(--border-input); border-radius: 10px;
+    background: var(--bg); color: var(--text);
+    font-size: 14px; font-family: inherit; outline: none;
+    transition: all 0.25s ease;
+  }
+  .admin-search:focus { border-color: var(--text); box-shadow: 0 0 0 3px var(--border); }
+  .admin-search::placeholder { color: var(--text-lighter); }
+  .filter-btns {
+    display: flex; gap: 8px; background: var(--bg-alt);
+    padding: 5px; border-radius: 10px;
+    border: 1px solid var(--border); flex-wrap: wrap;
+  }
+  .filter-btn {
+    padding: 9px 16px; font-size: 12px; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    border-radius: 7px; cursor: pointer; font-family: inherit;
+    border: none; background: transparent; color: var(--text-muted);
+    transition: all 0.25s ease; white-space: nowrap;
+  }
+  .filter-btn.active {
+    background: var(--bg); color: var(--text);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .filter-btn:hover:not(.active) { color: var(--text); }
+  .admin-list { display: flex; flex-direction: column; gap: 14px; }
+  .product-card {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 16px; padding: 16px 22px;
+    transition: all 0.3s ease; display: grid;
+    grid-template-columns: 72px 1fr 170px 130px 110px;
+    align-items: center; gap: 18px;
+  }
+  .product-card:hover {
+    box-shadow: 0 8px 32px rgba(0,0,0,0.06); transform: translateY(-2px);
+  }
+  .product-thumb {
+    width: 64px; height: 64px; border-radius: 12px;
+    background: var(--bg-alt); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; overflow: hidden; flex-shrink: 0;
+  }
+  .product-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .product-info { min-width: 0; }
+  .product-name {
+    font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 4px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .product-desc {
+    font-size: 12px; color: var(--text-muted);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .product-category {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 14px; background: var(--bg-alt);
+    border: 1px solid var(--border-input); border-radius: 100px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--text-light);
+    white-space: nowrap; justify-self: start;
+  }
+  .product-price {
+    font-size: 18px; font-weight: 600; font-style: italic;
+    color: var(--text); text-align: right; white-space: nowrap;
+  }
+  .product-actions { display: flex; gap: 6px; justify-content: flex-end; }
+  .icon-btn {
+    width: 36px; height: 36px; border-radius: 8px;
+    border: 1px solid var(--border-input); background: var(--bg); color: var(--text);
+    font-size: 14px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s ease; font-family: inherit; padding: 0;
+  }
+  .icon-btn:hover { border-color: var(--text); transform: scale(1.08); }
+  .icon-btn.danger:hover {
+    border-color: var(--danger); color: var(--danger); background: var(--danger-bg);
+  }
+  .customer-group {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 16px; padding: 0; overflow: hidden; transition: all 0.3s ease;
+  }
+  .customer-group:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.06); }
+  .customer-group-head {
+    padding: 18px 24px; background: var(--bg-alt);
+    border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between;
+    align-items: center; gap: 16px; flex-wrap: wrap;
+  }
+  .customer-group-info { display: flex; flex-direction: column; gap: 4px; }
+  .customer-group-name {
+    font-size: 17px; font-weight: 700; color: var(--text);
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  }
+  .customer-group-phone { font-size: 13px; color: var(--text-muted); }
+  .customer-group-stats {
+    text-align: right; display: flex; flex-direction: column;
+    gap: 4px; align-items: flex-end;
+  }
+  .customer-group-count {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--text-muted);
+  }
+  .customer-group-total {
+    font-size: 18px; font-weight: 700; font-style: italic; color: var(--text);
+  }
+  .customer-group-body { display: flex; flex-direction: column; }
+  .order-row {
+    padding: 18px 24px; border-bottom: 1px solid var(--border);
+    transition: all 0.25s ease; display: flex; flex-direction: column;
+    gap: 12px; border-left: 4px solid var(--warning);
+  }
+  .order-row:last-child { border-bottom: none; }
+  .order-row.status-approved { border-left-color: var(--success); }
+  .order-row.status-rejected { border-left-color: var(--danger); opacity: 0.7; }
+  .order-row:hover { background: var(--bg-alt); }
+  .order-row-head {
+    display: flex; justify-content: space-between;
+    align-items: flex-start; gap: 12px; flex-wrap: wrap;
+  }
+  .order-row-meta { display: flex; flex-direction: column; gap: 3px; }
+  .order-row-id {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.05em;
+    color: var(--text-muted); font-family: monospace;
+  }
+  .order-row-date { font-size: 12px; color: var(--text-muted); }
+  .order-status-badge {
+    padding: 5px 12px; border-radius: 100px;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
+  }
+  .order-status-badge.pending {
+    background: var(--warning-bg); color: var(--warning); border: 1px solid var(--warning);
+  }
+  .order-status-badge.approved {
+    background: var(--success-bg); color: var(--success); border: 1px solid var(--success);
+  }
+  .order-status-badge.rejected {
+    background: var(--danger-bg); color: var(--danger); border: 1px solid var(--danger);
+  }
+  .order-row-items { display: flex; flex-direction: column; gap: 6px; }
+  .order-row-item {
+    display: grid; grid-template-columns: 40px 1fr auto auto;
+    align-items: center; gap: 10px; font-size: 13px;
+  }
+  .order-row-item .thumb {
+    width: 40px; height: 40px; border-radius: 8px;
+    background: var(--bg-alt); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; overflow: hidden;
+  }
+  .order-row-item .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .order-row-item .name { color: var(--text); font-weight: 500; }
+  .order-row-item .qty { color: var(--text-muted); font-size: 12px; }
+  .order-row-item .line-price {
+    color: var(--text); font-weight: 600; font-style: italic; white-space: nowrap;
+  }
+  .order-row-foot {
+    display: flex; justify-content: space-between;
+    align-items: center; gap: 12px; flex-wrap: wrap;
+    padding-top: 8px; border-top: 1px dashed var(--border);
+  }
+  .order-row-total { display: flex; flex-direction: column; gap: 2px; }
+  .order-row-total-label {
+    font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-muted); font-weight: 600;
+  }
+  .order-row-total-value {
+    font-size: 18px; font-weight: 700; font-style: italic; color: var(--text);
+  }
+  .order-row-discount { font-size: 12px; color: var(--success); font-weight: 600; }
+  .order-row-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+  .order-btn {
+    padding: 8px 14px; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    border-radius: 7px; cursor: pointer; font-family: inherit;
+    transition: all 0.25s ease; border: none; white-space: nowrap;
+  }
+  .order-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .order-btn-approve { background: var(--success); color: #fff; }
+  .order-btn-approve:hover { opacity: 0.9; transform: translateY(-1px); }
+  .order-btn-reject { background: var(--danger); color: #fff; }
+  .order-btn-reject:hover { opacity: 0.9; transform: translateY(-1px); }
+  .order-btn-delete {
+    background: transparent; color: var(--text-muted);
+    border: 1px solid var(--border-input);
+  }
+  .order-btn-delete:hover {
+    border-color: var(--danger); color: var(--danger); background: var(--danger-bg);
+  }
+  .admin-empty { text-align: center; padding: 80px 20px; color: var(--text-muted); }
+  .admin-empty-icon { font-size: 64px; margin-bottom: 20px; display: block; opacity: 0.4; }
+  .admin-empty h3 {
+    font-size: 22px; font-weight: 400; font-style: italic;
+    color: var(--text); margin-bottom: 8px;
+  }
+  .admin-empty p { font-size: 14px; }
+  .loading-box {
+    text-align: center; padding: 80px 20px; color: var(--text-muted);
+  }
+  .loading-spinner {
+    width: 40px; height: 40px; border: 3px solid var(--border);
+    border-top-color: var(--btn-bg); border-radius: 50%;
+    animation: spin 0.8s linear infinite; margin: 0 auto 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .toast {
+    position: fixed; bottom: 30px; left: 50%;
+    transform: translateX(-50%) translateY(120%);
+    padding: 14px 26px; background: var(--btn-bg); color: var(--btn-text);
+    border-radius: 100px; font-size: 13px; font-weight: 500;
+    letter-spacing: 0.03em; box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+    z-index: 100000; transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    max-width: 90%; text-align: center;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast.success { background: var(--success); color: #fff; }
+  .toast.danger { background: var(--danger); color: #fff; }
+  @keyframes newOrderPulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(192,57,43,0.6); transform: scale(1); }
+    50% { box-shadow: 0 0 0 12px rgba(192,57,43,0); transform: scale(1.02); }
+  }
+  .order-row.new-order { animation: newOrderPulse 1.5s ease-in-out 3; }
+  @keyframes badgePulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.25); } }
+  .tab-badge.pulse { animation: badgePulse 1s ease-in-out infinite; }
+
+  /* KULLANICI KARTI */
+  .user-card {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 16px; padding: 18px 22px;
+    transition: all 0.3s ease; display: grid;
+    grid-template-columns: auto 60px 1fr auto auto;
+    align-items: center; gap: 18px;
+  }
+  .user-card:hover {
+    box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+    transform: translateY(-2px); border-color: var(--border-input);
+  }
+  .discount-input-wrap {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 4px; flex-shrink: 0;
+  }
+  .discount-input-label {
+    font-size: 9px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--text-muted); white-space: nowrap;
+  }
+  .discount-input-box {
+    position: relative; display: inline-flex; align-items: center;
+    background: var(--bg-alt); border: 2px solid var(--border-input);
+    border-radius: 12px; overflow: hidden; transition: all 0.25s ease;
+  }
+  .discount-input-box:focus-within {
+    border-color: var(--success); box-shadow: 0 0 0 3px var(--success-bg);
+  }
+  .discount-input-box.has-discount {
+    border-color: var(--success); background: var(--success-bg);
+  }
+  .discount-min-input {
+    width: 62px; padding: 10px 6px 10px 10px;
+    border: none; background: transparent;
+    font-size: 14px; font-weight: 700; color: var(--text);
+    font-family: inherit; text-align: center; outline: none;
+    -moz-appearance: textfield; appearance: textfield;
+  }
+  .discount-min-input::-webkit-outer-spin-button,
+  .discount-min-input::-webkit-inner-spin-button,
+  .discount-input::-webkit-outer-spin-button,
+  .discount-input::-webkit-inner-spin-button {
+    -webkit-appearance: none; margin: 0;
+  }
+  .discount-sep {
+    padding: 0 4px; font-size: 10px; font-weight: 700;
+    color: var(--text-muted); white-space: nowrap; letter-spacing: 0.02em;
+  }
+  .discount-prefix {
+    padding: 0 4px 0 6px; font-size: 16px; font-weight: 700; color: var(--text-muted);
+  }
+  .discount-input {
+    width: 44px; padding: 10px 8px 10px 0;
+    border: none; background: transparent;
+    font-size: 16px; font-weight: 700; color: var(--text);
+    font-family: inherit; text-align: center; outline: none;
+    -moz-appearance: textfield; appearance: textfield;
+  }
+  .discount-input-box.has-discount .discount-input,
+  .discount-input-box.has-discount .discount-min-input { color: var(--success); }
+  .user-avatar {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: var(--bg-alt); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; flex-shrink: 0;
+  }
+  .user-info { min-width: 0; }
+  .user-name {
+    font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 4px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  }
+  .user-discount-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 10px; background: var(--success-bg);
+    border: 1px solid var(--success); border-radius: 100px;
+    font-size: 10px; font-weight: 700; color: var(--success);
+    letter-spacing: 0.05em;
+  }
+  .user-phone { font-size: 13px; color: var(--text-muted); }
+  .user-stats-mini {
+    display: flex; flex-direction: column;
+    gap: 2px; text-align: right; align-items: flex-end;
+  }
+  .user-stat-mini-label {
+    font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-muted); font-weight: 600;
+  }
+  .user-stat-mini-value {
+    font-size: 15px; font-weight: 700; font-style: italic;
+    color: var(--text); white-space: nowrap;
+  }
+  .user-actions { display: flex; gap: 6px; }
+  .user-history-btn {
+    padding: 10px 18px; border-radius: 8px;
+    border: 1px solid var(--border-input); background: var(--bg); color: var(--text);
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; cursor: pointer; font-family: inherit;
+    transition: all 0.25s ease; white-space: nowrap;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .user-history-btn:hover {
+    background: var(--btn-bg); color: var(--btn-text); border-color: var(--btn-bg);
+  }
+  .user-delete-btn {
+    width: 36px; height: 36px; border-radius: 8px;
+    border: 1px solid var(--border-input); background: transparent;
+    color: var(--text-muted); font-size: 14px; cursor: pointer;
+    font-family: inherit; display: inline-flex; align-items: center;
+    justify-content: center; transition: all 0.2s ease;
+    padding: 0; flex-shrink: 0;
+  }
+  .user-delete-btn:hover {
+    border-color: var(--danger); color: var(--danger);
+    background: var(--danger-bg); transform: scale(1.08);
+  }
+  .user-badge-empty {
+    padding: 6px 14px; background: var(--bg-alt);
+    border: 1px solid var(--border); border-radius: 100px;
+    font-size: 11px; color: var(--text-muted); font-weight: 500;
+  }
+
+  /* MODAL */
+  .user-modal {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    z-index: 100000; display: none;
+    align-items: center; justify-content: center;
+    padding: 20px; opacity: 0; transition: opacity 0.3s ease;
+  }
+  .user-modal.show { display: flex; opacity: 1; }
+  .user-modal-content {
+    max-width: 700px; width: 100%; max-height: 85vh; overflow-y: auto;
+    background: var(--bg); color: var(--text);
+    border-radius: 20px; padding: 36px 32px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+    position: relative; transform: scale(0.95);
+    transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .user-modal.show .user-modal-content { transform: scale(1); }
+  .user-modal-content::-webkit-scrollbar { width: 8px; }
+  .user-modal-content::-webkit-scrollbar-track { background: var(--bg-alt); border-radius: 4px; }
+  .user-modal-content::-webkit-scrollbar-thumb { background: var(--border-input); border-radius: 4px; }
+  .user-modal-close {
+    position: absolute; top: 16px; right: 16px;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--bg-alt); border: 1px solid var(--border);
+    color: var(--text); font-size: 16px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s ease; font-family: inherit; padding: 0;
+  }
+  .user-modal-close:hover { background: var(--border); transform: rotate(90deg); }
+  .user-modal-header {
+    display: flex; align-items: center; gap: 20px;
+    padding-bottom: 24px; border-bottom: 1px solid var(--border);
+    margin-bottom: 24px; flex-wrap: wrap;
+  }
+  .user-modal-avatar {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: var(--bg-alt); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px; flex-shrink: 0;
+  }
+  .user-modal-info { flex: 1; min-width: 0; }
+  .user-modal-info h2 {
+    font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 6px;
+    letter-spacing: -0.01em; font-family: Georgia, 'Times New Roman', serif;
+  }
+  .user-modal-info p { font-size: 13px; color: var(--text-muted); margin-bottom: 3px; }
+  .user-modal-discount {
+    margin-top: 14px; padding: 14px 18px;
+    background: var(--bg-alt); border: 1px solid var(--border);
+    border-radius: 12px; display: flex; align-items: center;
+    justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  }
+  .user-modal-discount-label {
+    font-size: 13px; font-weight: 700; letter-spacing: 0.05em;
+    text-transform: uppercase; color: var(--text-muted);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .user-modal-delete-btn {
+    width: 100%; margin-top: 8px; padding: 12px 20px;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; border-radius: 10px;
+    border: 1px solid var(--danger); background: transparent; color: var(--danger);
+    cursor: pointer; font-family: inherit; transition: all 0.25s ease;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .user-modal-delete-btn:hover { background: var(--danger); color: #fff; }
+  .user-modal-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+  .user-stat-box {
+    background: var(--bg-alt); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px 20px; text-align: center;
+  }
+  .user-stat-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px;
+  }
+  .user-stat-value {
+    font-size: 22px; font-weight: 700; font-style: italic; color: var(--text);
+  }
+  .user-modal-section-title {
+    font-size: 15px; font-weight: 700; color: var(--text);
+    letter-spacing: 0.05em; text-transform: uppercase;
+    margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
+  }
+  .user-modal-orders { display: flex; flex-direction: column; gap: 10px; }
+  .user-order-block {
+    background: var(--bg-alt); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px 16px;
+    border-left: 4px solid var(--warning);
+  }
+  .user-order-block.status-approved { border-left-color: var(--success); }
+  .user-order-block.status-rejected { border-left-color: var(--danger); opacity: 0.7; }
+  .user-order-head {
+    display: flex; justify-content: space-between;
+    align-items: center; gap: 12px;
+    margin-bottom: 10px; flex-wrap: wrap;
+  }
+  .user-order-date { font-size: 11px; color: var(--text-muted); font-family: monospace; }
+  .user-order-status {
+    padding: 4px 10px; border-radius: 100px;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.05em; text-transform: uppercase;
+  }
+  .user-order-status.pending {
+    background: var(--warning-bg); color: var(--warning); border: 1px solid var(--warning);
+  }
+  .user-order-status.approved {
+    background: var(--success-bg); color: var(--success); border: 1px solid var(--success);
+  }
+  .user-order-status.rejected {
+    background: var(--danger-bg); color: var(--danger); border: 1px solid var(--danger);
+  }
+  .user-order-items { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
+  .user-order-item {
+    display: flex; justify-content: space-between;
+    align-items: center; font-size: 13px; padding: 4px 0;
+  }
+  .user-order-item-name { color: var(--text); font-weight: 500; }
+  .user-order-item-price { color: var(--text); font-weight: 600; font-style: italic; }
+  .user-order-total {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 10px; border-top: 1px dashed var(--border);
+    font-size: 15px; font-weight: 700; font-style: italic; color: var(--text);
+  }
+
+  /* ŞİFRE DEĞİŞTİRME MODAL */
+  .pwd-modal {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    z-index: 100000; display: none;
+    align-items: center; justify-content: center;
+    padding: 20px; opacity: 0; transition: opacity 0.3s ease;
+  }
+  .pwd-modal.show { display: flex; opacity: 1; }
+  .pwd-modal-content {
+    max-width: 440px; width: 100%;
+    background: var(--bg); color: var(--text);
+    border-radius: 20px; padding: 36px 32px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+    position: relative; transform: scale(0.95);
+    transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .pwd-modal.show .pwd-modal-content { transform: scale(1); }
+  .pwd-modal-content h2 {
+    font-size: 22px; font-weight: 400; font-style: italic;
+    color: var(--text); margin-bottom: 8px;
+    font-family: Georgia, 'Times New Roman', serif;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .pwd-modal-content .pwd-sub {
+    font-size: 13px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.5;
+  }
+  .pwd-msg {
+    display: none; padding: 12px 16px; border-radius: 8px;
+    font-size: 13px; text-align: center; margin-bottom: 18px; line-height: 1.5;
+  }
+  .pwd-msg.show { display: block; }
+  .pwd-msg.error { background: var(--danger-bg); border: 1px solid var(--danger); color: var(--danger); }
+  .pwd-msg.success { background: var(--success-bg); border: 1px solid var(--success); color: var(--success); }
+  .pwd-actions { display: flex; gap: 10px; margin-top: 8px; }
+  .pwd-actions .admin-btn { flex: 1; text-align: center; justify-content: center; }
+
+  footer {
+    background: #000000; color: #ffffff;
+    padding: 60px 40px 30px; margin-top: auto;
+  }
+  .footer-container {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 40px 60px; padding-bottom: 40px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .footer-col h4 {
+    font-size: 13px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #ffffff; margin-bottom: 20px;
+  }
+  .footer-col p, .footer-col a {
+    font-size: 14px; color: #ffffff; opacity: 0.75;
+    text-decoration: none; line-height: 1.8;
+    display: block; margin-bottom: 6px; transition: opacity 0.3s;
+  }
+  .footer-col a:hover { opacity: 1; }
+  .footer-copyright { text-align: center; padding-top: 30px; font-size: 13px; color: #666666; }
+
+  @media (max-width: 1024px) {
+    .admin-stats { grid-template-columns: repeat(3, 1fr); }
+    .admin-stats.four { grid-template-columns: repeat(2, 1fr); }
+    .product-card { grid-template-columns: 64px 1fr 140px 110px 90px; gap: 14px; }
+  }
+  @media (max-width: 768px) {
+    .nav-inner { gap: 12px; padding: 0 16px; }
+    .nav-logo-main { font-size: 15px; }
+    .nav-logo-sub { font-size: 9px; }
+    .nav-logo-img { width: 44px; height: 44px; }
+    .theme-toggle { width: 40px; height: 40px; }
+    .admin-panel { padding: 90px 16px 40px; }
+    .admin-header { flex-direction: column; align-items: stretch; }
+    .admin-header h1 { font-size: 26px; text-align: center; }
+    .admin-header-actions { justify-content: center; }
+    .admin-stats { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .admin-stats.four { grid-template-columns: 1fr 1fr; }
+    .stat-card { padding: 18px 14px; }
+    .stat-value { font-size: 24px; }
+    .form-card { padding: 22px 18px; }
+    .form-grid { grid-template-columns: 1fr; gap: 14px; }
+    .product-card {
+      grid-template-columns: 60px 1fr auto;
+      grid-template-areas: "thumb info actions" "thumb cat cat" "thumb price price";
+      gap: 8px 12px; padding: 14px;
+    }
+    .product-thumb { grid-area: thumb; width: 56px; height: 56px; font-size: 20px; }
+    .product-info { grid-area: info; }
+    .product-category { grid-area: cat; }
+    .product-price { grid-area: price; text-align: left; }
+    .product-actions { grid-area: actions; }
+    .filter-btns { flex: 1; justify-content: space-between; }
+    .filter-btn { padding: 8px 10px; font-size: 10px; }
+    .order-row-item {
+      grid-template-columns: 36px 1fr auto;
+      grid-template-areas: "thumb name name" "thumb qty price";
+      gap: 4px 10px;
+    }
+    .order-row-item .thumb { grid-area: thumb; width: 36px; height: 36px; font-size: 16px; }
+    .order-row-item .name { grid-area: name; }
+    .order-row-item .qty { grid-area: qty; }
+    .order-row-item .line-price { grid-area: price; }
+    .customer-group-head { padding: 14px 18px; }
+    .order-row { padding: 16px 18px; }
+    .user-card {
+      grid-template-columns: auto 48px 1fr auto;
+      grid-template-areas: "discount avatar info actions" "discount avatar stats stats";
+      gap: 8px 12px; padding: 14px;
+    }
+    .discount-input-wrap { grid-area: discount; }
+    .discount-input-box { flex-direction: column; padding: 4px; }
+    .discount-min-input { width: 100%; padding: 4px 4px; font-size: 12px; }
+    .discount-input { width: 100%; padding: 4px 4px; font-size: 14px; }
+    .discount-sep { font-size: 8px; padding: 2px; }
+    .discount-prefix { font-size: 12px; padding: 0; }
+    .user-avatar { grid-area: avatar; width: 44px; height: 44px; font-size: 20px; }
+    .user-info { grid-area: info; }
+    .user-stats-mini {
+      grid-area: stats; text-align: left; align-items: flex-start;
+      flex-direction: row; gap: 16px; margin-top: 4px;
+    }
+    .user-actions { grid-area: actions; }
+    .user-modal-content { padding: 24px 18px; border-radius: 16px; }
+    .user-modal-info h2 { font-size: 18px; }
+    .user-modal-avatar { width: 56px; height: 56px; font-size: 24px; }
+    .user-modal-stats { grid-template-columns: 1fr; }
+    .user-modal-discount { flex-direction: column; align-items: stretch; }
+    .pwd-modal-content { padding: 28px 22px; border-radius: 16px; }
+    .pwd-actions { flex-direction: column; }
+    footer { padding: 50px 24px 25px; }
+    .footer-container { grid-template-columns: 1fr 1fr; gap: 32px 24px; }
+    .footer-col h4 { font-size: 12px; margin-bottom: 14px; }
+    .footer-col p, .footer-col a { font-size: 13px; }
+    .footer-copyright { font-size: 12px; }
+  }
+  @media (max-width: 480px) {
+    .admin-stats { grid-template-columns: 1fr 1fr; }
+    .footer-container { grid-template-columns: 1fr; gap: 28px; }
+    .photo-preview-wrap { flex-direction: column; align-items: stretch; text-align: center; }
+    .photo-preview-img { width: 100%; height: 160px; }
+  }
+</style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <img src="favicon-source.png" alt="Ramiz Köfte" class="nav-logo-img">
+        <div class="nav-logo-text">
+          <span class="nav-logo-main">Ramiz Köfte</span>
+          <span class="nav-logo-sub">Batman · Est. 1928</span>
+        </div>
+      </a>
+      <div class="nav-spacer"></div>
+      <div class="nav-icons">
+        <button class="theme-toggle" id="themeToggle" aria-label="Tema değiştir">
+          <span class="icon icon-sun">☀️</span>
+          <span class="icon icon-moon">🌙</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- GİRİŞ -->
+  <div class="admin-login" id="adminLogin">
+    <div class="admin-login-box">
+      <span class="admin-login-icon">🔐</span>
+      <h2>Yönetici Girişi</h2>
+      <p>Panele erişmek için şifrenizi girin</p>
+      <div class="admin-login-error" id="adminError">
+        ⚠️ Hatalı şifre. Lütfen tekrar deneyin.
+      </div>
+      <div class="form-group">
+        <label for="adminPassword">Şifre</label>
+        <input type="password" id="adminPassword" placeholder="••••••••" autocomplete="off">
+      </div>
+      <button class="admin-login-btn" id="adminLoginBtn">Giriş Yap</button>
+    </div>
+  </div>
+
+  <!-- PANEL -->
+  <div class="admin-panel" id="adminPanel" style="display:none;">
+    <div class="admin-container">
+
+      <div class="admin-header">
+        <h1>Yönetici Paneli</h1>
+        <div class="admin-header-actions">
+          <button class="test-sound-btn" id="testSoundBtn" title="Bildirim sesini test et">🔊 Test Et</button>
+          <button class="sound-toggle-btn" id="soundToggleBtn" title="Bildirim sesi">🔔 <span id="soundLabel">Ses Açık</span></button>
+          <button class="admin-btn" id="openPwdBtn" title="Admin şifresini değiştir">🔑 Şifre Değiştir</button>
+          <a href="index.html" class="admin-btn">← Siteye Dön</a>
+          <button class="admin-btn admin-btn-danger" id="adminLogoutBtn">Çıkış Yap</button>
+        </div>
+      </div>
+
+      <div class="main-tabs">
+        <button class="main-tab active" data-tab="menu">🍽️ Menü Yönetimi</button>
+        <button class="main-tab" data-tab="orders">📋 Siparişler <span class="tab-badge" id="ordersTabBadge" style="display:none;">0</span></button>
+        <button class="main-tab" data-tab="users">👥 Kullanıcılar <span class="tab-badge" id="usersTabBadge" style="display:none;">0</span></button>
+      </div>
+
+      <!-- MENÜ -->
+      <div class="tab-content active" id="tab-menu">
+        <div class="admin-stats">
+          <div class="stat-card"><div class="stat-label">Toplam</div><div class="stat-value" id="statTotal">0</div></div>
+          <div class="stat-card"><div class="stat-label">🍖 Köfte</div><div class="stat-value" id="statKofte">0</div></div>
+          <div class="stat-card"><div class="stat-label">🍗 Tavuk</div><div class="stat-value" id="statTavuk">0</div></div>
+          <div class="stat-card"><div class="stat-label">🌭 Sucuk</div><div class="stat-value" id="statSucuk">0</div></div>
+          <div class="stat-card"><div class="stat-label">🥙 Ekmek Arası</div><div class="stat-value" id="statEkmek">0</div></div>
+          <div class="stat-card"><div class="stat-label">🍟 Yan / 🥤 İçecek</div><div class="stat-value" id="statOther">0</div></div>
+        </div>
+
+        <div class="form-card">
+          <div class="form-card-header">
+            <div class="form-card-title" id="formTitle">➕ Yeni Ürün Ekle</div>
+          </div>
+
+          <form id="productForm">
+            <input type="hidden" id="editId" value="">
+
+            <div class="form-group form-grid-full" style="margin-bottom:18px;">
+              <label>Kategori Seçin *</label>
+              <div class="category-pills" id="categoryPills">
+                <div class="category-pill"><input type="radio" name="category" id="cat-kofte" value="kofte" checked><label for="cat-kofte"><span class="pill-emoji">🍖</span> Köfte</label></div>
+                <div class="category-pill"><input type="radio" name="category" id="cat-tavuk" value="tavuk"><label for="cat-tavuk"><span class="pill-emoji">🍗</span> Tavuk</label></div>
+                <div class="category-pill"><input type="radio" name="category" id="cat-sucuk" value="sucuk"><label for="cat-sucuk"><span class="pill-emoji">🌭</span> Sucuk</label></div>
+                <div class="category-pill"><input type="radio" name="category" id="cat-ekmek" value="ekmek"><label for="cat-ekmek"><span class="pill-emoji">🥙</span> Ekmek Arası</label></div>
+                <div class="category-pill"><input type="radio" name="category" id="cat-yan" value="yan"><label for="cat-yan"><span class="pill-emoji">🍟</span> Yan Ürünler</label></div>
+                <div class="category-pill"><input type="radio" name="category" id="cat-icecek" value="icecek"><label for="cat-icecek"><span class="pill-emoji">🥤</span> İçecekler</label></div>
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="productName">Ürün Adı *</label>
+                <input type="text" id="productName" placeholder="Örn: Izgara Köfte" required maxlength="60">
+              </div>
+              <div class="form-group">
+                <label for="productPrice">Fiyat (₺) *</label>
+                <input type="number" id="productPrice" placeholder="Örn: 180" required min="0" step="0.01">
+              </div>
+              <div class="form-group form-grid-full">
+                <label for="productDesc">Açıklama (opsiyonel)</label>
+                <textarea id="productDesc" placeholder="Örn: Özel baharatlarla hazırlanmış, ateşte pişmiş..." maxlength="200"></textarea>
+              </div>
+
+              <div class="form-group form-grid-full">
+                <label>Ürün Fotoğrafı (opsiyonel)</label>
+                <div class="photo-upload-zone" id="photoUploadZone">
+                  <input type="file" id="photoInput" accept="image/*">
+                  <span class="photo-upload-icon">📷</span>
+                  <div class="photo-upload-text">Fotoğrafı buraya sürükleyin veya</div>
+                  <label for="photoInput" class="photo-file-btn">📁 Dosya Seç</label>
+                  <div class="photo-upload-hint">JPG, PNG, WEBP · Maks 5MB</div>
+                </div>
+
+                <div class="upload-progress" id="uploadProgress">⏳ Fotoğraf yükleniyor...</div>
+
+                <div class="photo-preview-wrap" id="photoPreviewWrap">
+                  <img class="photo-preview-img" id="photoPreviewImg" alt="Önizleme">
+                  <div class="photo-preview-info">
+                    <div class="photo-preview-name" id="photoPreviewName">foto.jpg</div>
+                    <div class="photo-preview-size" id="photoPreviewSize">— KB</div>
+                  </div>
+                  <button type="button" class="photo-remove-btn" id="photoRemoveBtn">🗑️ Kaldır</button>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:12px; margin-top:18px; flex-wrap:wrap;">
+              <button type="submit" class="admin-btn admin-btn-primary" id="submitBtn">➕ Ürünü Ekle</button>
+              <button type="button" class="admin-btn" id="cancelEditBtn" style="display:none;">İptal</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="admin-filters">
+          <input type="text" class="admin-search" id="adminSearch" placeholder="🔍 Ürün adı veya açıklama ara...">
+          <div class="filter-btns">
+            <button class="filter-btn active" data-filter="all">Tümü</button>
+            <button class="filter-btn" data-filter="kofte">Köfte</button>
+            <button class="filter-btn" data-filter="tavuk">Tavuk</button>
+            <button class="filter-btn" data-filter="sucuk">Sucuk</button>
+            <button class="filter-btn" data-filter="ekmek">Ekmek</button>
+            <button class="filter-btn" data-filter="yan">Yan</button>
+            <button class="filter-btn" data-filter="icecek">İçecek</button>
+          </div>
+        </div>
+
+        <div class="admin-list" id="adminList"></div>
+        <div class="admin-empty" id="adminEmpty" style="display:none;">
+          <span class="admin-empty-icon">🍽️</span>
+          <h3>Henüz ürün eklenmedi</h3>
+          <p>Yukarıdaki formdan ilk ürününüzü ekleyin</p>
+        </div>
+      </div>
+
+      <!-- SİPARİŞLER -->
+      <div class="tab-content" id="tab-orders">
+        <div class="admin-stats four">
+          <div class="stat-card"><div class="stat-label">Toplam Sipariş</div><div class="stat-value" id="statOrdersTotal">0</div></div>
+          <div class="stat-card"><div class="stat-label">⏳ Bekleyen</div><div class="stat-value" id="statOrdersPending">0</div></div>
+          <div class="stat-card"><div class="stat-label">✅ Onaylanan</div><div class="stat-value" id="statOrdersApproved">0</div></div>
+          <div class="stat-card"><div class="stat-label">❌ İptal</div><div class="stat-value" id="statOrdersRejected">0</div></div>
+        </div>
+
+        <div class="admin-filters">
+          <input type="text" class="admin-search" id="ordersSearch" placeholder="🔍 Müşteri adı, telefon veya sipariş no ara...">
+          <div class="filter-btns">
+            <button class="filter-btn active" data-order-filter="all">Tümü</button>
+            <button class="filter-btn" data-order-filter="pending">Bekleyen</button>
+            <button class="filter-btn" data-order-filter="approved">Onaylanan</button>
+            <button class="filter-btn" data-order-filter="rejected">İptal</button>
+          </div>
+        </div>
+
+        <div class="admin-list" id="ordersList"></div>
+        <div class="admin-empty" id="ordersEmpty" style="display:none;">
+          <span class="admin-empty-icon">📋</span>
+          <h3>Henüz sipariş yok</h3>
+          <p>Müşteriler sipariş verdiğinde burada görünecek</p>
+        </div>
+      </div>
+
+      <!-- KULLANICILAR -->
+      <div class="tab-content" id="tab-users">
+        <div class="admin-stats four">
+          <div class="stat-card"><div class="stat-label">Toplam Kullanıcı</div><div class="stat-value" id="statUsersTotal">0</div></div>
+          <div class="stat-card"><div class="stat-label">📋 Sipariş Veren</div><div class="stat-value" id="statUsersWithOrders">0</div></div>
+          <div class="stat-card"><div class="stat-label">💰 Toplam Ciro</div><div class="stat-value" id="statUsersTotalRevenue" style="font-size:22px;">0,00 ₺</div></div>
+          <div class="stat-card"><div class="stat-label">📊 Ortalama</div><div class="stat-value" id="statUsersAvgOrder" style="font-size:22px;">0,00 ₺</div></div>
+        </div>
+
+        <div class="admin-filters">
+          <input type="text" class="admin-search" id="usersSearch" placeholder="🔍 İsim veya telefon ara...">
+          <div class="filter-btns">
+            <button class="filter-btn active" data-user-filter="all">Tümü</button>
+            <button class="filter-btn" data-user-filter="withOrders">Sipariş Verenler</button>
+            <button class="filter-btn" data-user-filter="withoutOrders">Sipariş Vermeyenler</button>
+          </div>
+        </div>
+
+        <div class="admin-list" id="usersList"></div>
+        <div class="admin-empty" id="usersEmpty" style="display:none;">
+          <span class="admin-empty-icon">👥</span>
+          <h3>Henüz kayıtlı kullanıcı yok</h3>
+          <p>Müşteriler kayıt olduğunda burada görünecek</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-col">
+        <h4>İletişim</h4>
+        <p>Gültepe Mah. Demokrasi Bul. Petrol City 2. Kat</p>
+        <a href="tel:+905015715272">📞 0501 571 52 72</a>
+      </div>
+      <div class="footer-col">
+        <h4>Çalışma Saatleri</h4>
+        <p>Hafta içi &amp; Hafta sonu: 10:00 – 22:00</p>
+        <p>Alo Paket Servis: 10:00 – 01:00</p>
+      </div>
+      <div class="footer-col">
+        <h4>Sosyal Medya</h4>
+        <a href="https://www.instagram.com/ramizkofte_batman" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.tiktok.com/@ramiz.kftebatman" target="_blank" rel="noopener">TikTok</a>
+      </div>
+      <div class="footer-col">
+        <h4>Kurumsal</h4>
+        <a href="hakkimizda.html">Hakkımızda</a>
+        <a href="kvkk.html">KVKK Aydınlatma Metni</a>
+        <a href="cerez.html">Çerez Politikası</a>
+      </div>
+    </div>
+    <div class="footer-copyright">© 2026 Ramiz Köfte · Tüm hakları saklıdır.</div>
+  </footer>
+
+  <!-- KULLANICI MODAL -->
+  <div class="user-modal" id="userModal">
+    <div class="user-modal-content">
+      <button class="user-modal-close" id="userModalClose">✕</button>
+      <div class="user-modal-header">
+        <div class="user-modal-avatar" id="userModalAvatar">👤</div>
+        <div class="user-modal-info">
+          <h2 id="userModalName">Kullanıcı Adı</h2>
+          <p id="userModalPhone">📞 0500 000 00 00</p>
+          <p id="userModalJoined">📅 Kayıt tarihi: —</p>
+        </div>
+      </div>
+      <div class="user-modal-discount">
+        <span class="user-modal-discount-label">💰 Bu kullanıcıya özel indirim:</span>
+        <div class="discount-input-box" id="userModalDiscountBox">
+          <input type="number" class="discount-min-input" id="userModalDiscountMinInput" min="0" step="10" placeholder="₺ min">
+          <span class="discount-sep">₺ üzeri →</span>
+          <span class="discount-prefix">%</span>
+          <input type="number" class="discount-input" id="userModalDiscountInput" min="0" max="100" step="1" placeholder="0">
+        </div>
+      </div>
+      <div class="user-modal-stats">
+        <div class="user-stat-box"><div class="user-stat-label">Toplam Sipariş</div><div class="user-stat-value" id="userModalOrderCount">0</div></div>
+        <div class="user-stat-box"><div class="user-stat-label">Toplam Tutar</div><div class="user-stat-value" id="userModalTotalSpent">0,00 ₺</div></div>
+      </div>
+      <button class="user-modal-delete-btn" id="userModalDeleteBtn">🗑️ Bu Kullanıcıyı Sil</button>
+      <div class="user-modal-body">
+        <h3 class="user-modal-section-title">📜 Sipariş Geçmişi</h3>
+        <div class="user-modal-orders" id="userModalOrders"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ŞİFRE DEĞİŞTİRME MODAL -->
+  <div class="pwd-modal" id="pwdModal">
+    <div class="pwd-modal-content">
+      <h2>🔑 Şifre Değiştir</h2>
+      <p class="pwd-sub">Yönetici paneli şifresini değiştirin. Yeni şifre <strong>en az 4 karakter</strong> olmalı.</p>
+
+      <div class="pwd-msg" id="pwdMsg"></div>
+
+      <div class="form-group">
+        <label for="pwdCurrent">Mevcut Şifre</label>
+        <input type="password" id="pwdCurrent" placeholder="••••••••" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label for="pwdNew">Yeni Şifre</label>
+        <input type="password" id="pwdNew" placeholder="••••••••" autocomplete="new-password">
+      </div>
+      <div class="form-group">
+        <label for="pwdNew2">Yeni Şifre (Tekrar)</label>
+        <input type="password" id="pwdNew2" placeholder="••••••••" autocomplete="new-password">
+      </div>
+
+      <div class="pwd-actions">
+        <button class="admin-btn" id="pwdCancelBtn">İptal</button>
+        <button class="admin-btn admin-btn-primary" id="pwdSaveBtn">💾 Kaydet</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <audio id="notificationSound" src="bildirim.mp3" preload="auto"></audio>
+
+  <script type="module">
+    import {
+      getMenuItems, addMenuItem, updateMenuItem, deleteMenuItem,
+      getOrders, updateOrder, deleteOrder,
+      getUsers, deleteUser,
+      getDiscounts, setDiscount,
+      getAdminPassword, setAdminPassword,
+      uploadImage, deleteImage
+    } from './firebase-config.js';
+
+    /* ============================================================
+       BİLDİRİM SESİ
+       ============================================================ */
+    const notificationAudio = document.getElementById('notificationSound');
+    let audioUnlocked = false;
+    let soundEnabled = localStorage.getItem('admin_sound_enabled') !== 'false';
+    const AUDIO_UNLOCKED_KEY = 'ramiz_audio_unlocked';
+
+    if (notificationAudio) {
+      notificationAudio.volume = 1.0;
+      notificationAudio.preload = 'auto';
+    }
+
+    function unlockAudio() {
+      if (!notificationAudio || audioUnlocked) return;
+      try {
+        if (localStorage.getItem(AUDIO_UNLOCKED_KEY) === 'true') {
+          audioUnlocked = true; return;
+        }
+      } catch (e) {}
+      try {
+        notificationAudio.volume = 0;
+        const p = notificationAudio.play();
+        if (p && p.then) {
+          p.then(() => {
+            notificationAudio.pause();
+            notificationAudio.currentTime = 0;
+            notificationAudio.volume = 1.0;
+            audioUnlocked = true;
+            try { localStorage.setItem(AUDIO_UNLOCKED_KEY, 'true'); } catch (e) {}
+          }).catch(() => {});
+        }
+      } catch (e) {}
+    }
+    document.addEventListener('click', unlockAudio, { once: true });
+    document.addEventListener('touchstart', unlockAudio, { once: true });
+    document.addEventListener('keydown', unlockAudio, { once: true });
+
+    function playOrderSound() {
+      if (!soundEnabled || !notificationAudio) return;
+      try {
+        notificationAudio.currentTime = 0;
+        notificationAudio.volume = 1.0;
+        const p = notificationAudio.play();
+        if (p !== undefined) {
+          p.then(() => {}).catch(err => console.warn('🔕 Ses çalınamadı:', err.message));
+        }
+      } catch (e) {}
+    }
+
+    document.getElementById('soundToggleBtn').addEventListener('click', function () {
+      soundEnabled = !soundEnabled;
+      localStorage.setItem('admin_sound_enabled', soundEnabled);
+      updateSoundButton();
+      if (soundEnabled) { playOrderSound(); showToast('🔔 Bildirim sesi açıldı', 'success'); }
+      else { showToast('🔕 Bildirim sesi kapatıldı'); }
+    });
+
+    function updateSoundButton() {
+      const btn = document.getElementById('soundToggleBtn');
+      if (soundEnabled) {
+        btn.classList.remove('muted');
+        btn.innerHTML = '🔔 <span id="soundLabel">Ses Açık</span>';
+      } else {
+        btn.classList.add('muted');
+        btn.innerHTML = '🔕 <span id="soundLabel">Ses Kapalı</span>';
+      }
+    }
+    document.getElementById('testSoundBtn').addEventListener('click', playOrderSound);
+
+    /* ============================================================
+       DURUM
+       ============================================================ */
+    let allItems = [];
+    let allOrders = [];
+    let allUsers = [];
+    let allDiscounts = {};
+
+    let currentFilter = 'all';
+    let currentSearch = '';
+    let editingId = null;
+    let currentPhoto = '';       // Firebase Storage URL
+    let currentPhotoPath = '';   // silmek için path
+    let pendingPhotoData = null; // base64 (henüz yüklenmedi)
+
+    let currentOrderFilter = 'all';
+    let currentOrderSearch = '';
+    let currentUserFilter = 'all';
+    let currentUserSearch = '';
+
+    /* ============================================================
+       TEMA
+       ============================================================ */
+    (function() {
+      const themeToggle = document.getElementById('themeToggle');
+      themeToggle.addEventListener('click', function() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        if (newTheme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+        else document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('theme', newTheme);
+        themeToggle.style.transform = 'scale(0.85)';
+        setTimeout(() => { themeToggle.style.transform = ''; }, 150);
+      });
+    })();
+
+    /* ============================================================
+       YARDIMCILAR
+       ============================================================ */
+    const CATEGORIES = {
+      kofte:  { name: 'Köfte',        emoji: '🍖' },
+      tavuk:  { name: 'Tavuk',        emoji: '🍗' },
+      sucuk:  { name: 'Sucuk',        emoji: '🌭' },
+      ekmek:  { name: 'Ekmek Arası',  emoji: '🥙' },
+      yan:    { name: 'Yan Ürünler',  emoji: '🍟' },
+      icecek: { name: 'İçecekler',    emoji: '🥤' }
+    };
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+    function fmtPrice(n) {
+      return Number(n).toLocaleString('tr-TR', {
+        minimumFractionDigits: 2, maximumFractionDigits: 2
+      }) + ' ₺';
+    }
+    function fmtDate(ts) {
+      const d = new Date(ts);
+      return d.toLocaleString('tr-TR', {
+        day: 'numeric', month: 'short', year: 'numeric',
+        hour: '2-digit', minute: '2-digit'
+      });
+    }
+    function formatBytes(bytes) {
+      if (!bytes) return '—';
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+    }
+
+    let toastTimer = null;
+    function showToast(msg, type) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast show' + (type ? ' ' + type : '');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        t.className = 'toast' + (type ? ' ' + type : '');
+      }, 2800);
+    }
+
+    /* ============================================================
+       LOGIN
+       ============================================================ */
+    const adminLoginBtn = document.getElementById('adminLoginBtn');
+    const adminPassword = document.getElementById('adminPassword');
+    const adminError = document.getElementById('adminError');
+    const adminLogin = document.getElementById('adminLogin');
+    const adminPanel = document.getElementById('adminPanel');
+
+    async function tryLogin() {
+      const entered = adminPassword.value;
+      if (!entered) return;
+
+      adminLoginBtn.disabled = true;
+      adminLoginBtn.textContent = '⏳ Kontrol ediliyor...';
+
+      let correct = 'ramiz2026';
+      try {
+        correct = await getAdminPassword();
+      } catch (e) {
+        console.warn('Şifre alınamadı, varsayılan kullanılıyor');
+      }
+
+      if (entered === correct) {
+        sessionStorage.setItem('admin_logged_in', 'true');
+        adminError.classList.remove('show');
+        adminLogin.style.display = 'none';
+        adminPanel.style.display = 'block';
+        updateSoundButton();
+        await loadAllData();
+        initKnownOrders();
+        requestNotificationPermission();
+      } else {
+        adminError.classList.add('show');
+        adminPassword.value = '';
+        adminPassword.focus();
+      }
+      adminLoginBtn.disabled = false;
+      adminLoginBtn.textContent = 'Giriş Yap';
+    }
+
+    adminLoginBtn.addEventListener('click', tryLogin);
+    adminPassword.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') tryLogin();
+    });
+
+    document.getElementById('adminLogoutBtn').addEventListener('click', function() {
+      sessionStorage.removeItem('admin_logged_in');
+      adminLogin.style.display = 'flex';
+      adminPanel.style.display = 'none';
+      adminPassword.value = '';
+      adminError.classList.remove('show');
+    });
+
+    /* ============================================================
+       ŞİFRE DEĞİŞTİRME
+       ============================================================ */
+    const pwdModal = document.getElementById('pwdModal');
+    const pwdMsg = document.getElementById('pwdMsg');
+    const pwdCurrent = document.getElementById('pwdCurrent');
+    const pwdNew = document.getElementById('pwdNew');
+    const pwdNew2 = document.getElementById('pwdNew2');
+
+    function openPwdModal() {
+      pwdCurrent.value = '';
+      pwdNew.value = '';
+      pwdNew2.value = '';
+      pwdMsg.className = 'pwd-msg';
+      pwdMsg.textContent = '';
+      pwdModal.classList.add('show');
+      setTimeout(() => pwdCurrent.focus(), 100);
+    }
+    function closePwdModal() {
+      pwdModal.classList.remove('show');
+    }
+    function showPwdMsg(type, text) {
+      pwdMsg.className = 'pwd-msg show ' + type;
+      pwdMsg.textContent = text;
+    }
+
+    document.getElementById('openPwdBtn').addEventListener('click', openPwdModal);
+    document.getElementById('pwdCancelBtn').addEventListener('click', closePwdModal);
+    pwdModal.addEventListener('click', function(e) {
+      if (e.target === pwdModal) closePwdModal();
+    });
+
+    document.getElementById('pwdSaveBtn').addEventListener('click', async function() {
+      const cur = pwdCurrent.value;
+      const nw = pwdNew.value;
+      const nw2 = pwdNew2.value;
+
+      if (!cur || !nw || !nw2) { showPwdMsg('error', '⚠️ Tüm alanları doldurun'); return; }
+      if (nw.length < 4) { showPwdMsg('error', '⚠️ Yeni şifre en az 4 karakter olmalı'); return; }
+      if (nw !== nw2) { showPwdMsg('error', '⚠️ Yeni şifreler eşleşmiyor'); return; }
+
+      this.disabled = true;
+      this.textContent = '⏳ Kaydediliyor...';
+
+      try {
+        const correct = await getAdminPassword();
+        if (cur !== correct) {
+          showPwdMsg('error', '❌ Mevcut şifre hatalı');
+          this.disabled = false;
+          this.textContent = '💾 Kaydet';
+          return;
+        }
+
+        const ok = await setAdminPassword(nw);
+        if (!ok) throw new Error('Kaydedilemedi');
+
+        showPwdMsg('success', '✅ Şifre başarıyla değiştirildi');
+        showToast('🔑 Şifre değiştirildi', 'success');
+        setTimeout(closePwdModal, 1200);
+      } catch (e) {
+        console.error(e);
+        showPwdMsg('error', '❌ Şifre değiştirilemedi. Tekrar deneyin.');
+      }
+      this.disabled = false;
+      this.textContent = '💾 Kaydet';
+    });
+
+    /* ============================================================
+       VERİ YÜKLEME (Firebase)
+       ============================================================ */
+    async function loadAllData() {
+      showLoading('adminList');
+      showLoading('ordersList');
+      showLoading('usersList');
+
+      try {
+        const [items, orders, users, discounts] = await Promise.all([
+          getMenuItems(),
+          getOrders(),
+          getUsers(),
+          getDiscounts()
+        ]);
+        allItems = items || [];
+        allOrders = orders || [];
+        allUsers = users || [];
+        allDiscounts = discounts || {};
+      } catch (e) {
+        console.error('Veri yüklenemedi:', e);
+        showToast('❌ Veriler yüklenemedi. İnternetinizi kontrol edin.', 'danger');
+      }
+
+      renderAll();
+    }
+
+    function showLoading(elId) {
+      const el = document.getElementById(elId);
+      if (el) el.innerHTML = '<div class="loading-box"><div class="loading-spinner"></div><div>Yükleniyor...</div></div>';
+    }
+
+    /* ============================================================
+       ÜST SEKMELER
+       ============================================================ */
+    document.querySelectorAll('.main-tab').forEach(tab => {
+      tab.addEventListener('click', function () {
+        document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        tab.classList.add('active');
+        const tabId = 'tab-' + tab.getAttribute('data-tab');
+        document.getElementById(tabId).classList.add('active');
+        if (tab.getAttribute('data-tab') === 'orders') renderOrders();
+        else if (tab.getAttribute('data-tab') === 'users') renderUsers();
+        else renderMenu();
+      });
+    });
+
+    /* ============================================================
+       MENÜ
+       ============================================================ */
+    function renderStats() {
+      const items = allItems;
+      document.getElementById('statTotal').textContent  = items.length;
+      document.getElementById('statKofte').textContent  = items.filter(i => i.category === 'kofte').length;
+      document.getElementById('statTavuk').textContent  = items.filter(i => i.category === 'tavuk').length;
+      document.getElementById('statSucuk').textContent  = items.filter(i => i.category === 'sucuk').length;
+      document.getElementById('statEkmek').textContent  = items.filter(i => i.category === 'ekmek').length;
+      document.getElementById('statOther').textContent  =
+        items.filter(i => i.category === 'yan' || i.category === 'icecek').length;
+    }
+
+    function renderMenu() {
+      const list = allItems;
+      const adminList = document.getElementById('adminList');
+      const adminEmpty = document.getElementById('adminEmpty');
+
+      let filtered = list;
+      if (currentFilter !== 'all') filtered = filtered.filter(i => i.category === currentFilter);
+      if (currentSearch.trim()) {
+        const q = currentSearch.toLowerCase().trim();
+        filtered = filtered.filter(i =>
+          (i.name || '').toLowerCase().includes(q) ||
+          (i.desc && i.desc.toLowerCase().includes(q))
+        );
+      }
+
+      if (filtered.length === 0) {
+        adminList.innerHTML = '';
+        adminEmpty.style.display = 'block';
+        if (list.length === 0) {
+          adminEmpty.querySelector('h3').textContent = 'Henüz ürün eklenmedi';
+          adminEmpty.querySelector('p').textContent = 'Yukarıdaki formdan ilk ürününüzü ekleyin';
+        } else {
+          adminEmpty.querySelector('h3').textContent = 'Eşleşen ürün bulunamadı';
+          adminEmpty.querySelector('p').textContent = 'Filtre veya arama kriterlerinizi değiştirin';
+        }
+        return;
+      }
+      adminEmpty.style.display = 'none';
+
+      const sorted = filtered.slice().sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+      adminList.innerHTML = sorted.map(item => {
+        const cat = CATEGORIES[item.category] || { name: '?', emoji: '❓' };
+        const priceStr = fmtPrice(item.price);
+        const desc = item.desc ? escapeHtml(item.desc) : '<em style="opacity:.5;">Açıklama yok</em>';
+        const thumbContent = item.photo
+          ? `<img src="${escapeHtml(item.photo)}" alt="${escapeHtml(item.name)}" onerror="this.style.display='none';this.parentNode.textContent='${cat.emoji}';">`
+          : cat.emoji;
+
+        return `
+          <div class="product-card">
+            <div class="product-thumb">${thumbContent}</div>
+            <div class="product-info">
+              <div class="product-name">${escapeHtml(item.name)}</div>
+              <div class="product-desc">${desc}</div>
+            </div>
+            <div class="product-category">${cat.emoji} ${cat.name}</div>
+            <div class="product-price">${priceStr}</div>
+            <div class="product-actions">
+              <button class="icon-btn" data-action="edit" data-id="${item.id}" title="Düzenle">✏️</button>
+              <button class="icon-btn danger" data-action="delete" data-id="${item.id}" title="Sil">🗑️</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderAll() {
+      renderStats();
+      renderMenu();
+      renderOrders();
+      updateOrdersBadge();
+      renderUsers();
+    }
+
+    /* ============================================================
+       SİPARİŞLER
+       ============================================================ */
+    function updateOrdersBadge() {
+      const pending = allOrders.filter(o => (o.status || 'pending') === 'pending').length;
+      const badge = document.getElementById('ordersTabBadge');
+      if (pending > 0) {
+        badge.textContent = pending;
+        badge.style.display = 'inline-flex';
+      } else {
+        badge.style.display = 'none';
+      }
+    }
+
+    function renderOrders() {
+      const orders = allOrders;
+      const listEl = document.getElementById('ordersList');
+      const emptyEl = document.getElementById('ordersEmpty');
+
+      document.getElementById('statOrdersTotal').textContent    = orders.length;
+      document.getElementById('statOrdersPending').textContent  = orders.filter(o => (o.status || 'pending') === 'pending').length;
+      document.getElementById('statOrdersApproved').textContent = orders.filter(o => o.status === 'approved').length;
+      document.getElementById('statOrdersRejected').textContent = orders.filter(o => o.status === 'rejected').length;
+
+      const groups = {};
+      orders.forEach(o => {
+        if (!o.user || !o.user.name || !o.user.phone) return;
+        const key = o.user.name + '___' + o.user.phone;
+        if (!groups[key]) groups[key] = { user: o.user, orders: [] };
+        groups[key].orders.push(o);
+      });
+
+      let groupArray = Object.values(groups);
+
+      if (currentOrderFilter !== 'all') {
+        groupArray = groupArray.map(g => ({
+          user: g.user,
+          orders: g.orders.filter(o => (o.status || 'pending') === currentOrderFilter)
+        })).filter(g => g.orders.length > 0);
+      }
+
+      if (currentOrderSearch.trim()) {
+        const q = currentOrderSearch.toLowerCase().trim();
+        groupArray = groupArray.filter(g => {
+          const name = (g.user.name || '').toLowerCase();
+          const phone = g.user.phone || '';
+          const dp = g.user.displayPhone || '';
+          return name.includes(q) || phone.includes(q) || dp.includes(q);
+        });
+      }
+
+      if (groupArray.length === 0) {
+        listEl.innerHTML = '';
+        emptyEl.style.display = 'block';
+        if (orders.length === 0) {
+          emptyEl.querySelector('h3').textContent = 'Henüz sipariş yok';
+          emptyEl.querySelector('p').textContent = 'Müşteriler sipariş verdiğinde burada görünecek';
+        } else {
+          emptyEl.querySelector('h3').textContent = 'Eşleşen sipariş bulunamadı';
+          emptyEl.querySelector('p').textContent = 'Filtre veya arama kriterlerinizi değiştirin';
+        }
+        return;
+      }
+      emptyEl.style.display = 'none';
+
+      groupArray.forEach(g => {
+        g.orders.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+        g.latestTs = Math.max(...g.orders.map(o => o.updatedAt || o.createdAt || 0));
+        g.totalAll = g.orders.reduce((sum, o) => sum + Number(o.total || 0), 0);
+      });
+      groupArray.sort((a, b) => b.latestTs - a.latestTs);
+
+      listEl.innerHTML = groupArray.map(group => {
+        const user = group.user;
+        const customerName = user.name || 'İsimsiz';
+        const customerPhone = user.displayPhone || user.phone || '—';
+
+        const ordersHtml = group.orders.map(order => {
+          const status = order.status || 'pending';
+          const statusLabel = {
+            'pending':  '⏳ Bekliyor',
+            'approved': '✅ Onaylandı',
+            'rejected': '❌ İptal Edildi'
+          }[status];
+
+          const itemsHtml = (order.items || []).map(it => {
+            const thumb = it.photo
+              ? `<img src="${escapeHtml(it.photo)}" alt="${escapeHtml(it.name)}" onerror="this.style.display='none';this.parentNode.textContent='🍽️';">`
+              : '🍽️';
+            const lineTotal = Number(it.price) * (it.qty || 1);
+            return `
+              <div class="order-row-item">
+                <div class="thumb">${thumb}</div>
+                <div class="name">${escapeHtml(it.name)}</div>
+                <div class="qty">× ${it.qty || 1}</div>
+                <div class="line-price">${fmtPrice(lineTotal)}</div>
+              </div>
+            `;
+          }).join('');
+
+          const totalRaw = Number(order.total || 0);
+          const discountPercent = Number(order.discountPercent || 0);
+          const discountAmount = discountPercent > 0 ? totalRaw * (discountPercent / 100) : 0;
+          const finalTotal = discountPercent > 0
+            ? (order.discountedTotal || (totalRaw - discountAmount))
+            : totalRaw;
+
+          return `
+            <div class="order-row status-${status}" data-order-id="${order.id}">
+              <div class="order-row-head">
+                <div class="order-row-meta">
+                  <span class="order-row-id">#${escapeHtml(order.id)}</span>
+                  <span class="order-row-date">🕐 ${fmtDate(order.createdAt)}</span>
+                </div>
+                <span class="order-status-badge ${status}">${statusLabel}</span>
+              </div>
+              <div class="order-row-items">${itemsHtml}</div>
+              <div class="order-row-foot">
+                <div class="order-row-total">
+                  <span class="order-row-total-label">Toplam</span>
+                  <span class="order-row-total-value">${fmtPrice(finalTotal)}</span>
+                  ${discountPercent > 0 ? `<span class="order-row-discount">💰 %${discountPercent} indirim (−${fmtPrice(discountAmount)}) · Normal: ${fmtPrice(totalRaw)}</span>` : ''}
+                </div>
+                <div class="order-row-actions">
+                  ${status !== 'approved' ? `<button class="order-btn order-btn-approve" data-order-action="approve" data-id="${order.id}">✅ Onayla</button>` : ''}
+                  ${status !== 'rejected' ? `<button class="order-btn order-btn-reject" data-order-action="reject" data-id="${order.id}">❌ İptal</button>` : ''}
+                  <button class="order-btn order-btn-delete" data-order-action="delete" data-id="${order.id}">🗑️ Sil</button>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        return `
+          <div class="customer-group">
+            <div class="customer-group-head">
+              <div class="customer-group-info">
+                <div class="customer-group-name">👤 ${escapeHtml(customerName)}</div>
+                <div class="customer-group-phone">📞 ${escapeHtml(customerPhone)}</div>
+              </div>
+              <div class="customer-group-stats">
+                <span class="customer-group-count">${group.orders.length} sipariş</span>
+                <span class="customer-group-total">${fmtPrice(group.totalAll)}</span>
+              </div>
+            </div>
+            <div class="customer-group-body">${ordersHtml}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    document.getElementById('ordersList').addEventListener('click', async function (e) {
+      const btn = e.target.closest('[data-order-action]');
+      if (!btn) return;
+
+      const action = btn.getAttribute('data-order-action');
+      const id = btn.getAttribute('data-id');
+      const order = allOrders.find(o => o.id === id);
+      if (!order) return;
+
+      btn.disabled = true;
+
+      try {
+        if (action === 'approve') {
+          const ok = await updateOrder(id, { status: 'approved' });
+          if (ok) {
+            order.status = 'approved';
+            order.updatedAt = Date.now();
+            showToast('✅ Sipariş onaylandı', 'success');
+          } else throw new Error();
+        } else if (action === 'reject') {
+          const ok = await updateOrder(id, { status: 'rejected' });
+          if (ok) {
+            order.status = 'rejected';
+            order.updatedAt = Date.now();
+            showToast('❌ Sipariş iptal edildi', 'danger');
+          } else throw new Error();
+        } else if (action === 'delete') {
+          if (!confirm('Bu siparişi silmek istediğinize emin misiniz?')) {
+            btn.disabled = false; return;
+          }
+          const ok = await deleteOrder(id);
+          if (ok) {
+            allOrders = allOrders.filter(o => o.id !== id);
+            showToast('🗑️ Sipariş silindi', 'danger');
+          } else throw new Error();
+        }
+        renderOrders();
+        updateOrdersBadge();
+        renderUsers();
+      } catch (err) {
+        console.error(err);
+        showToast('❌ İşlem başarısız. Tekrar deneyin.', 'danger');
+        btn.disabled = false;
+      }
+    });
+
+    document.querySelectorAll('[data-order-filter]').forEach(btn => {
+      btn.addEventListener('click', function () {
+        document.querySelectorAll('[data-order-filter]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentOrderFilter = btn.getAttribute('data-order-filter');
+        renderOrders();
+      });
+    });
+
+    document.getElementById('ordersSearch').addEventListener('input', function (e) {
+      currentOrderSearch = e.target.value;
+      renderOrders();
+    });
+
+    /* ============================================================
+       KULLANICILAR
+       ============================================================ */
+    function getUserOrders(user) {
+      if (!user || !user.name || !user.phone) return [];
+      return allOrders.filter(o =>
+        o.user && o.user.name === user.name && o.user.phone === user.phone      );
+    }
+
+    function getDiscountFor(phone) {
+      if (!phone) return { minAmount: 0, percent: 0 };
+      const raw = allDiscounts[phone];
+      if (!raw) return { minAmount: 0, percent: 0 };
+      if (typeof raw === 'number') {
+        return { minAmount: 0, percent: Math.max(0, Math.min(100, Math.floor(raw))) };
+      }
+      return {
+        minAmount: Math.max(0, Number(raw.minAmount) || 0),
+        percent: Math.max(0, Math.min(100, Math.floor(Number(raw.percent) || 0)))
+      };
+    }
+
+    function renderUsers() {
+      const users = allUsers;
+      const orders = allOrders;
+      const usersWithOrders = users.filter(u => getUserOrders(u).length > 0).length;
+
+      const approvedOrders = orders.filter(o => o.status === 'approved');
+      const totalRevenue = approvedOrders.reduce((sum, o) => {
+        const totalRaw = Number(o.total || 0);
+        const discountPercent = Number(o.discountPercent || 0);
+        const finalTotal = discountPercent > 0
+          ? (Number(o.discountedTotal) || (totalRaw - totalRaw * (discountPercent / 100)))
+          : totalRaw;
+        return sum + finalTotal;
+      }, 0);
+      const totalOrderCount = approvedOrders.length;
+      const avgOrder = totalOrderCount > 0 ? totalRevenue / totalOrderCount : 0;
+
+      document.getElementById('statUsersTotal').textContent = users.length;
+      document.getElementById('statUsersWithOrders').textContent = usersWithOrders;
+      document.getElementById('statUsersTotalRevenue').textContent = fmtPrice(totalRevenue);
+      document.getElementById('statUsersAvgOrder').textContent = fmtPrice(avgOrder);
+
+      const usersBadge = document.getElementById('usersTabBadge');
+      if (users.length > 0) {
+        usersBadge.textContent = users.length;
+        usersBadge.style.display = 'inline-flex';
+      } else {
+        usersBadge.style.display = 'none';
+      }
+
+      let filtered = users.slice();
+
+      if (currentUserFilter === 'withOrders') {
+        filtered = filtered.filter(u => getUserOrders(u).length > 0);
+      } else if (currentUserFilter === 'withoutOrders') {
+        filtered = filtered.filter(u => getUserOrders(u).length === 0);
+      }
+
+      if (currentUserSearch.trim()) {
+        const q = currentUserSearch.toLowerCase().trim();
+        filtered = filtered.filter(u => {
+          const n = (u.name || '').toLowerCase();
+          const p = (u.phone || '').toLowerCase();
+          const dp = (u.displayPhone || '').toLowerCase();
+          return n.includes(q) || p.includes(q) || dp.includes(q);
+        });
+      }
+
+      filtered.sort((a, b) => {
+        const oa = getUserOrders(a).length;
+        const ob = getUserOrders(b).length;
+        if (oa !== ob) return ob - oa;
+        return (a.name || '').localeCompare(b.name || '', 'tr');
+      });
+
+      const listEl = document.getElementById('usersList');
+      const emptyEl = document.getElementById('usersEmpty');
+
+      if (filtered.length === 0) {
+        listEl.innerHTML = '';
+        emptyEl.style.display = 'block';
+        if (users.length === 0) {
+          emptyEl.querySelector('h3').textContent = 'Henüz kayıtlı kullanıcı yok';
+          emptyEl.querySelector('p').textContent = 'Müşteriler kayıt olduğunda burada görünecek';
+        } else {
+          emptyEl.querySelector('h3').textContent = 'Eşleşen kullanıcı bulunamadı';
+          emptyEl.querySelector('p').textContent = 'Filtre veya arama kriterlerinizi değiştirin';
+        }
+        return;
+      }
+      emptyEl.style.display = 'none';
+
+      listEl.innerHTML = filtered.map(user => {
+        const userOrders = getUserOrders(user);
+        const hasOrder = userOrders.length > 0;
+        const orderTotal = userOrders.reduce((sum, o) => sum + Number(o.total || 0), 0);
+        const orderCount = userOrders.length;
+        const discount = getDiscountFor(user.phone);
+
+        const discountBadge = discount.percent > 0
+          ? `<span class="user-discount-badge">💰 ${discount.minAmount > 0 ? discount.minAmount + '₺+ ' : ''}%${discount.percent}</span>`
+          : '';
+
+        return `
+          <div class="user-card" data-user-phone="${escapeHtml(user.phone)}">
+            <div class="discount-input-wrap">
+              <span class="discount-input-label">İndirim</span>
+              <div class="discount-input-box ${discount.percent > 0 ? 'has-discount' : ''}" data-discount-wrap>
+                <input type="number" class="discount-min-input" data-discount-min="${escapeHtml(user.phone)}" value="${discount.minAmount || ''}" min="0" step="10" placeholder="₺ min">
+                <span class="discount-sep">₺ üzeri →</span>
+                <span class="discount-prefix">%</span>
+                <input type="number" class="discount-input" data-discount-input="${escapeHtml(user.phone)}" value="${discount.percent || ''}" min="0" max="100" step="1" placeholder="0">
+              </div>
+            </div>
+            <div class="user-avatar">👤</div>
+            <div class="user-info">
+              <div class="user-name">
+                ${escapeHtml(user.name || 'İsimsiz')}
+                ${discountBadge}
+              </div>
+              <div class="user-phone">📞 ${escapeHtml(user.displayPhone || user.phone || '—')}</div>
+            </div>
+            <div class="user-stats-mini">
+              ${hasOrder ? `
+                <div class="user-stat-mini-label">Toplam Sipariş</div>
+                <div class="user-stat-mini-value">${orderCount} · ${fmtPrice(orderTotal)}</div>
+              ` : `<span class="user-badge-empty">Sipariş yok</span>`}
+            </div>
+            <div class="user-actions">
+              ${hasOrder ? `
+                <button class="user-history-btn" data-user-history="${escapeHtml(user.phone)}">📜 Geçmişi Gör</button>
+              ` : `
+                <button class="user-history-btn" disabled style="opacity:0.4;cursor:not-allowed;">📜 Geçmiş Yok</button>
+              `}
+              <button class="user-delete-btn" data-user-delete="${escapeHtml(user.phone)}" title="Kullanıcıyı sil">🗑️</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    /* İndirim input değişikliği — Firebase'e kaydet */
+    let discountSaveTimer = null;
+    document.getElementById('usersList').addEventListener('input', function (e) {
+      const percentInp = e.target.closest('[data-discount-input]');
+      const minInp = e.target.closest('[data-discount-min]');
+      if (!percentInp && !minInp) return;
+
+      const card = e.target.closest('.user-card');
+      if (!card) return;
+      const pInp = card.querySelector('[data-discount-input]');
+      const mInp = card.querySelector('[data-discount-min]');
+      const phone = (pInp && pInp.getAttribute('data-discount-input')) ||
+                    (mInp && mInp.getAttribute('data-discount-min'));
+      if (!phone) return;
+
+      let percent = parseInt(pInp ? pInp.value : '0', 10);
+      let minAmount = parseInt(mInp ? mInp.value : '0', 10);
+      if (isNaN(percent) || percent < 0) percent = 0;
+      if (percent > 100) { percent = 100; if (pInp) pInp.value = 100; }
+      if (isNaN(minAmount) || minAmount < 0) minAmount = 0;
+
+      const box = card.querySelector('[data-discount-wrap]');
+      if (box) {
+        if (percent > 0) box.classList.add('has-discount');
+        else box.classList.remove('has-discount');
+      }
+
+      clearTimeout(discountSaveTimer);
+      discountSaveTimer = setTimeout(async () => {
+        try {
+          await setDiscount(phone, minAmount, percent);
+          if (percent > 0) allDiscounts[phone] = { minAmount, percent };
+          else delete allDiscounts[phone];
+        } catch (err) {
+          console.error('İndirim kaydedilemedi:', err);
+          showToast('❌ İndirim kaydedilemedi', 'danger');
+        }
+      }, 600);
+    });
+
+    document.getElementById('usersList').addEventListener('change', function (e) {
+      const percentInp = e.target.closest('[data-discount-input]');
+      const minInp = e.target.closest('[data-discount-min]');
+      if (!percentInp && !minInp) return;
+
+      const card = e.target.closest('.user-card');
+      if (!card) return;
+      const pInp = card.querySelector('[data-discount-input]');
+      const mInp = card.querySelector('[data-discount-min]');
+      const phone = (pInp && pInp.getAttribute('data-discount-input')) ||
+                    (mInp && mInp.getAttribute('data-discount-min'));
+      if (!phone) return;
+
+      const d = getDiscountFor(phone);
+      if (d.percent > 0) {
+        const msg = d.minAmount > 0
+          ? `💰 ${d.minAmount}₺ üzeri %${d.percent} indirim kaydedildi`
+          : `💰 %${d.percent} indirim kaydedildi`;
+        showToast(msg, 'success');
+      } else {
+        showToast('İndirim kaldırıldı');
+      }
+      renderUsers();
+    });
+
+    /* KULLANICI SİLME — Firebase */
+    async function removeUser(phone) {
+      if (!phone) return;
+      const user = allUsers.find(u => u.phone === phone);
+      if (!user) { showToast('⚠️ Kullanıcı bulunamadı', 'danger'); return; }
+
+      const userName = user.name || 'İsimsiz';
+      const userOrders = getUserOrders(user);
+      const orderCount = userOrders.length;
+
+      const confirmMsg = orderCount > 0
+        ? `"${userName}" kullanıcısını silmek istediğinize emin misiniz?\n\n⚠️ DİKKAT: Bu kullanıcının ${orderCount} siparişi de SİLİNECEK!\n\nBu işlem geri alınamaz.`
+        : `"${userName}" kullanıcısını silmek istediğinize emin misiniz?\n\nBu işlem geri alınamaz.`;
+
+      if (!confirm(confirmMsg)) return;
+
+      try {
+        // Siparişleri sil
+        for (const o of userOrders) {
+          await deleteOrder(o.id);
+        }
+        allOrders = allOrders.filter(o => !(o.user && o.user.phone === phone));
+
+        // Kullanıcıyı sil
+        await deleteUser(phone);
+        allUsers = allUsers.filter(u => u.phone !== phone);
+
+        // İndirimi sil
+        if (allDiscounts[phone]) {
+          await setDiscount(phone, 0, 0);
+          delete allDiscounts[phone];
+        }
+
+        closeUserModal();
+        renderUsers();
+        renderOrders();
+        updateOrdersBadge();
+
+        showToast('🗑️ "' + userName + '" silindi (' + orderCount + ' sipariş ile birlikte)', 'danger');
+      } catch (err) {
+        console.error(err);
+        showToast('❌ Kullanıcı silinemedi', 'danger');
+      }
+    }
+
+    document.getElementById('usersList').addEventListener('click', function (e) {
+      const delBtn = e.target.closest('[data-user-delete]');
+      if (delBtn) {
+        e.stopPropagation();
+        removeUser(delBtn.getAttribute('data-user-delete'));
+        return;
+      }
+      const histBtn = e.target.closest('[data-user-history]');
+      if (histBtn && !histBtn.disabled) {
+        openUserModal(histBtn.getAttribute('data-user-history'));
+      }
+    });
+
+    function openUserModal(phone) {
+      const user = allUsers.find(u => u.phone === phone);
+      if (!user) return;
+
+      const userOrders = getUserOrders(user);
+      const discount = getDiscountFor(user.phone);
+
+      document.getElementById('userModalName').textContent = user.name || 'İsimsiz';
+      document.getElementById('userModalPhone').textContent = '📞 ' + (user.displayPhone || user.phone || '—');
+
+      const joinedDate = user.createdAt
+        ? new Date(user.createdAt).toLocaleDateString('tr-TR', {
+            day: 'numeric', month: 'long', year: 'numeric'
+          })
+        : '—';
+      document.getElementById('userModalJoined').textContent = '📅 Kayıt tarihi: ' + joinedDate;
+
+      const modalInp = document.getElementById('userModalDiscountInput');
+      const modalMinInp = document.getElementById('userModalDiscountMinInput');
+      const modalBox = document.getElementById('userModalDiscountBox');
+      modalInp.value = discount.percent || '';
+      modalInp.setAttribute('data-phone', user.phone);
+      modalMinInp.value = discount.minAmount || '';
+      modalMinInp.setAttribute('data-phone', user.phone);
+      if (discount.percent > 0) modalBox.classList.add('has-discount');
+      else modalBox.classList.remove('has-discount');
+
+      document.getElementById('userModalDeleteBtn').setAttribute('data-phone', user.phone);
+
+      const orderCount = userOrders.length;
+      const totalSpent = userOrders.reduce((sum, o) => sum + Number(o.total || 0), 0);
+      document.getElementById('userModalOrderCount').textContent = orderCount;
+      document.getElementById('userModalTotalSpent').textContent = fmtPrice(totalSpent);
+
+      const ordersEl = document.getElementById('userModalOrders');
+
+      if (userOrders.length === 0) {
+        ordersEl.innerHTML = `
+          <div class="admin-empty" style="padding: 40px 20px;">
+            <span class="admin-empty-icon" style="font-size: 48px;">📭</span>
+            <h3 style="font-size: 18px;">Henüz sipariş vermedi</h3>
+            <p>Bu kullanıcı henüz sipariş vermemiş</p>
+          </div>
+        `;
+      } else {
+        userOrders.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+        ordersEl.innerHTML = userOrders.map(order => {
+          const status = order.status || 'pending';
+          const statusLabel = {
+            'pending':  '⏳ Bekliyor',
+            'approved': '✅ Onaylandı',
+            'rejected': '❌ İptal Edildi'
+          }[status];
+
+          const itemsHtml = (order.items || []).map(it => {
+            const lineTotal = Number(it.price) * (it.qty || 1);
+            return `
+              <div class="user-order-item">
+                <span class="user-order-item-name">${escapeHtml(it.name)} × ${it.qty || 1}</span>
+                <span class="user-order-item-price">${fmtPrice(lineTotal)}</span>
+              </div>
+            `;
+          }).join('');
+
+          const totalRaw = Number(order.total || 0);
+          const discountPercent = Number(order.discountPercent || 0);
+          const discountAmount = discountPercent > 0 ? totalRaw * (discountPercent / 100) : 0;
+          const finalTotal = discountPercent > 0
+            ? (order.discountedTotal || (totalRaw - discountAmount))
+            : totalRaw;
+
+          return `
+            <div class="user-order-block status-${status}">
+              <div class="user-order-head">
+                <span class="user-order-date">#${escapeHtml(order.id)} · ${fmtDate(order.createdAt)}</span>
+                <span class="user-order-status ${status}">${statusLabel}</span>
+              </div>
+              <div class="user-order-items">${itemsHtml}</div>
+              <div class="user-order-total">
+                <span>TOPLAM</span>
+                <span>${fmtPrice(finalTotal)}</span>
+              </div>
+              ${discountPercent > 0 ? `
+                <div class="user-order-item" style="color:var(--success);font-weight:600;margin-top:4px;">
+                  <span>💰 İndirim (%${discountPercent})</span>
+                  <span>−${fmtPrice(discountAmount)}</span>
+                </div>
+              ` : ''}
+            </div>
+          `;
+        }).join('');
+      }
+
+      document.getElementById('userModal').classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeUserModal() {
+      document.getElementById('userModal').classList.remove('show');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('userModalClose').addEventListener('click', closeUserModal);
+    document.getElementById('userModal').addEventListener('click', function (e) {
+      if (e.target === document.getElementById('userModal')) closeUserModal();
+    });
+
+    document.getElementById('userModalDeleteBtn').addEventListener('click', function () {
+      const phone = this.getAttribute('data-phone');
+      if (phone) removeUser(phone);
+    });
+
+    /* Modal indirim inputları */
+    let modalDiscountTimer = null;
+    function handleModalDiscountChange() {
+      const phone = document.getElementById('userModalDiscountInput').getAttribute('data-phone');
+      if (!phone) return;
+      const pInp = document.getElementById('userModalDiscountInput');
+      const mInp = document.getElementById('userModalDiscountMinInput');
+      let percent = parseInt(pInp.value, 10);
+      let minAmount = parseInt(mInp.value, 10);
+      if (isNaN(percent) || percent < 0) percent = 0;
+      if (percent > 100) { percent = 100; pInp.value = 100; }
+      if (isNaN(minAmount) || minAmount < 0) minAmount = 0;
+
+      const box = document.getElementById('userModalDiscountBox');
+      if (percent > 0) box.classList.add('has-discount');
+      else box.classList.remove('has-discount');
+
+      clearTimeout(modalDiscountTimer);
+      modalDiscountTimer = setTimeout(async () => {
+        try {
+          await setDiscount(phone, minAmount, percent);
+          if (percent > 0) allDiscounts[phone] = { minAmount, percent };
+          else delete allDiscounts[phone];
+        } catch (err) {
+          console.error(err);
+          showToast('❌ İndirim kaydedilemedi', 'danger');
+        }
+      }, 600);
+    }
+
+    document.getElementById('userModalDiscountInput').addEventListener('input', handleModalDiscountChange);
+    document.getElementById('userModalDiscountMinInput').addEventListener('input', handleModalDiscountChange);
+
+    document.getElementById('userModalDiscountInput').addEventListener('change', function () {
+      const phone = this.getAttribute('data-phone');
+      if (!phone) return;
+      const d = getDiscountFor(phone);
+      if (d.percent > 0) {
+        const msg = d.minAmount > 0
+          ? `💰 ${d.minAmount}₺ üzeri %${d.percent} indirim kaydedildi`
+          : `💰 %${d.percent} indirim kaydedildi`;
+        showToast(msg, 'success');
+      } else showToast('İndirim kaldırıldı');
+      renderUsers();
+    });
+
+    document.getElementById('usersSearch').addEventListener('input', function (e) {
+      currentUserSearch = e.target.value;
+      renderUsers();
+    });
+
+    document.querySelectorAll('[data-user-filter]').forEach(btn => {
+      btn.addEventListener('click', function () {
+        document.querySelectorAll('[data-user-filter]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentUserFilter = btn.getAttribute('data-user-filter');
+        renderUsers();
+      });
+    });
+
+    /* ============================================================
+       FOTOĞRAF YÜKLEME — Firebase Storage
+       ============================================================ */
+    const photoInput = document.getElementById('photoInput');
+    const photoUploadZone = document.getElementById('photoUploadZone');
+    const photoPreviewWrap = document.getElementById('photoPreviewWrap');
+    const photoPreviewImg = document.getElementById('photoPreviewImg');
+    const photoPreviewName = document.getElementById('photoPreviewName');
+    const photoPreviewSize = document.getElementById('photoPreviewSize');
+    const photoRemoveBtn = document.getElementById('photoRemoveBtn');
+    const uploadProgress = document.getElementById('uploadProgress');
+
+    function setPhoto(url, name, size, path) {
+      currentPhoto = url || '';
+      currentPhotoPath = path || '';
+      if (!currentPhoto) {
+        photoPreviewWrap.classList.remove('show');
+        photoPreviewImg.removeAttribute('src');
+        photoPreviewName.textContent = '—';
+        photoPreviewSize.textContent = '—';
+        return;
+      }
+      photoPreviewImg.src = currentPhoto;
+      photoPreviewName.textContent = name || 'Fotoğraf';
+      photoPreviewSize.textContent = size ? formatBytes(size) : 'URL';
+      photoPreviewWrap.classList.add('show');
+    }
+
+    function compressImage(dataUrl, maxSize, quality, callback) {
+      const img = new Image();
+      img.onload = function () {
+        let { width, height } = img;
+        if (width > height && width > maxSize) {
+          height = Math.round((height * maxSize) / width);
+          width = maxSize;
+        } else if (height > maxSize) {
+          width = Math.round((width * maxSize) / height);
+          height = maxSize;
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        callback(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = function () { showToast('⚠️ Fotoğraf işlenemedi', 'danger'); };
+      img.src = dataUrl;
+    }
+
+    async function uploadPhoto(dataUrl, originalName) {
+      uploadProgress.classList.add('show');
+      try {
+        const result = await uploadImage(dataUrl, 'menu');
+        if (!result) throw new Error('Yükleme başarısız');
+        setPhoto(result.url, originalName, dataUrl.length, result.path);
+        showToast('📷 Fotoğraf yüklendi', 'success');
+      } catch (err) {
+        console.error(err);
+        showToast('❌ Fotoğraf yüklenemedi. Tekrar deneyin.', 'danger');
+      }
+      uploadProgress.classList.remove('show');
+    }
+
+    function handleFile(file) {
+      if (!file) return;
+      if (!file.type.startsWith('image/')) {
+        showToast('⚠️ Sadece resim dosyası yükleyebilirsiniz', 'danger'); return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        showToast('⚠️ Fotoğraf 5MB\'dan büyük olamaz', 'danger'); return;
+      }
+      const reader = new FileReader();
+      reader.onload = function (ev) {
+        compressImage(ev.target.result, 800, 0.82, async function (compressed) {
+          await uploadPhoto(compressed, file.name);
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+
+    photoInput.addEventListener('change', function (e) {
+      const file = e.target.files && e.target.files[0];
+      if (file) handleFile(file);
+    });
+
+    ['dragenter', 'dragover'].forEach(evt => {
+      photoUploadZone.addEventListener(evt, function (e) {
+        e.preventDefault(); e.stopPropagation();
+        photoUploadZone.classList.add('dragover');
+      });
+    });
+    ['dragleave', 'drop'].forEach(evt => {
+      photoUploadZone.addEventListener(evt, function (e) {
+        e.preventDefault(); e.stopPropagation();
+        photoUploadZone.classList.remove('dragover');
+      });
+    });
+    photoUploadZone.addEventListener('drop', function (e) {
+      const file = e.dataTransfer.files && e.dataTransfer.files[0];
+      if (file) handleFile(file);
+    });
+
+    photoRemoveBtn.addEventListener('click', async function () {
+      const oldPath = currentPhotoPath;
+      setPhoto('', '', 0);
+      photoInput.value = '';
+      if (oldPath) {
+        try { await deleteImage(oldPath); } catch (e) {}
+      }
+    });
+
+    /* ============================================================
+       ÜRÜN FORM
+       ============================================================ */
+    function resetForm() {
+      document.getElementById('productForm').reset();
+      document.getElementById('cat-kofte').checked = true;
+      document.getElementById('editId').value = '';
+      editingId = null;
+      setPhoto('', '', 0);
+      photoInput.value = '';
+      document.getElementById('formTitle').textContent = '➕ Yeni Ürün Ekle';
+      document.getElementById('submitBtn').textContent = '➕ Ürünü Ekle';
+      document.getElementById('cancelEditBtn').style.display = 'none';
+    }
+
+    function startEdit(id) {
+      const item = allItems.find(i => i.id === id);
+      if (!item) return;
+
+      editingId = id;
+      document.getElementById('editId').value = id;
+      document.getElementById('productName').value = item.name;
+      document.getElementById('productPrice').value = item.price;
+      document.getElementById('productDesc').value = item.desc || '';
+
+      const radio = document.getElementById('cat-' + item.category);
+      if (radio) radio.checked = true;
+
+      if (item.photo) setPhoto(item.photo, 'Mevcut fotoğraf', 0, item.photoPath || '');
+      else setPhoto('', '', 0);
+
+      document.getElementById('formTitle').textContent = '✏️ Ürünü Düzenle';
+      document.getElementById('submitBtn').textContent = '💾 Kaydet';
+      document.getElementById('cancelEditBtn').style.display = 'inline-block';
+
+      document.querySelector('.form-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    async function removeItem(id) {
+      const item = allItems.find(i => i.id === id);
+      if (!item) return;
+      if (!confirm('"' + item.name + '" ürününü silmek istediğinize emin misiniz?')) return;
+
+      try {
+        const ok = await deleteMenuItem(id);
+        if (!ok) throw new Error();
+
+        if (item.photoPath) {
+          try { await deleteImage(item.photoPath); } catch (e) {}
+        }
+
+        allItems = allItems.filter(i => i.id !== id);
+        renderAll();
+        showToast('🗑️ "' + item.name + '" silindi', 'danger');
+      } catch (err) {
+        console.error(err);
+        showToast('❌ Ürün silinemedi', 'danger');
+      }
+    }
+
+    document.getElementById('productForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById('productName').value.trim();
+      const price = parseFloat(document.getElementById('productPrice').value);
+      const desc = document.getElementById('productDesc').value.trim();
+      const catRadio = document.querySelector('input[name="category"]:checked');
+      const category = catRadio ? catRadio.value : 'kofte';
+
+      if (!name) { showToast('⚠️ Ürün adı gerekli', 'danger'); return; }
+      if (isNaN(price) || price < 0) { showToast('⚠️ Geçerli bir fiyat girin', 'danger'); return; }
+      if (!CATEGORIES[category]) { showToast('⚠️ Kategori seçin', 'danger'); return; }
+
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = '⏳ Kaydediliyor...';
+
+      const payload = {
+        name, price, desc, category,
+        photo: currentPhoto,
+        photoPath: currentPhotoPath
+      };
+
+      try {
+        if (editingId) {
+          const ok = await updateMenuItem(editingId, payload);
+          if (!ok) throw new Error();
+          const idx = allItems.findIndex(i => i.id === editingId);
+          if (idx > -1) {
+            allItems[idx] = { ...allItems[idx], ...payload, updatedAt: Date.now() };
+          }
+          showToast('💾 "' + name + '" güncellendi', 'success');
+        } else {
+          const newId = await addMenuItem(payload);
+          if (!newId) throw new Error();
+          allItems.push({ id: newId, ...payload, createdAt: Date.now() });
+          showToast('✅ "' + name + '" eklendi', 'success');
+        }
+        renderAll();
+        resetForm();
+      } catch (err) {
+        console.error(err);
+        showToast('❌ Kaydedilemedi. Tekrar deneyin.', 'danger');
+      }
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = editingId ? '💾 Kaydet' : '➕ Ürünü Ekle';
+    });
+
+    document.getElementById('cancelEditBtn').addEventListener('click', function () {
+      resetForm();
+      showToast('Düzenleme iptal edildi');
+    });
+
+    document.getElementById('adminList').addEventListener('click', function (e) {
+      const btn = e.target.closest('button[data-action]');
+      if (!btn) return;
+      const action = btn.getAttribute('data-action');
+      const id = btn.getAttribute('data-id');
+      if (action === 'edit') startEdit(id);
+      if (action === 'delete') removeItem(id);
+    });
+
+    document.getElementById('adminSearch').addEventListener('input', function (e) {
+      currentSearch = e.target.value;
+      renderMenu();
+    });
+
+    document.querySelectorAll('[data-filter]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        document.querySelectorAll('[data-filter]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.getAttribute('data-filter');
+        renderMenu();
+      });
+    });
+
+    /* ============================================================
+       YENİ SİPARİŞ BİLDİRİMİ
+       ============================================================ */
+    let knownOrderIds = new Set();
+    let firstLoadDone = false;
+    let pollTimer = null;
+
+    function initKnownOrders() {
+      knownOrderIds = new Set(allOrders.map(o => o.id));
+      firstLoadDone = true;
+      startPolling();
+    }
+
+    function startPolling() {
+      if (pollTimer) clearInterval(pollTimer);
+      pollTimer = setInterval(checkForNewOrders, 5000);
+    }
+
+    async function checkForNewOrders() {
+      if (sessionStorage.getItem('admin_logged_in') !== 'true') return;
+
+      try {
+        const freshOrders = await getOrders();
+        const freshIds = new Set(freshOrders.map(o => o.id));
+        const newOnes = freshOrders.filter(o => !knownOrderIds.has(o.id));
+
+        if (newOnes.length > 0 && firstLoadDone) {
+          playOrderSound();
+          const n = newOnes.length;
+          const msg = n === 1
+            ? '🛎️ Yeni sipariş: ' + ((newOnes[0].user && newOnes[0].user.name) || 'Müşteri')
+            : '🛎️ ' + n + ' yeni sipariş geldi!';
+          showToast(msg, 'success');
+
+          if ('Notification' in window && Notification.permission === 'granted') {
+            newOnes.forEach(o => {
+              try {
+                new Notification('🍽️ Yeni Sipariş!', {
+                  body: ((o.user && o.user.name) || 'Müşteri') + ' - ' + fmtPrice(o.total || 0),
+                  tag: o.id,
+                  icon: 'favicon-source.png'
+                });
+              } catch (e) {}
+            });
+          }
+
+          newOnes.forEach(o => knownOrderIds.add(o.id));
+        }
+
+        newOnes.forEach(o => knownOrderIds.add(o.id));
+
+        allOrders = freshOrders;
+        renderOrders();
+        updateOrdersBadge();
+        renderUsers();
+      } catch (e) {
+        // sessiz geç
+      }
+    }
+
+    function requestNotificationPermission() {
+      const NOTIFICATION_ASKED_KEY = 'ramiz_notification_asked';
+      let asked = false;
+      try { asked = localStorage.getItem(NOTIFICATION_ASKED_KEY) === 'true'; } catch (e) {}
+      if (asked) return;
+
+      if ('Notification' in window && Notification.permission === 'default') {
+        Notification.requestPermission()
+          .then(permission => {
+            try { localStorage.setItem(NOTIFICATION_ASKED_KEY, 'true'); } catch (e) {}
+            if (permission === 'granted') showToast('🔔 Bildirimler açıldı', 'success');
+            else showToast('🔕 Bildirimler kapalı — Tarayıcı ayarlarından açabilirsiniz');
+          })
+          .catch(() => { try { localStorage.setItem(NOTIFICATION_ASKED_KEY, 'true'); } catch (e) {} });
+      } else {
+        try { localStorage.setItem(NOTIFICATION_ASKED_KEY, 'true'); } catch (e) {}
+      }
+    }
+
+    /* ============================================================
+       SESSION
+       ============================================================ */
+    if (sessionStorage.getItem('admin_logged_in') === 'true') {
+      adminLogin.style.display = 'none';
+      adminPanel.style.display = 'block';
+      updateSoundButton();
+      (async () => {
+        await loadAllData();
+        initKnownOrders();
+        requestNotificationPermission();
+      })();
+    }
+  </script>
+
+</body>
+</html>
