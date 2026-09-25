@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sepetim | Ramiz Köfte Batman</title>
-<meta name="description" content="Ramiz Köfte Batman sepetim - Sipariş vermek için sepetinizi kontrol edin.">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -98,13 +97,14 @@
     background: var(--success-bg); border: 1px solid var(--success);
     border-radius: 100px; color: var(--success);
     font-size: 12px; font-weight: 500;
+    max-width: 140px; overflow: hidden; white-space: nowrap;
+    text-overflow: ellipsis; vertical-align: middle;
   }
   .user-badge-dot {
     width: 6px; height: 6px; border-radius: 50%; background: var(--success);
-    animation: pulse 1.5s ease infinite;
+    animation: pulse 1.5s ease infinite; flex-shrink: 0;
   }
   @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
-
   .hamburger-wrapper { position: relative; }
   .hamburger-btn {
     width: 44px; height: 44px; border-radius: 50%;
@@ -161,6 +161,34 @@
   [data-theme="dark"] .theme-toggle .icon-sun { transform: rotate(180deg) scale(1); opacity: 1; }
   [data-theme="dark"] .theme-toggle .icon-moon { transform: rotate(-180deg) scale(0); opacity: 0; }
 
+  @media (max-width: 768px) {
+    .nav-inner { gap: 8px; padding: 0 12px; }
+    .nav-logo { gap: 8px; }
+    .nav-logo-main { font-size: 14px; }
+    .nav-logo-sub { font-size: 8px; letter-spacing: 0.12em; }
+    .nav-logo-img { width: 38px; height: 38px; }
+    .nav-phone { display: none !important; }
+    .nav-icons { gap: 6px; }
+    .cart-btn-nav { padding: 7px 10px; font-size: 10px; gap: 4px; }
+    .cart-count { min-width: 16px; height: 16px; font-size: 10px; padding: 0 4px; }
+    .login-btn-nav { padding: 7px 10px; font-size: 10px; }
+    .user-badge {
+      max-width: 85px; padding: 5px 8px; font-size: 10px;
+      overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+      display: inline-block; vertical-align: middle;
+    }
+    .user-badge-dot { display: none; }
+    .theme-toggle, .hamburger-btn { width: 36px; height: 36px; font-size: 14px; }
+    .hamburger-btn span { width: 14px; }
+  }
+  @media (max-width: 420px) {
+    .nav-logo-text { display: none; }
+    .login-btn-nav { padding: 7px 8px; }
+    .cart-btn-nav { padding: 7px 8px; }
+    .user-badge { max-width: 70px; }
+  }
+
+  /* ============ SEPET ============ */
   .cart-wrap {
     flex: 1; max-width: 900px; margin: 0 auto;
     padding: 110px 24px 60px; width: 100%;
@@ -171,7 +199,7 @@
     font-family: Georgia, 'Times New Roman', serif;
   }
   .page-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 32px; }
-  .cart-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+  .cart-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
   .cart-item {
     display: grid; grid-template-columns: 80px 1fr auto;
     align-items: center; gap: 16px; padding: 14px;
@@ -223,6 +251,56 @@
   .remove-btn:hover {
     border-color: var(--danger); color: var(--danger); background: var(--danger-bg);
   }
+
+  /* ADRES KUTUSU */
+  .address-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 16px; padding: 22px 26px; margin-bottom: 20px;
+  }
+  .address-header {
+    display: flex; align-items: center;
+    justify-content: space-between; gap: 10px;
+    margin-bottom: 14px; flex-wrap: wrap;
+  }
+  .address-title {
+    font-size: 15px; font-weight: 700; color: var(--text);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .address-optional {
+    font-size: 11px; font-weight: 500;
+    color: var(--text-muted);
+    padding: 3px 10px;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .address-desc {
+    font-size: 13px; color: var(--text-muted);
+    margin-bottom: 12px; line-height: 1.5;
+  }
+  .address-input {
+    width: 100%; padding: 14px 16px;
+    border: 1px solid var(--border-input);
+    border-radius: 10px;
+    font-size: 14px; color: var(--text);
+    background: var(--bg); outline: none;
+    font-family: inherit;
+    resize: vertical; min-height: 80px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    line-height: 1.5;
+  }
+  .address-input:focus {
+    border-color: var(--text);
+    box-shadow: 0 0 0 3px var(--border);
+  }
+  .address-input::placeholder { color: var(--text-muted); opacity: 0.6; }
+  .address-char-count {
+    font-size: 11px; color: var(--text-muted);
+    text-align: right; margin-top: 6px;
+  }
+
   .cart-summary {
     background: var(--card-bg); border: 1px solid var(--border);
     border-radius: 16px; padding: 24px 28px;
@@ -277,6 +355,7 @@
     text-decoration: none; transition: all 0.25s;
   }
   .continue-btn:hover { background: var(--btn-hover); transform: translateY(-1px); }
+
   footer { background: #000; color: #fff; padding: 60px 40px 30px; margin-top: auto; }
   .footer-container {
     max-width: 1200px; margin: 0 auto;
@@ -309,12 +388,8 @@
   .toast.show { transform: translateX(-50%) translateY(0); }
   .toast.success { background: var(--success); color: #fff; }
   .toast.danger { background: var(--danger); color: #fff; }
+
   @media (max-width: 768px) {
-    .nav-inner { padding: 0 16px; gap: 10px; }
-    .nav-logo-main { font-size: 15px; }
-    .nav-logo-sub { font-size: 9px; }
-    .nav-logo-img { width: 44px; height: 44px; }
-    .nav-icons > a:not(.cart-btn-nav):not(.login-btn-nav) { display: none; }
     .cart-wrap { padding: 90px 16px 40px; }
     .page-title { font-size: 26px; }
     .cart-item {
@@ -326,9 +401,7 @@
     .cart-info { grid-area: info; }
     .cart-controls { grid-area: controls; justify-content: space-between; flex-wrap: wrap; }
     .cart-summary { padding: 20px; }
-    .cart-btn-nav { padding: 8px 12px; font-size: 11px; }
-    .login-btn-nav { padding: 8px 12px; font-size: 11px; }
-    .theme-toggle, .hamburger-btn { width: 40px; height: 40px; }
+    .address-card { padding: 18px 20px; }
     footer { padding: 50px 24px 25px; }
     .footer-container { grid-template-columns: 1fr 1fr; gap: 32px 24px; }
     .footer-col h4 { font-size: 12px; margin-bottom: 14px; }
@@ -354,7 +427,9 @@
       <div class="nav-spacer"></div>
       <div class="nav-icons">
         <a href="tel:+905015715272" class="nav-phone">📞 0501 571 52 72</a>
-        <a href="sepet.html" class="cart-btn-nav">🛒 Sepet <span class="cart-count" id="cartCount">0</span></a>
+        <a href="sepet.html" class="cart-btn-nav">
+          🛒 Sepet <span class="cart-count" id="cartCount">0</span>
+        </a>
         <div id="authArea">
           <a href="giris.html" class="login-btn-nav">👤 Giriş Yap</a>
         </div>
@@ -385,20 +460,42 @@
 
     <div class="cart-list" id="cartList"></div>
 
-    <div class="cart-summary" id="cartSummary" style="display:none;">
-      <div class="summary-row">
-        <span>Ara Toplam</span>
-        <span id="subTotal">0,00 ₺</span>
+    <div id="checkoutArea" style="display:none;">
+      <!-- ADRES (opsiyonel) -->
+      <div class="address-card">
+        <div class="address-header">
+          <div class="address-title">📍 Teslimat Adresi</div>
+          <span class="address-optional">Opsiyonel</span>
+        </div>
+        <p class="address-desc">
+          Paket servis için adresinizi yazabilirsiniz. Boş bırakırsanız
+          sizi telefonla arayacağız.
+        </p>
+        <textarea
+          id="addressInput"
+          class="address-input"
+          placeholder="Örn: Gültepe Mah. Demokrasi Bul. No:5 Daire:3, Batman"
+          maxlength="300"
+        ></textarea>
+        <div class="address-char-count"><span id="addressCount">0</span> / 300</div>
       </div>
-      <div class="summary-row discount" id="discountRow" style="display:none;">
-        <span id="discountLabel">İndirim</span>
-        <span class="val" id="discountVal">−0,00 ₺</span>
+
+      <!-- ÖZET -->
+      <div class="cart-summary">
+        <div class="summary-row">
+          <span>Ara Toplam</span>
+          <span id="subTotal">0,00 ₺</span>
+        </div>
+        <div class="summary-row discount" id="discountRow" style="display:none;">
+          <span id="discountLabel">İndirim</span>
+          <span class="val" id="discountVal">−0,00 ₺</span>
+        </div>
+        <div class="summary-row total">
+          <span>TOPLAM</span>
+          <span class="val" id="grandTotal">0,00 ₺</span>
+        </div>
+        <button class="checkout-btn" id="checkoutBtn">✅ Siparişi Tamamla</button>
       </div>
-      <div class="summary-row total">
-        <span>TOPLAM</span>
-        <span class="val" id="grandTotal">0,00 ₺</span>
-      </div>
-      <button class="checkout-btn" id="checkoutBtn">✅ Siparişi Tamamla</button>
     </div>
   </div>
 
@@ -432,7 +529,7 @@
   <div class="toast" id="toast"></div>
 
   <script type="module">
-    import { addOrder, getDiscounts } from './firebase-config.js';
+    import { addOrder, getDiscounts, getUserByPhone } from './firebase-config.js';
 
     const CATEGORIES = {
       kofte:  { name: 'Köfte',       emoji: '🍖' },
@@ -443,7 +540,6 @@
       icecek: { name: 'İçecekler',   emoji: '🥤' }
     };
 
-    /* SEPET: localStorage'da kalır (cihaza özel) */
     function getCart() {
       try { return JSON.parse(localStorage.getItem('ramiz_cart')) || []; }
       catch (e) { return []; }
@@ -457,13 +553,15 @@
       const total = cart.reduce((sum, i) => sum + (i.qty || 1), 0);
       document.getElementById('cartCount').textContent = total;
     }
-
     function getUser() {
       try { return JSON.parse(localStorage.getItem('user')); }
       catch (e) { return null; }
     }
+    function clearUserSession() {
+      localStorage.removeItem('user');
+      localStorage.removeItem('ramiz_cart');
+    }
 
-    /* İNDİRİM: Firebase'den */
     async function getMyDiscount() {
       const user = getUser();
       if (!user || !user.phone) return { minAmount: 0, percent: 0 };
@@ -471,16 +569,12 @@
         const d = await getDiscounts();
         const raw = d[user.phone];
         if (!raw) return { minAmount: 0, percent: 0 };
-        if (typeof raw === 'number') {
-          return { minAmount: 0, percent: Math.max(0, Math.min(100, Math.floor(raw))) };
-        }
+        if (typeof raw === 'number') return { minAmount: 0, percent: Math.max(0, Math.min(100, Math.floor(raw))) };
         return {
           minAmount: Math.max(0, Number(raw.minAmount) || 0),
           percent: Math.max(0, Math.min(100, Math.floor(Number(raw.percent) || 0)))
         };
-      } catch (e) {
-        return { minAmount: 0, percent: 0 };
-      }
+      } catch (e) { return { minAmount: 0, percent: 0 }; }
     }
 
     function escapeHtml(str) {
@@ -505,12 +599,30 @@
       }, 2200);
     }
 
+    /* ADRES SAYACI */
+    const addressInput = document.getElementById('addressInput');
+    const addressCount = document.getElementById('addressCount');
+    addressInput.addEventListener('input', function () {
+      addressCount.textContent = this.value.length;
+      // Adresi localStorage'da tut (sipariş öncesi kaybolmasın)
+      try { localStorage.setItem('ramiz_address_draft', this.value); } catch (e) {}
+    });
+
+    // Adres taslağını geri yükle
+    try {
+      const saved = localStorage.getItem('ramiz_address_draft');
+      if (saved) {
+        addressInput.value = saved;
+        addressCount.textContent = saved.length;
+      }
+    } catch (e) {}
+
     let currentDiscount = { minAmount: 0, percent: 0 };
 
     async function renderCart() {
       const cart = getCart();
       const listEl = document.getElementById('cartList');
-      const summaryEl = document.getElementById('cartSummary');
+      const checkoutArea = document.getElementById('checkoutArea');
       const subEl = document.getElementById('cartSub');
 
       if (cart.length === 0) {
@@ -523,7 +635,7 @@
             <a href="kategori.html?cat=all" class="continue-btn">🍽️ Menüye Git</a>
           </div>
         `;
-        summaryEl.style.display = 'none';
+        checkoutArea.style.display = 'none';
         return;
       }
 
@@ -587,7 +699,7 @@
       }
 
       document.getElementById('grandTotal').textContent = fmt(grandTotal);
-      summaryEl.style.display = 'block';
+      checkoutArea.style.display = 'block';
     }
 
     document.getElementById('cartList').addEventListener('click', function (e) {
@@ -616,7 +728,7 @@
       renderCart();
     });
 
-    /* SİPARİŞ VER → Firebase */
+    /* SİPARİŞ VER */
     document.getElementById('checkoutBtn').addEventListener('click', async function () {
       const cart = getCart();
       if (cart.length === 0) return;
@@ -633,10 +745,44 @@
 
       if (!user.phone || !user.name) {
         showToast('⚠️ Oturum hatası. Tekrar giriş yapın.', 'danger');
+        clearUserSession();
         setTimeout(() => { window.location.href = 'giris.html'; }, 1200);
         return;
       }
 
+      const checkoutBtn = this;
+      checkoutBtn.disabled = true;
+      checkoutBtn.textContent = '⏳ Kontrol ediliyor...';
+
+      /* ⚠️ KRİTİK: Firestore'da kullanıcı hâlâ kayıtlı mı? */
+      try {
+        const existingUser = await getUserByPhone(user.phone);
+        if (!existingUser) {
+          // Kullanıcı silinmiş!
+          clearUserSession();
+          showToast('❌ Hesabınız kapatılmış. Giriş sayfasına yönlendiriliyorsunuz.', 'danger');
+          setTimeout(() => { window.location.href = 'giris.html'; }, 2000);
+          return;
+        }
+        // İsim uyuşuyor mu? (güvenlik)
+        if (existingUser.name !== user.name) {
+          clearUserSession();
+          showToast('❌ Oturum bilgileri geçersiz. Tekrar giriş yapın.', 'danger');
+          setTimeout(() => { window.location.href = 'giris.html'; }, 2000);
+          return;
+        }
+      } catch (err) {
+        console.error('Kullanıcı kontrolü başarısız:', err);
+        showToast('❌ Bağlantı hatası. Tekrar deneyin.', 'danger');
+        checkoutBtn.disabled = false;
+        checkoutBtn.textContent = '✅ Siparişi Tamamla';
+        return;
+      }
+
+      /* Adres (opsiyonel) */
+      const address = (document.getElementById('addressInput').value || '').trim().slice(0, 300);
+
+      /* İndirim hesapla */
       const discountData = await getMyDiscount();
       const subTotalCheck = cart.reduce((s, i) => s + Number(i.price) * (i.qty || 1), 0);
       const minMet = subTotalCheck >= (discountData.minAmount || 0);
@@ -644,8 +790,6 @@
       const discountAmount = discountPercent > 0 ? subTotalCheck * (discountPercent / 100) : 0;
       const finalTotal = subTotalCheck - discountAmount;
 
-      const checkoutBtn = this;
-      checkoutBtn.disabled = true;
       checkoutBtn.textContent = '⏳ Sipariş gönderiliyor...';
 
       const now = Date.now();
@@ -655,6 +799,7 @@
           phone: user.phone,
           displayPhone: user.displayPhone || ''
         },
+        address: address, // boş string olabilir
         items: cart.map(i => ({
           id: i.id, name: i.name, price: i.price,
           photo: i.photo || '', category: i.category, qty: i.qty || 1
@@ -672,6 +817,7 @@
         if (!docId) throw new Error('Sipariş kaydedilemedi');
 
         localStorage.removeItem('ramiz_cart');
+        localStorage.removeItem('ramiz_address_draft');
         showToast('✅ Siparişiniz alındı!', 'success');
         setTimeout(() => { window.location.href = 'gecmis.html'; }, 1200);
       } catch (err) {
@@ -723,21 +869,41 @@
       });
     })();
 
-    /* AUTH */
-    (function () {
+    /* AUTH — Firestore kontrolü ile */
+    (async function () {
       const authArea = document.getElementById('authArea');
       const logoutBtn = document.getElementById('logoutBtn');
-      const user = localStorage.getItem('user');
-      if (user) {
+      const userRaw = localStorage.getItem('user');
+
+      if (userRaw) {
         try {
-          const parsed = JSON.parse(user);
-          const name = parsed.name || parsed.displayPhone || 'Kullanıcı';
-          authArea.innerHTML = '<span class="user-badge"><span class="user-badge-dot"></span>👤 ' + escapeHtml(name) + '</span>';
+          const parsed = JSON.parse(userRaw);
+
+          // Firestore'da kullanıcı hâlâ var mı?
+          const existingUser = await getUserByPhone(parsed.phone);
+          if (!existingUser) {
+            // Silinmiş kullanıcı → oturumu kapat
+            clearUserSession();
+            authArea.innerHTML = '<a href="giris.html" class="login-btn-nav">👤 Giriş Yap</a>';
+            logoutBtn.style.display = 'none';
+            showToast('❌ Hesabınız kapatılmış. Giriş sayfasına yönlendiriliyorsunuz.', 'danger');
+            setTimeout(() => { window.location.href = 'giris.html'; }, 2500);
+            return;
+          }
+
+          const name = existingUser.name || parsed.name || 'Kullanıcı';
+          const shortName = name.length > 14 ? name.slice(0, 14) + '…' : name;
+          authArea.innerHTML =
+            '<span class="user-badge" title="' + escapeHtml(name) + '">👤 ' +
+            escapeHtml(shortName) + '</span>';
           logoutBtn.style.display = 'block';
-        } catch (err) {}
+        } catch (err) {
+          console.error('Auth kontrol hatası:', err);
+        }
       }
+
       logoutBtn.addEventListener('click', function () {
-        localStorage.removeItem('user');
+        clearUserSession();
         window.location.href = 'giris.html';
       });
     })();
