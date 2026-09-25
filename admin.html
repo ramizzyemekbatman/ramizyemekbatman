@@ -914,8 +914,50 @@
     .admin-stats { grid-template-columns: 1fr 1fr; }
     .footer-container { grid-template-columns: 1fr; gap: 28px; }
     .photo-preview-wrap { flex-direction: column; align-items: stretch; text-align: center; }
-    .photo-preview-img { width: 100%; height: 160px; }
+ .photo-preview-img { width: 100%; height: 160px; }
+  /* SİPARİŞ ADRESİ */
+  .order-address {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px 14px;
+    margin-top: 8px;
+    background: rgba(184, 134, 11, 0.08);
+    border: 1px solid var(--warning);
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-light);
   }
+  .order-address-icon {
+    flex-shrink: 0;
+    font-size: 15px;
+    margin-top: 1px;
+  }
+  .order-address-text {
+    word-break: break-word;
+  }
+  .order-address-text strong {
+    color: var(--warning);
+    font-weight: 700;
+  }
+
+  [data-theme="dark"] .order-address {
+    background: rgba(212, 160, 23, 0.1);
+    border-color: var(--warning);
+    color: var(--text-light);
+  }
+  [data-theme="dark"] .order-address-text strong {
+    color: var(--warning);
+  }
+
+  @media (max-width: 768px) {
+    .order-address {
+      font-size: 12px;
+      padding: 8px 12px;
+    }
+  }
+}
 </style>
 </head>
 <body>
@@ -1740,7 +1782,13 @@
                 </div>
                 <span class="order-status-badge ${status}">${statusLabel}</span>
               </div>
-              <div class="order-row-items">${itemsHtml}</div>
+                         <div class="order-row-items">${itemsHtml}</div>
+              ${(order.address && order.address.trim()) ? `
+                <div class="order-address">
+                  <span class="order-address-icon">📍</span>
+                  <span class="order-address-text"><strong>Teslimat Adresi:</strong> ${escapeHtml(order.address)}</span>
+                </div>
+              ` : ''}
               <div class="order-row-foot">
                 <div class="order-row-total">
                   <span class="order-row-total-label">Toplam</span>
