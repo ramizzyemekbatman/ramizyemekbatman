@@ -17,7 +17,7 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
-    --bg: #ffffff; --bg-alt: #f9f9f9; --text: #1a1a1a; --text-muted: #777777;
+    --bg: #ffffff; --bg-alt: #f5f5f5; --text: #1a1a1a; --text-muted: #777777;
     --border: #eaeaea; --border-input: #ddd; --btn-bg: #1a1a1a; --btn-text: #ffffff;
     --btn-hover: #333; --nav-bg: #ffffff; --success: #2a5040; --success-bg: rgba(42,80,64,0.08);
     --danger: #c0392b; --transition: 0.3s ease;
@@ -46,6 +46,7 @@
   .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
   .nav-logo-img { width: 48px; height: 48px; object-fit: contain; }
   .nav-logo-main { font-size: 22px; font-weight: 700; font-family: Georgia, serif; color: var(--text); letter-spacing: -0.02em; }
+  .nav-masa { font-size: 13px; color: var(--success); font-weight: 600; background: var(--success-bg); padding: 6px 14px; border-radius: 100px; border: 1px solid var(--success); }
   
   .theme-toggle {
     width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border-input);
@@ -62,59 +63,81 @@
   /* HEADER */
   .page-header { margin-top: 70px; padding: 40px 24px 20px; text-align: center; background: var(--bg-alt); border-bottom: 1px solid var(--border); }
   .page-title { font-size: 32px; font-weight: 700; font-style: italic; font-family: Georgia, serif; margin-bottom: 8px; }
-  .masa-badge { display: inline-block; padding: 6px 16px; background: var(--success-bg); color: var(--success); border: 1px solid var(--success); border-radius: 100px; font-size: 13px; font-weight: 700; }
+  .page-sub { font-size: 14px; color: var(--text-muted); }
 
-  /* ANA İÇERİK (2 KOLON) */
+  /* ANA İÇERİK */
   .main-content {
-    flex: 1; display: flex; max-width: 1400px; margin: 0 auto; width: 100%; padding: 30px 24px 80px; gap: 30px;
+    flex: 1; max-width: 1400px; margin: 0 auto; width: 100%; padding: 30px 24px 80px;
   }
 
-  /* SOL TARAF: KATEGORİ MENÜSÜ */
-  .sidebar {
-    width: 240px; flex-shrink: 0;
+  /* YATAY KATEGORİ MENÜSÜ */
+  .cat-tabs {
+    display: flex; gap: 10px; margin-bottom: 30px;
+    overflow-x: auto; padding-bottom: 10px;
+    scrollbar-width: none; -webkit-overflow-scrolling: touch;
   }
-  .sidebar-title { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px; padding-left: 12px; }
-  .cat-list { display: flex; flex-direction: column; gap: 6px; }
-  .cat-btn {
-    padding: 14px 18px; background: transparent; border: 1px solid transparent;
-    border-radius: 12px; text-align: left; font-size: 15px; font-weight: 600;
-    color: var(--text-muted); cursor: pointer; transition: all 0.2s ease; font-family: inherit;
+  .cat-tabs::-webkit-scrollbar { display: none; }
+  .cat-tab {
+    padding: 12px 24px; background: var(--bg-alt); border: 1px solid var(--border);
+    border-radius: 100px; font-size: 14px; font-weight: 600; color: var(--text-muted);
+    cursor: pointer; transition: all 0.2s ease; font-family: inherit;
+    white-space: nowrap; flex-shrink: 0;
   }
-  .cat-btn:hover { background: var(--bg-alt); color: var(--text); }
-  .cat-btn.active { background: var(--btn-bg); color: var(--btn-text); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+  .cat-tab:hover { border-color: var(--border-input); color: var(--text); }
+  .cat-tab.active { background: var(--btn-bg); color: var(--btn-text); border-color: var(--btn-bg); }
 
-  /* SAĞ TARAF: ÜRÜNLER */
-  .products-area { flex: 1; min-width: 0; }
-  .products-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
-  .current-cat-title { font-size: 24px; font-weight: 700; font-family: Georgia, serif; }
-  .product-count { font-size: 13px; color: var(--text-muted); }
+  /* ÜRÜN GRID (YEMEKSEPETİ TARZI) */
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
 
-  .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-  
   .food-card {
     background: var(--bg); border: 1px solid var(--border);
-    border-radius: 16px; padding: 16px; display: flex; gap: 16px;
-    align-items: center; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    border-radius: 16px; overflow: hidden;
+    transition: all 0.25s ease;
+    display: flex; flex-direction: column;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   }
-  .food-card:hover { border-color: var(--border-input); box-shadow: 0 8px 24px rgba(0,0,0,0.06); transform: translateY(-2px); }
+  .food-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+    border-color: var(--border-input);
+  }
+
+  /* BÜYÜK GÖRSEL */
   .food-image {
-    width: 90px; height: 90px; border-radius: 12px; background: var(--bg-alt);
-    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
-    overflow: hidden; border: 1px solid var(--border);
+    width: 100%; aspect-ratio: 4/3;
+    background: var(--bg-alt);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 64px; overflow: hidden; position: relative;
   }
-  .food-image img { width: 100%; height: 100%; object-fit: cover; }
-  .food-body { flex: 1; min-width: 0; }
-  .food-name { font-size: 16px; font-weight: 700; margin-bottom: 4px; color: var(--text); }
-  .food-desc { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-  .food-footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-  .food-price { font-size: 18px; font-weight: 700; font-style: italic; color: var(--text); }
+  .food-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* YAZILAR ALTTA */
+  .food-body {
+    padding: 16px 18px 18px;
+    display: flex; flex-direction: column; flex: 1; gap: 8px;
+  }
+  .food-name { font-size: 17px; font-weight: 700; color: var(--text); line-height: 1.3; }
+  .food-desc {
+    font-size: 13px; color: var(--text-muted); line-height: 1.5;
+    min-height: 38px;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .food-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; margin-top: auto; padding-top: 10px;
+  }
+  .food-price { font-size: 20px; font-weight: 800; font-style: italic; color: var(--text); letter-spacing: -0.02em; }
   
   .add-to-cart-btn {
-    padding: 10px 16px; background: var(--btn-bg); color: var(--btn-text);
-    border: none; border-radius: 10px; font-size: 13px; font-weight: 600;
+    padding: 10px 18px; background: var(--btn-bg); color: var(--btn-text);
+    border: none; border-radius: 10px; font-size: 13px; font-weight: 700;
     cursor: pointer; transition: all 0.2s; font-family: inherit; white-space: nowrap;
   }
-  .add-to-cart-btn:hover { background: var(--btn-hover); }
+  .add-to-cart-btn:hover { background: var(--btn-hover); transform: scale(1.02); }
   .add-to-cart-btn.added { background: var(--success); color: #fff; }
 
   .loading-box { text-align: center; padding: 60px 20px; color: var(--text-muted); grid-column: 1 / -1; }
@@ -134,24 +157,27 @@
   .floating-cart-count { background: var(--danger); color: #fff; border-radius: 100px; padding: 2px 10px; font-size: 13px; }
 
   /* FOOTER */
-  footer { background: #000; color: #fff; padding: 40px 20px 20px; margin-top: auto; border-top: 1px solid var(--border); }
+  footer { background: #000; color: #fff; padding: 40px 20px 20px; margin-top: auto; }
   .footer-container { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 30px; justify-content: space-between; }
   .footer-col h4 { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 16px; color: #fff; }
   .footer-col p, .footer-col a { font-size: 14px; color: #fff; opacity: 0.6; text-decoration: none; display: block; margin-bottom: 8px; }
   .footer-copyright { max-width: 1200px; margin: 30px auto 0; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; font-size: 12px; color: #666; }
 
-  /* MOBİL UYUM */
-  @media (max-width: 900px) {
-    .main-content { flex-direction: column; padding: 20px 16px 60px; gap: 20px; }
-    .sidebar { width: 100%; }
-    .sidebar-title { display: none; }
-    .cat-list { flex-direction: row; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
-    .cat-list::-webkit-scrollbar { display: none; }
-    .cat-btn { white-space: nowrap; padding: 10px 18px; font-size: 14px; }
-    .menu-grid { grid-template-columns: 1fr; }
-    .food-image { width: 80px; height: 80px; }
-    .floating-cart { bottom: 20px; right: 20px; left: 20px; justify-content: center; }
+  @media (max-width: 768px) {
+    .page-header { padding: 30px 16px 16px; }
     .page-title { font-size: 26px; }
+    .main-content { padding: 20px 16px 80px; }
+    .menu-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .food-body { padding: 12px 12px 14px; gap: 6px; }
+    .food-name { font-size: 14px; }
+    .food-desc { font-size: 11px; min-height: 32px; }
+    .food-price { font-size: 16px; }
+    .add-to-cart-btn { padding: 8px 12px; font-size: 11px; }
+    .floating-cart { bottom: 20px; right: 20px; left: 20px; justify-content: center; }
+    .nav-masa { display: none; }
+  }
+  @media (max-width: 480px) {
+    .menu-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -163,7 +189,8 @@
         <img src="favicon-source.png" alt="Ramiz Köfte" class="nav-logo-img">
         <span class="nav-logo-main">Ramiz Köfte</span>
       </a>
-      <div class="nav-icons">
+      <div class="nav-icons" style="display:flex; align-items:center; gap:16px;">
+        <span class="nav-masa" id="masaBadge">Masa -</span>
         <button class="theme-toggle" id="themeToggle"><span class="icon icon-sun">☀️</span><span class="icon icon-moon">🌙</span></button>
       </div>
     </div>
@@ -171,31 +198,19 @@
 
   <div class="page-header">
     <h1 class="page-title">Dükkan Menüsü</h1>
-    <span class="masa-badge" id="masaBadge">Masa Yükleniyor...</span>
+    <p class="page-sub">Tüm lezzetlerimiz aşağıda listelenmiştir</p>
   </div>
 
   <div class="main-content">
-    <!-- SOL MENÜ (KATEGORİLER) -->
-    <aside class="sidebar">
-      <div class="sidebar-title">Kategoriler</div>
-      <div class="cat-list" id="catList">
-        <!-- Butonlar JS ile eklenecek -->
-      </div>
-    </aside>
+    <!-- YATAY KATEGORİ MENÜSÜ -->
+    <div class="cat-tabs" id="catTabs"></div>
 
-    <!-- SAĞ TARAF (ÜRÜNLER) -->
-    <main class="products-area">
-      <div class="products-header">
-        <h2 class="current-cat-title" id="currentCatTitle">Tüm Menü</h2>
-        <span class="product-count" id="productCount">Yükleniyor...</span>
-      </div>
-      <div class="menu-grid" id="menuGrid">
-        <div class="loading-box">Menü yükleniyor...</div>
-      </div>
-    </main>
+    <!-- ÜRÜN GRID -->
+    <div class="menu-grid" id="menuGrid">
+      <div class="loading-box">Menü yükleniyor...</div>
+    </div>
   </div>
 
-  <!-- Yüzen Sepet Butonu -->
   <a href="sepet.html" class="floating-cart" id="floatingCart">
     🛒 Sepete Git <span class="floating-cart-count" id="floatingCartCount">0</span>
   </a>
@@ -244,41 +259,28 @@
     }
     function escapeHtml(str) { return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;'); }
 
-    // Masa Bilgisini Al ve Göster
+    // Masa Bilgisi
     (function() {
       let masa = localStorage.getItem('ramiz_masa');
-      if (!masa) {
-        // Eğer QR'sız girildiyse test için Masa 1 ata
-        masa = '1';
-        localStorage.setItem('ramiz_masa', masa);
-      }
-      document.getElementById('masaBadge').textContent = '📍 Masa ' + masa;
+      if (!masa) { masa = '1'; localStorage.setItem('ramiz_masa', masa); }
+      document.getElementById('masaBadge').textContent = 'Masa ' + masa;
     })();
 
-    // Kategori Butonlarını Oluştur
+    // Kategori Tabları
     function renderCategories() {
-      const list = document.getElementById('catList');
-      list.innerHTML = Object.keys(CATEGORIES).map(key => `
-        <button class="cat-btn ${key === currentCat ? 'active' : ''}" data-cat="${key}">
+      const tabs = document.getElementById('catTabs');
+      tabs.innerHTML = Object.keys(CATEGORIES).map(key => `
+        <button class="cat-tab ${key === currentCat ? 'active' : ''}" data-cat="${key}">
           ${CATEGORIES[key].name}
         </button>
       `).join('');
     }
 
-    // Ürünleri Filtrele ve Göster
+    // Menü Render (Yemeksepeti Tarzı)
     function renderMenu() {
       const grid = document.getElementById('menuGrid');
-      const title = document.getElementById('currentCatTitle');
-      const count = document.getElementById('productCount');
-      
-      title.textContent = CATEGORIES[currentCat].name;
-
       let items = allItems;
-      if (currentCat !== 'all') {
-        items = items.filter(i => i.category === currentCat);
-      }
-
-      count.textContent = items.length + ' ürün';
+      if (currentCat !== 'all') items = items.filter(i => i.category === currentCat);
 
       if (items.length === 0) {
         grid.innerHTML = `<div class="empty-box">Bu kategoride henüz ürün bulunmuyor.</div>`;
@@ -288,7 +290,7 @@
       grid.innerHTML = items.map(item => {
         const priceStr = Number(item.price).toLocaleString('tr-TR', { minimumFractionDigits: 2 });
         const photo = item.photo ? `<img src="${escapeHtml(item.photo)}" onerror="this.style.display='none';this.parentNode.textContent='🍽️';">` : '🍽️';
-        const desc = item.desc ? escapeHtml(item.desc) : '';
+        const desc = item.desc ? escapeHtml(item.desc) : 'Lezzetli bir seçim';
 
         return `
           <div class="food-card">
@@ -306,20 +308,15 @@
       }).join('');
     }
 
-    // Kategori Tıklama Olayı
-    document.getElementById('catList').addEventListener('click', (e) => {
-      const btn = e.target.closest('.cat-btn');
+    document.getElementById('catTabs').addEventListener('click', (e) => {
+      const btn = e.target.closest('.cat-tab');
       if (!btn) return;
       currentCat = btn.getAttribute('data-cat');
-      
-      // Aktif sınıfını değiştir
-      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-
       renderMenu();
     });
 
-    // Sepete Ekleme
     function addToCart(itemId, btn) {
       const item = allItems.find(i => i.id === itemId);
       if (!item) return;
@@ -336,7 +333,6 @@
       if (btn) addToCart(btn.getAttribute('data-add-id'), btn);
     });
 
-    /* TEMA */
     (function () {
       const themeToggle = document.getElementById('themeToggle');
       themeToggle.addEventListener('click', function () {
@@ -346,10 +342,8 @@
       });
     })();
 
-    /* BAŞLAT */
     async function init() {
       renderCategories();
-      document.getElementById('menuGrid').innerHTML = `<div class="loading-box">Menü yükleniyor...</div>`;
       try {
         allItems = await getMenuItems();
         renderMenu();
