@@ -60,10 +60,37 @@
   [data-theme="dark"] .theme-toggle .icon-sun { opacity: 1; transform: rotate(180deg) scale(1); }
   [data-theme="dark"] .theme-toggle .icon-moon { opacity: 0; transform: rotate(-180deg) scale(0); }
 
-  /* HEADER */
-  .page-header { margin-top: 70px; padding: 40px 24px 20px; text-align: center; background: var(--bg-alt); border-bottom: 1px solid var(--border); }
-  .page-title { font-size: 32px; font-weight: 700; font-style: italic; font-family: Georgia, serif; margin-bottom: 8px; }
-  .page-sub { font-size: 14px; color: var(--text-muted); }
+  /* HERO (KAPAK FOTOĞRAFI) */
+  .hero-banner {
+    margin-top: 70px;
+    height: 400px;
+    background-image: url('hero.jpeg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .hero-banner::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Resmi karartır, yazı okunsun diye */
+  }
+  .hero-content {
+    position: relative; z-index: 2; color: #fff; padding: 20px;
+  }
+  .hero-title {
+    font-size: 56px; font-weight: 700; font-style: italic;
+    font-family: Georgia, serif; letter-spacing: -0.02em;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    margin-bottom: 12px;
+  }
+  .hero-slogan {
+    font-size: 16px; font-weight: 600; letter-spacing: 0.3em;
+    text-transform: uppercase; opacity: 0.9;
+  }
 
   /* ANA İÇERİK */
   .main-content {
@@ -86,7 +113,7 @@
   .cat-tab:hover { border-color: var(--border-input); color: var(--text); }
   .cat-tab.active { background: var(--btn-bg); color: var(--btn-text); border-color: var(--btn-bg); }
 
-  /* ÜRÜN GRID (YEMEKSEPETİ TARZI) */
+  /* ÜRÜN GRID */
   .menu-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -164,8 +191,9 @@
   .footer-copyright { max-width: 1200px; margin: 30px auto 0; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; font-size: 12px; color: #666; }
 
   @media (max-width: 768px) {
-    .page-header { padding: 30px 16px 16px; }
-    .page-title { font-size: 26px; }
+    .hero-banner { height: 280px; }
+    .hero-title { font-size: 36px; }
+    .hero-slogan { font-size: 12px; }
     .main-content { padding: 20px 16px 80px; }
     .menu-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
     .food-body { padding: 12px 12px 14px; gap: 6px; }
@@ -196,10 +224,13 @@
     </div>
   </nav>
 
-  <div class="page-header">
-    <h1 class="page-title">Dükkan Menüsü</h1>
-    <p class="page-sub">Tüm lezzetlerimiz aşağıda listelenmiştir</p>
-  </div>
+  <!-- BÜYÜK KAPAK FOTOĞRAFI -->
+  <header class="hero-banner">
+    <div class="hero-content">
+      <h1 class="hero-title">Ramiz Köfte Batman</h1>
+      <p class="hero-slogan">1928'den Beridir Gelen Lezzet</p>
+    </div>
+  </header>
 
   <div class="main-content">
     <!-- YATAY KATEGORİ MENÜSÜ -->
@@ -276,7 +307,7 @@
       `).join('');
     }
 
-    // Menü Render (Yemeksepeti Tarzı)
+    // Menü Render
     function renderMenu() {
       const grid = document.getElementById('menuGrid');
       let items = allItems;
