@@ -43,16 +43,8 @@
   [data-theme="dark"] .theme-toggle .icon-sun { opacity: 1; transform: rotate(180deg) scale(1); }
   [data-theme="dark"] .theme-toggle .icon-moon { opacity: 0; transform: rotate(-180deg) scale(0); }
 
-  /* UYARI (QR YOKSA) */
-  .warning-wrap { flex: 1; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 80px 20px; text-align: center; }
-  .warning-wrap.show { display: flex; }
-  .warning-icon { font-size: 64px; margin-bottom: 16px; }
-  .warning-title { font-size: 24px; font-weight: 700; font-family: Georgia, serif; margin-bottom: 8px; }
-  .warning-desc { font-size: 15px; color: var(--text-muted); line-height: 1.6; max-width: 400px; }
-
   /* ANA MENÜ */
-  .main-menu-wrap { display: none; flex: 1; flex-direction: column; }
-  .main-menu-wrap.show { display: flex; }
+  .main-menu-wrap { display: flex; flex: 1; flex-direction: column; }
   
   .hero { padding: 40px 20px; text-align: center; background: var(--bg-alt); }
   .hero-title { font-size: 32px; font-weight: 700; font-style: italic; font-family: Georgia, serif; margin-bottom: 6px; }
@@ -92,18 +84,10 @@
     </div>
   </nav>
 
-  <!-- 1. UYARI EKRANI (QR YOKSA) -->
-  <div class="warning-wrap" id="warningWrap">
-    <span class="warning-icon">📵</span>
-    <h1 class="warning-title">QR Kod Okutulmadı</h1>
-    <p class="warning-desc">Sipariş verebilmek için lütfen masanızdaki QR kodu telefonunuzun kamerasıyla okutun.</p>
-  </div>
-
-  <!-- 2. ANA MENÜ EKRANI -->
-  <div class="main-menu-wrap" id="mainMenuWrap">
+  <div class="main-menu-wrap">
     <section class="hero">
       <h1 class="hero-title">Hoş Geldiniz</h1>
-      <p class="hero-sub" id="masaBilgi">Masa Yükleniyor...</p>
+      <p class="hero-sub" id="masaBilgi">Lütfen Menü Seçin</p>
     </section>
 
     <section class="categories">
@@ -151,28 +135,24 @@
       });
     })();
 
-    /* MASA KONTROLÜ (QR'dan gelen URL parametresi) */
+    /* MASA KONTROLÜ (ŞİMDİLİK QR YOK, OTOMATİK MASA ATAMA) */
     (function() {
       const params = new URLSearchParams(window.location.search);
       const masaUrl = params.get('masa');
       
-      // Eğer QR'dan masa parametresi geldiyse hafızaya kaydet
+      // 1. Eğer URL'de masa varsa (ileride QR ile gelecek) onu kaydet
       if (masaUrl) {
         localStorage.setItem('ramiz_masa', masaUrl);
+      } 
+      // 2. Eğer URL'de masa yoksa ve hafızada da yoksa, test için otomatik "Masa 1" ata
+      else if (!localStorage.getItem('ramiz_masa')) {
+        localStorage.setItem('ramiz_masa', '1'); // Test için varsayılan masa
       }
 
-      // Hafızada masa var mı?
+      // Ekranda masa bilgisini göster
       const savedMasa = localStorage.getItem('ramiz_masa');
-
       if (savedMasa) {
-        // Masa var, menüyü göster
-        document.getElementById('warningWrap').classList.remove('show');
-        document.getElementById('mainMenuWrap').classList.add('show');
         document.getElementById('masaBilgi').textContent = `Masa ${savedMasa} · Lütfen Menü Seçin`;
-      } else {
-        // Masa yok, uyarı göster
-        document.getElementById('warningWrap').classList.add('show');
-        document.getElementById('mainMenuWrap').classList.remove('show');
       }
     })();
   </script>
