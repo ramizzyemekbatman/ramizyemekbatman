@@ -54,37 +54,67 @@
   .masa-title { font-size: 28px; font-weight: 700; font-family: Georgia, serif; margin-bottom: 8px; text-align: center; }
   .masa-desc { font-size: 15px; color: var(--text-muted); margin-bottom: 30px; text-align: center; }
   
-  /* KROKİ PLANI */
+  /* KROKİ PLANI (GRID YAPISI) */
   .kroki-container {
-    width: 100%; max-width: 800px; background: var(--bg-alt);
+    width: 100%; max-width: 850px; background: var(--bg-alt);
     border: 2px solid var(--border); border-radius: 24px;
-    padding: 40px; position: relative; aspect-ratio: 4/3;
-    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 30px; position: relative;
+    display: flex; flex-direction: column; gap: 20px;
   }
   
-  .kroki-row { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
-  .kroki-row.top { justify-content: space-around; margin-top: 20px; }
-  .kroki-row.middle { justify-content: center; gap: 40px; margin: 20px 0; }
-  .kroki-row.bottom { justify-content: space-around; align-items: flex-end; }
-
-  .kroki-left-col { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; align-items: center; gap: 20px; }
+  .kroki-row { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
   
+  /* Sol Kolon (11, Kapı, 12, Kasa) */
+  .kroki-side-left {
+    display: flex; flex-direction: column; justify-content: space-between;
+    align-items: flex-end; width: 80px; gap: 10px;
+  }
+
+  /* Orta Alan */
+  .kroki-center {
+    flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 30px;
+  }
+
+  /* Sağ Kolon (2, 1) */
+  .kroki-side-right {
+    display: flex; flex-direction: column; justify-content: space-between;
+    align-items: flex-start; width: 80px; gap: 10px;
+  }
+
+  /* Ana Gövde (Sol, Orta, Sağ) */
+  .kroki-body { display: flex; justify-content: space-between; width: 100%; align-items: stretch; }
+
+  /* Masa Butonları */
   .masa-btn {
-    width: 70px; height: 70px; border-radius: 12px;
+    width: 60px; height: 60px; border-radius: 12px;
     background: var(--bg); border: 2px solid var(--border-input);
     display: flex; align-items: center; justify-content: center;
-    font-size: 18px; font-weight: 700; color: var(--text);
+    font-size: 16px; font-weight: 700; color: var(--text);
     cursor: pointer; transition: all 0.2s ease;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    flex-shrink: 0;
   }
   .masa-btn:hover { border-color: var(--text); transform: scale(1.05); }
   .masa-btn.selected { background: var(--btn-bg); color: var(--btn-text); border-color: var(--btn-bg); }
-  
-  .kroki-label { font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--text-muted); text-align: center; margin-top: 6px; }
 
-  /* Sabit Objeler */
-  .kasa-box { width: 80px; height: 80px; background: var(--bg); border: 2px dashed var(--warning); display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 12px; color: var(--warning); font-weight: 600; font-size: 13px; }
-  .kapi-box { width: 80px; height: 40px; background: var(--bg); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; border-radius: 8px 8px 0 0; color: var(--text-muted); font-weight: 600; font-size: 13px; position: absolute; bottom: 0; left: 20px; border-bottom: none; }
+  /* Orta Masalar (Daha büyük) */
+  .masa-btn.center-btn { width: 65px; height: 65px; font-size: 18px; }
+
+  /* Kapı */
+  .kapi-box { 
+    width: 70px; height: 40px; background: var(--bg); border: 2px solid var(--border); 
+    display: flex; align-items: center; justify-content: center; 
+    border-radius: 8px; color: var(--text-muted); font-weight: 600; font-size: 12px;
+    margin-left: 10px; position: relative;
+  }
+  
+  /* Kasa (12'nin altında, sağa çapraz) */
+  .kasa-box { 
+    width: 70px; height: 70px; background: var(--bg); border: 2px dashed var(--warning); 
+    display: flex; flex-direction: column; align-items: center; justify-content: center; 
+    border-radius: 12px; color: var(--warning); font-weight: 600; font-size: 13px;
+    position: absolute; bottom: 30px; left: 110px; transform: rotate(-10deg);
+  }
 
   .secim-devam-btn {
     margin-top: 30px; padding: 16px 40px; border-radius: 100px;
@@ -140,6 +170,7 @@
   .footer-col p, .footer-col a { font-size: 14px; color: #fff; opacity: 0.6; text-decoration: none; display: block; margin-bottom: 8px; }
   .footer-copyright { max-width: 1200px; margin: 30px auto 0; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; font-size: 12px; color: #666; }
 
+  /* Mobil Uyum (Kroki Küçülür) */
   @media (max-width: 768px) {
     .hero-banner { height: 280px; }
     .hero-title { font-size: 36px; }
@@ -153,20 +184,19 @@
     .add-to-cart-btn { padding: 8px 12px; font-size: 11px; }
     .floating-cart { bottom: 20px; right: 20px; left: 20px; justify-content: center; }
     .nav-masa { display: none; }
-    
+
     /* Mobil Kroki */
-    .kroki-container { padding: 20px; aspect-ratio: auto; gap: 30px; }
-    .kroki-left-col { position: static; transform: none; flex-direction: row; justify-content: center; width: 100%; order: 3; margin-top: 20px; }
-    .kasa-box { width: 70px; height: 70px; }
-    .kapi-box { display: none; }
-    .masa-btn { width: 55px; height: 55px; font-size: 15px; }
-    .kroki-row.top, .kroki-row.middle, .kroki-row.bottom { gap: 10px; }
-    .kroki-row.middle { margin: 10px 0; }
+    .kroki-container { padding: 15px; gap: 15px; }
+    .kroki-side-left, .kroki-side-right { width: 50px; }
+    .masa-btn { width: 45px; height: 45px; font-size: 14px; border-radius: 8px; }
+    .masa-btn.center-btn { width: 50px; height: 50px; font-size: 15px; }
+    .kroki-center { gap: 15px; }
+    .kroki-row { gap: 8px; }
+    .kapi-box { width: 40px; height: 30px; font-size: 9px; margin-left: 5px; }
+    .kasa-box { width: 50px; height: 50px; font-size: 11px; left: 60px; bottom: 15px; }
   }
   @media (max-width: 480px) {
     .menu-grid { grid-template-columns: 1fr; }
-    .masa-btn { width: 50px; height: 50px; font-size: 14px; }
-    .kroki-label { font-size: 10px; }
   }
 </style>
 </head>
@@ -191,35 +221,60 @@
     <p class="masa-desc">Lütfen oturduğunuz masayı seçin</p>
     
     <div class="kroki-container">
-      <!-- Kapı ve Kasa (Sol Taraf) -->
-      <div class="kroki-left-col">
-        <div style="text-align: center;">
-          <div class="kasa-box">KASA</div>
+      <!-- Üst Kısım (Boşluk) -->
+      <div style="height: 10px;"></div>
+
+      <!-- Ana Kroki Gövdesi -->
+      <div class="kroki-body">
+        
+        <!-- SOL KOLON (11 - Kapı - 12 - Kasa) -->
+        <div class="kroki-side-left">
+          <div style="text-align: center; margin-bottom: 20px;">
+            <button class="masa-btn" data-masa="11">11</button>
+          </div>
+          <div style="flex: 1; display: flex; align-items: center;">
+            <div class="kapi-box">GİRİŞ</div>
+          </div>
+          <div style="text-align: center; margin-top: 20px; position: relative;">
+            <button class="masa-btn" data-masa="12">12</button>
+            <!-- Kasa 12'nin altında çapraz -->
+            <div class="kasa-box">KASA</div>
+          </div>
         </div>
-        <div class="kapi-box">GİRİŞ</div>
-      </div>
 
-      <!-- Üst Sıra -->
-      <div class="kroki-row top">
-        <div style="text-align: center;"><button class="masa-btn" data-masa="11">S11</button></div>
-        <div style="text-align: center;"><button class="masa-btn" data-masa="9">S9</button></div>
-        <div style="text-align: center;"><button class="masa-btn" data-masa="8">S8</button></div>
-        <div style="text-align: center;"><button class="masa-btn" data-masa="7">S7</button></div>
-        <div style="text-align: center;"><button class="masa-btn" data-masa="5">S5</button></div>
-      </div>
+        <!-- ORTA ALAN (3-4-5-6 ve 7-8-9-10) -->
+        <div class="kroki-center">
+          <!-- Üst Sıra (3,4,5,6) -->
+          <div class="kroki-row">
+            <button class="masa-btn center-btn" data-masa="3">3</button>
+            <button class="masa-btn center-btn" data-masa="4">4</button>
+            <button class="masa-btn center-btn" data-masa="5">5</button>
+            <button class="masa-btn center-btn" data-masa="6">6</button>
+          </div>
+          <!-- Alt Sıra (7,8,9,10) -->
+          <div class="kroki-row">
+            <button class="masa-btn center-btn" data-masa="7">7</button>
+            <button class="masa-btn center-btn" data-masa="8">8</button>
+            <button class="masa-btn center-btn" data-masa="9">9</button>
+            <button class="masa-btn center-btn" data-masa="10">10</button>
+          </div>
+        </div>
 
-      <!-- Orta Sıra -->
-      <div class="kroki-row middle">
-        <div style="text-align: center;"><button class="masa-btn" data-masa="10">S10</button></div>
-        <div style="text-align: center;"><button class="masa-btn" data-masa="6">S6</button></div>
-      </div>
+        <!-- SAĞ KOLON (2 - 1) -->
+        <div class="kroki-side-right">
+          <div style="text-align: center; margin-bottom: 20px;">
+            <button class="masa-btn" data-masa="2">2</button>
+          </div>
+          <div style="flex: 1;"></div>
+          <div style="text-align: center; margin-top: 20px;">
+            <button class="masa-btn" data-masa="1">1</button>
+          </div>
+        </div>
 
-      <!-- Alt Sıra -->
-      <div class="kroki-row bottom" style="padding-right: 20px;">
-        <div style="text-align: center;"><button class="masa-btn" data-masa="12">S12</button></div>
-        <div style="text-align: center;"><button class="masa-btn" data-masa="4">S4</button></div>
-        <div style="text-align: center;"><button class="masa-btn" data-masa="1">S1</button></div>
       </div>
+      
+      <!-- Alt Kısım (Boşluk) -->
+      <div style="height: 10px;"></div>
     </div>
 
     <button class="secim-devam-btn" id="masaConfirmBtn">Devam Et →</button>
