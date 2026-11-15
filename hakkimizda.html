@@ -355,6 +355,33 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
   }
 
+  /* Sipariş Sonrası Ana Sayfaya Dön Butonu */
+  .back-home-wrap {
+    text-align: center;
+    padding: 0 20px 60px;
+  }
+  .back-home-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px 32px;
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    border-radius: 100px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
+  .back-home-btn:hover {
+    background: var(--btn-hover);
+    transform: translateY(-2px);
+  }
+
   footer {
     background: #000; color: #fff;
     padding: 60px 40px 30px;
@@ -425,6 +452,8 @@
     .cta-box { padding: 30px 20px; }
     .cta-box h3 { font-size: 18px; }
     .cta-btn { padding: 14px 28px; font-size: 12px; }
+
+    .back-home-btn { padding: 14px 24px; font-size: 13px; }
 
     footer { padding: 50px 24px 25px; }
     .footer-container { grid-template-columns: 1fr 1fr; gap: 32px 24px; }
@@ -538,11 +567,18 @@
     <div class="cta-box">
       <h3>Lezzetlerimizi Keşfedin</h3>
       <p>Köfteden tavuğa, sucuktan ekmek arasına kadar tüm menümüzü inceleyin.</p>
-      <a href="kategori.html?cat=all" class="cta-btn">
+      <a href="index.html" class="cta-btn">
         🍽️ Menüye Git
       </a>
     </div>
 
+  </div>
+
+  <!-- Sipariş Sonrası Ana Sayfaya Dön Butonu -->
+  <div class="back-home-wrap">
+    <a href="index.html" class="back-home-btn">
+      <span style="font-size: 18px;">←</span> Ana Sayfaya Dön
+    </a>
   </div>
 
   <footer>
@@ -588,6 +624,18 @@
           localStorage.setItem('theme', 'dark');
         }
       });
+    })();
+
+    /* SİPARİŞ BAŞARILI MESAJI */
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('siparis') === 'basarili') {
+        const alertBox = document.createElement('div');
+        alertBox.style.cssText = 'position: fixed; top: 80px; left: 50%; transform: translateX(-50%); background: #2a5040; color: white; padding: 16px 24px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 99999; font-weight: 600; text-align: center; font-size: 14px; max-width: 90%;';
+        alertBox.innerHTML = '✅ Siparişiniz Alındı!<br><span style="font-size: 12px; font-weight: 400;">Mutfakta hazırlanıyor, lütfen masanızdan ayrılmayın.</span>';
+        document.body.appendChild(alertBox);
+        setTimeout(() => { alertBox.style.transition = 'opacity 0.5s'; alertBox.style.opacity = '0'; setTimeout(() => alertBox.remove(), 500); }, 5000);
+      }
     })();
   </script>
 
