@@ -58,6 +58,7 @@
 
   .cart-summary { background: var(--bg); border: 1px solid var(--border); border-radius: 16px; padding: 20px; }
   .summary-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; font-size: 14px; color: var(--text-muted); }
+  .summary-row.discount { color: var(--success); font-weight: 700; }
   .summary-row.total { border-top: 1px solid var(--border); margin-top: 8px; padding-top: 16px; font-size: 18px; font-weight: 700; color: var(--text); }
   .summary-row.total .val { font-size: 22px; }
   
@@ -114,6 +115,13 @@
 
       <div class="cart-summary">
         <div class="summary-row"><span>Ara Toplam</span><span id="subTotal">0,00 ₺</span></div>
+        
+        <!-- KAMPANYA İNDİRİM SATIRI -->
+        <div class="summary-row discount" id="discountRow" style="display:none;">
+          <span>Kampanya İndirimi (%10)</span>
+          <span id="discountVal">-0,00 ₺</span>
+        </div>
+
         <div class="summary-row total"><span>TOPLAM</span><span class="val" id="grandTotal">0,00 ₺</span></div>
         <button class="checkout-btn" id="checkoutBtn">✅ Siparişi Onayla</button>
       </div>
@@ -130,7 +138,7 @@
       <div class="footer-col">
         <h4>Kurumsal</h4>
         <a href="hakkimizda.html">Hakkımızda</a>
-        <a href="kvkk.html">KVKK Aydınlatma Metni</a>
+        <a href="kkkk.html">KVKK Aydınlatma Metni</a>
         <a href="cerez.html">Çerez Politikası</a>
       </div>
     </div>
@@ -148,6 +156,14 @@
     function saveCart(cart) { localStorage.setItem('ramiz_cart', JSON.stringify(cart)); }
     function fmt(n) { return Number(n).toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ₺'; }
     function escapeHtml(str) { return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;'); }
+
+    // KAMPANYA HESAPLAMA FONKSİYONU
+    function calculateDiscount(total) {
+      if (total >= 370) {
+        return Math.floor((total / 100) * 10);
+      }
+      return 0;
+    }
 
     let toastTimer = null;
     function showToast(msg, type) {
@@ -183,8 +199,20 @@
       }).join('');
 
       const subTotal = cart.reduce((s, i) => s + Number(i.price) * (i.qty || 1), 0);
+      const discountAmount = calculateDiscount(subTotal);
+      const grandTotal = subTotal - discountAmount;
+
       document.getElementById('subTotal').textContent = fmt(subTotal);
-      document.getElementById('grandTotal').textContent = fmt(subTotal);
+      
+      const discountRow = document.getElementById('discountRow');
+      if (discountAmount > 0) {
+        discountRow.style.display = 'flex';
+        document.getElementById('discountVal').textContent = '-' + fmt(discountAmount);
+      } else {
+        discountRow.style.display = 'none';
+      }
+
+      document.getElementById('grandTotal').textContent = fmt(grandTotal);
 
       checkoutArea.style.display = 'block';
       checkMasa();
@@ -243,14 +271,20 @@
       this.textContent = '⏳ Gönderiliyor...';
 
       const subTotal = cart.reduce((s, i) => s + Number(i.price) * (i.qty || 1), 0);
+      const discountAmount = calculateDiscount(subTotal);
+      const finalTotal = subTotal - discountAmount;
 
       const newOrder = {
         masaNo: masa,
         items: cart.map(i => ({
           id: i.id, name: i.name, price: i.price, photo: i.photo || '', category: i.category, qty: i.qty || 1
         })),
-        total: subTotal, discountPercent: 0, discountAmount: 0, discountedTotal: subTotal,
-        status: 'pending', lastUpdated: Date.now()
+        total: subTotal, 
+        discountPercent: discountAmount > 0 ? 10 : 0, 
+        discountAmount: discountAmount, 
+        discountedTotal: finalTotal,
+        status: 'pending', 
+        lastUpdated: Date.now()
       };
 
       try {
@@ -258,7 +292,7 @@
         if (!docId) throw new Error('Sipariş kaydedilemedi');
 
         localStorage.removeItem('ramiz_cart');
-        // Sipariş başarılıysa Hakkımızda sayfasına yönlendir
+        // Başarılı olursa Hakkımızda sayfasına yönlendir
         window.location.href = 'hakkimizda.html?siparis=basarili';
 
       } catch (err) {
