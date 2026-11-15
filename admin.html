@@ -41,11 +41,14 @@
   .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
   .nav-logo-img { width: 48px; height: 48px; object-fit: contain; }
   .nav-logo-main { font-size: 22px; font-weight: 700; font-family: Georgia, serif; color: var(--text); }
+  
   .admin-btn { padding: 10px 20px; font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 8px; cursor: pointer; font-family: inherit; transition: all 0.25s ease; border: 1px solid var(--border-input); background: transparent; color: var(--text); text-decoration: none; display: inline-block; }
   .admin-btn:hover { background: var(--bg-alt); border-color: var(--text); }
   .admin-btn-primary { background: var(--btn-bg); color: var(--btn-text); border-color: var(--btn-bg); }
   .admin-btn-danger { border-color: var(--danger); color: var(--danger); }
   .admin-btn-danger:hover { background: var(--danger-bg); }
+  .admin-btn-test { border-color: var(--success); color: var(--success); }
+  .admin-btn-test:hover { background: var(--success); color: #fff; }
 
   /* PANEL */
   .admin-panel { flex: 1; padding: 100px 40px 60px; background: var(--bg); }
@@ -76,19 +79,9 @@
   .status-badge.approved { background: var(--success-bg); color: var(--success); border: 1px solid var(--success); }
 
   /* MODAL (SİLME ONAY PENCERESİ) */
-  .modal-overlay {
-    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
-    display: none; align-items: center; justify-content: center;
-    z-index: 100000;
-  }
+  .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 100000; }
   .modal-overlay.show { display: flex; }
-  .modal-box {
-    background: var(--bg); border: 1px solid var(--border); border-radius: 20px;
-    padding: 32px; max-width: 400px; width: 90%; text-align: center;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-    transform: scale(0.95); transition: transform 0.2s;
-  }
+  .modal-box { background: var(--bg); border: 1px solid var(--border); border-radius: 20px; padding: 32px; max-width: 400px; width: 90%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3); transform: scale(0.95); transition: transform 0.2s; }
   .modal-overlay.show .modal-box { transform: scale(1); }
   .modal-icon { font-size: 40px; margin-bottom: 16px; display: block; }
   .modal-box h3 { font-size: 22px; font-weight: 700; margin-bottom: 10px; font-family: Georgia, serif; }
@@ -126,6 +119,7 @@
       <div class="admin-header">
         <h1>Yönetici Paneli</h1>
         <div class="admin-header-actions">
+          <button class="admin-btn admin-btn-test" id="testSoundBtn">🔊 Sesi Test Et</button>
           <button class="admin-btn" id="refreshBtn">🔄 Yenile</button>
         </div>
       </div>
@@ -147,7 +141,7 @@
     </div>
   </div>
 
-  <!-- SİLME ONAY MODALI (HTML) -->
+  <!-- SİLME ONAY MODALI -->
   <div class="modal-overlay" id="deleteModal">
     <div class="modal-box">
       <span class="modal-icon">🗑️</span>
@@ -160,11 +154,55 @@
     </div>
   </div>
 
+  <!-- SES DOSYASI -->
+  <audio id="notificationSound" src="bildirim.mp3" preload="auto"></audio>
+
   <script type="module">
     import { getOrders, updateOrder, deleteOrder } from './firebase-config.js';
 
     let allOrders = [];
     let orderToDelete = null;
+    let knownOrderIds = new Set();
+    let audioUnlocked = false;
+
+    const notificationAudio = document.getElementById('notificationSound');
+
+    // 1. TARAYICI SES KİLİDİNİ AÇMA
+    // Chrome ve Safari, kullanıcı sayfaya tıklamadan ses çalmaya izin vermez.
+    function unlockAudio() {
+      if (audioUnlocked || !notificationAudio) return;
+      notificationAudio.volume = 0; // Sessizce başlat
+      notificationAudio.play().then(() => {
+        notificationAudio.pause();
+        notificationAudio.currentTime = 0;
+        notificationAudio.volume = 1; // Sesi geri aç
+        audioUnlocked = true;
+        console.log("🔊 Ses kiliti açıldı.");
+      }).catch(err => {
+        console.warn("Ses kiliti açılamadı:", err);
+      });
+    }
+
+    // Kullanıcı herhangi bir yere tıkladığında sesi hazırla
+    document.addEventListener('click', unlockAudio, { once: true });
+    document.addEventListener('touchstart', unlockAudio, { once: true });
+
+    // 2. SES ÇALMA FONKSİYONU
+    function playSound() {
+      if (!notificationAudio) return;
+      try {
+        notificationAudio.currentTime = 0;
+        notificationAudio.volume = 1;
+        notificationAudio.play().catch(e => console.warn("Ses çalınamadı:", e));
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    // Test Butonu
+    document.getElementById('testSoundBtn').addEventListener('click', function() {
+      playSound();
+    });
 
     function escapeHtml(str) { 
       return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;'); 
@@ -174,25 +212,43 @@
       return Number(n).toLocaleString('tr-TR', { minimumFractionDigits: 2 }) + ' ₺'; 
     }
 
-    // Siparişleri Yükle
+    // 3. SİPARİŞLERİ YÜKLE VE YENİ SİPARİŞ KONTROLÜ
     async function loadOrders() {
       try {
-        allOrders = await getOrders();
-        allOrders.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)); // En yeni en üstte
+        const freshOrders = await getOrders();
+        // En yeni sipariş en üstte
+        freshOrders.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)); 
+
+        // Yeni sipariş var mı kontrol et
+        let hasNewOrder = false;
+        freshOrders.forEach(o => {
+          // Eğer bu sipariş ID'sini daha önce görmediysek ve bu ilk yükleme değilse
+          if (!knownOrderIds.has(o.id) && knownOrderIds.size > 0) {
+            hasNewOrder = true;
+          }
+          knownOrderIds.add(o.id); // Görülenlere ekle
+        });
+
+        allOrders = freshOrders;
         renderOrders();
+
+        // Eğer yeni sipariş varsa ses çal
+        if (hasNewOrder) {
+          playSound();
+        }
+
       } catch (e) {
         console.error(e);
         alert("Siparişler yüklenemedi. Lütfen sayfayı yenileyin.");
       }
     }
 
-    // Siparişleri Ekrana Çiz
+    // 4. SİPARİŞLERİ EKRANA ÇİZ
     function renderOrders() {
       const list = document.getElementById('ordersList');
       const empty = document.getElementById('ordersEmpty');
       const badge = document.getElementById('tabBadge');
 
-      // Bekleyen sipariş sayısını güncelle
       const pendingCount = allOrders.filter(o => o.status === 'pending').length;
       if (pendingCount > 0) { 
         badge.textContent = pendingCount; 
@@ -249,7 +305,7 @@
       }).join('');
     }
 
-    // Siparişi Onayla
+    // 5. SİPARİŞ ONAYLA
     window.approveOrder = async function(id) {
       try {
         await updateOrder(id, { status: 'approved' });
@@ -259,19 +315,17 @@
       }
     };
 
-    // Silme Modalını Aç
+    // 6. SİLME İŞLEMLERİ
     window.openDeleteModal = function(id) {
       orderToDelete = id;
       document.getElementById('deleteModal').classList.add('show');
     };
 
-    // Silme Modalını Kapat
     function closeDeleteModal() {
       orderToDelete = null;
       document.getElementById('deleteModal').classList.remove('show');
     }
 
-    // Silme İşlemini Onayla
     document.getElementById('confirmDeleteBtn').addEventListener('click', async function() {
       if (!orderToDelete) return;
       
