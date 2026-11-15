@@ -30,12 +30,8 @@
     --btn-hover: #d4d4d4; --nav-bg: #0f0f0f; --success: #7aa589; --success-bg: rgba(122,165,137,0.1);
     --warning: #d4a017; --warning-bg: rgba(212,160,23,0.12); --danger: #e74c3c; --danger-bg: rgba(231,76,60,0.1);
   }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
-    color: var(--text); background: var(--bg); min-height: 100vh; display: flex; flex-direction: column;
-  }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif; color: var(--text); background: var(--bg); min-height: 100vh; display: flex; flex-direction: column; }
   
-  /* NAVBAR */
   .navbar { position: fixed; top: 0; left: 0; right: 0; height: 70px; background: var(--nav-bg); display: flex; align-items: center; justify-content: center; z-index: 9999; border-bottom: 1px solid var(--border); }
   .nav-inner { display: flex; align-items: center; gap: 20px; max-width: 1400px; width: 100%; padding: 0 24px; justify-content: space-between; }
   .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
@@ -47,10 +43,9 @@
   .admin-btn-primary { background: var(--btn-bg); color: var(--btn-text); border-color: var(--btn-bg); }
   .admin-btn-danger { border-color: var(--danger); color: var(--danger); }
   .admin-btn-danger:hover { background: var(--danger-bg); }
-  .admin-btn-test { border-color: var(--success); color: var(--success); }
+  .admin-btn-test { border-color: var(--success); color: var(--success); background: var(--success-bg); }
   .admin-btn-test:hover { background: var(--success); color: #fff; }
 
-  /* PANEL */
   .admin-panel { flex: 1; padding: 100px 40px 60px; background: var(--bg); }
   .admin-container { max-width: 1400px; margin: 0 auto; }
   .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; flex-wrap: wrap; gap: 20px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
@@ -62,7 +57,6 @@
   .main-tab.active { color: var(--text); border-bottom-color: var(--text); }
   .tab-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding: 0 6px; background: var(--danger); color: #fff; border-radius: 100px; font-size: 11px; font-weight: 700; margin-left: 6px; }
 
-  /* SİPARİŞ KARTLARI */
   .admin-list { display: flex; flex-direction: column; gap: 16px; }
   .order-card { background: var(--bg); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; border-left: 4px solid var(--warning); }
   .order-card.status-approved { border-left-color: var(--success); }
@@ -78,7 +72,6 @@
   .status-badge.pending { background: var(--warning-bg); color: var(--warning); border: 1px solid var(--warning); }
   .status-badge.approved { background: var(--success-bg); color: var(--success); border: 1px solid var(--success); }
 
-  /* MODAL (SİLME ONAY PENCERESİ) */
   .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 100000; }
   .modal-overlay.show { display: flex; }
   .modal-box { background: var(--bg); border: 1px solid var(--border); border-radius: 20px; padding: 32px; max-width: 400px; width: 90%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3); transform: scale(0.95); transition: transform 0.2s; }
@@ -119,7 +112,7 @@
       <div class="admin-header">
         <h1>Yönetici Paneli</h1>
         <div class="admin-header-actions">
-          <button class="admin-btn admin-btn-test" id="testSoundBtn">🔊 Sesi Test Et</button>
+          <button class="admin-btn admin-btn-test" id="enableNotificationsBtn">🔔 Bildirimleri Aç / Ses Testi</button>
           <button class="admin-btn" id="refreshBtn">🔄 Yenile</button>
         </div>
       </div>
@@ -141,7 +134,6 @@
     </div>
   </div>
 
-  <!-- SİLME ONAY MODALI -->
   <div class="modal-overlay" id="deleteModal">
     <div class="modal-box">
       <span class="modal-icon">🗑️</span>
@@ -154,7 +146,6 @@
     </div>
   </div>
 
-  <!-- SES DOSYASI -->
   <audio id="notificationSound" src="bildirim.mp3" preload="auto"></audio>
 
   <script type="module">
@@ -167,95 +158,100 @@
 
     const notificationAudio = document.getElementById('notificationSound');
 
-    // 1. TARAYICI SES KİLİDİNİ AÇMA
-    // Chrome ve Safari, kullanıcı sayfaya tıklamadan ses çalmaya izin vermez.
-    function unlockAudio() {
-      if (audioUnlocked || !notificationAudio) return;
-      notificationAudio.volume = 0; // Sessizce başlat
-      notificationAudio.play().then(() => {
+    // --- SES VE BİLDİRİM İZİNLERİ ---
+    
+    // Üstteki butona basıldığında çalışır
+    document.getElementById('enableNotificationsBtn').addEventListener('click', async function() {
+      // 1. Ses kilidini aç (Kısa bir sessiz ses çal)
+      if (!audioUnlocked && notificationAudio) {
+        notificationAudio.volume = 0;
+        await notificationAudio.play().catch(e => console.warn("Ses kiliti hatası:", e));
         notificationAudio.pause();
-        notificationAudio.currentTime = 0;
-        notificationAudio.volume = 1; // Sesi geri aç
+        notificationAudio.volume = 1;
         audioUnlocked = true;
-        console.log("🔊 Ses kiliti açıldı.");
-      }).catch(err => {
-        console.warn("Ses kiliti açılamadı:", err);
-      });
-    }
+      }
+      
+      // 2. Ses testi çal
+      playSound();
 
-    // Kullanıcı herhangi bir yere tıkladığında sesi hazırla
-    document.addEventListener('click', unlockAudio, { once: true });
-    document.addEventListener('touchstart', unlockAudio, { once: true });
+      // 3. Masaüstü bildirim izni iste
+      if ('Notification' in window) {
+        if (Notification.permission === 'granted') {
+          this.textContent = '✅ Bildirimler Aktif';
+        } else {
+          const permission = await Notification.requestPermission();
+          if (permission === 'granted') {
+            this.textContent = '✅ Bildirimler Aktif';
+            new Notification("Harika!", { body: "Masaüstü bildirimleri başarıyla açıldı. Artık yeni siparişleri kaçırmayacaksınız." });
+          } else {
+            this.textContent = '⚠️ Bildirim İzni Verilmedi';
+          }
+        }
+      }
+    });
 
-    // 2. SES ÇALMA FONKSİYONU
+    // Ses Çalma Fonksiyonu
     function playSound() {
       if (!notificationAudio) return;
       try {
         notificationAudio.currentTime = 0;
         notificationAudio.volume = 1;
         notificationAudio.play().catch(e => console.warn("Ses çalınamadı:", e));
-      } catch (e) {
-        console.error(e);
-      }
+      } catch (e) { console.error(e); }
     }
-
-    // Test Butonu
-    document.getElementById('testSoundBtn').addEventListener('click', function() {
-      playSound();
-    });
 
     function escapeHtml(str) { 
       return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;'); 
     }
-    
     function fmtPrice(n) { 
       return Number(n).toLocaleString('tr-TR', { minimumFractionDigits: 2 }) + ' ₺'; 
     }
 
-    // 3. SİPARİŞLERİ YÜKLE VE YENİ SİPARİŞ KONTROLÜ
+    // --- SİPARİŞLERİ YÜKLE VE KONTROL ET ---
     async function loadOrders() {
       try {
         const freshOrders = await getOrders();
-        // En yeni sipariş en üstte
         freshOrders.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)); 
 
-        // Yeni sipariş var mı kontrol et
-        let hasNewOrder = false;
+        let newOrdersFound = [];
+
+        // Yeni sipariş var mı?
         freshOrders.forEach(o => {
-          // Eğer bu sipariş ID'sini daha önce görmediysek ve bu ilk yükleme değilse
+          // Eğer daha önce görmediysek ve sistem ilk kez yüklenmiyorsa
           if (!knownOrderIds.has(o.id) && knownOrderIds.size > 0) {
-            hasNewOrder = true;
+            newOrdersFound.push(o);
           }
-          knownOrderIds.add(o.id); // Görülenlere ekle
+          knownOrderIds.add(o.id); 
         });
 
         allOrders = freshOrders;
         renderOrders();
 
-        // Eğer yeni sipariş varsa ses çal
-        if (hasNewOrder) {
-          playSound();
+        // Eğer yeni sipariş(ler) bulunduysa bildir
+        if (newOrdersFound.length > 0) {
+          playSound(); // 1. Ses çal
+          
+          // 2. Tarayıcı bildirimi gönder
+          if ('Notification' in window && Notification.permission === 'granted') {
+            new Notification("🍽️ Yeni Sipariş!", { 
+              body: `Masa: ${newOrdersFound[0].masaNo}\nTutar: ${fmtPrice(newOrdersFound[0].total)}`,
+              icon: 'favicon-source.png'
+            });
+          }
         }
 
       } catch (e) {
         console.error(e);
-        alert("Siparişler yüklenemedi. Lütfen sayfayı yenileyin.");
       }
     }
 
-    // 4. SİPARİŞLERİ EKRANA ÇİZ
     function renderOrders() {
       const list = document.getElementById('ordersList');
       const empty = document.getElementById('ordersEmpty');
       const badge = document.getElementById('tabBadge');
 
       const pendingCount = allOrders.filter(o => o.status === 'pending').length;
-      if (pendingCount > 0) { 
-        badge.textContent = pendingCount; 
-        badge.style.display = 'inline-flex'; 
-      } else { 
-        badge.style.display = 'none'; 
-      }
+      if (pendingCount > 0) { badge.textContent = pendingCount; badge.style.display = 'inline-flex'; } else { badge.style.display = 'none'; }
 
       if (allOrders.length === 0) {
         list.innerHTML = '';
@@ -286,17 +282,11 @@
                 ${isPending ? '⏳ Onay Bekliyor' : '✅ Onaylandı'}
               </span>
             </div>
-
-            <div class="order-body">
-              ${itemsHtml}
-            </div>
-
+            <div class="order-body">${itemsHtml}</div>
             <div class="order-footer">
               <div class="order-total">${fmtPrice(order.total)}</div>
               <div class="order-actions">
-                ${isPending ? `
-                  <button class="admin-btn admin-btn-primary" onclick="approveOrder('${order.id}')">✅ Onayla</button>
-                ` : ''}
+                ${isPending ? `<button class="admin-btn admin-btn-primary" onclick="approveOrder('${order.id}')">✅ Onayla</button>` : ''}
                 <button class="admin-btn admin-btn-danger" onclick="openDeleteModal('${order.id}')">🗑️ Sil</button>
               </div>
             </div>
@@ -305,17 +295,13 @@
       }).join('');
     }
 
-    // 5. SİPARİŞ ONAYLA
     window.approveOrder = async function(id) {
       try {
         await updateOrder(id, { status: 'approved' });
         await loadOrders();
-      } catch (e) {
-        alert('Sipariş onaylanamadı.');
-      }
+      } catch (e) { alert('Sipariş onaylanamadı.'); }
     };
 
-    // 6. SİLME İŞLEMLERİ
     window.openDeleteModal = function(id) {
       orderToDelete = id;
       document.getElementById('deleteModal').classList.add('show');
@@ -328,29 +314,21 @@
 
     document.getElementById('confirmDeleteBtn').addEventListener('click', async function() {
       if (!orderToDelete) return;
-      
       this.disabled = true;
       this.textContent = '⏳ Siliniyor...';
-
       try {
         await deleteOrder(orderToDelete);
         closeDeleteModal();
         await loadOrders();
-      } catch (e) {
-        console.error(e);
-        alert('Sipariş silinemedi. Lütfen tekrar deneyin.');
-      }
-      
+      } catch (e) { alert('Sipariş silinemedi.'); }
       this.disabled = false;
       this.textContent = 'Evet, Sil';
     });
 
     document.getElementById('cancelDeleteBtn').addEventListener('click', closeDeleteModal);
-
-    // Yenile Butonu
     document.getElementById('refreshBtn').addEventListener('click', loadOrders);
 
-    // İlk Yükleme ve Otomatik Yenileme (Her 10 saniyede)
+    // İlk Yükleme ve 10 Saniyede Bir Kontrol
     loadOrders();
     setInterval(loadOrders, 10000);
 
