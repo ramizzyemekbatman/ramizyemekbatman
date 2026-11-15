@@ -19,18 +19,26 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
     --bg: #ffffff; --bg-alt: #f5f5f5; --text: #1a1a1a; --text-muted: #888;
-    --border: #f0f0f0; --border-input: #ddd; --btn-bg: #1a1a1a; --btn-text: #ffffff;
-    --btn-hover: #333; --nav-bg: #ffffff; --success: #2a5040; --success-bg: rgba(42,80,64,0.08);
-    --warning: #b8860b; --warning-bg: rgba(184,134,11,0.1); --danger: #c0392b; --danger-bg: rgba(192,57,43,0.08);
+    --text-light: #555; --text-lighter: #ccc; --border: #f0f0f0; --border-input: #ddd;
+    --btn-bg: #1a1a1a; --btn-text: #ffffff; --btn-hover: #333; --nav-bg: #ffffff;
+    --success: #2a5040; --success-bg: rgba(42,80,64,0.08);
+    --warning: #b8860b; --warning-bg: rgba(184,134,11,0.1);
+    --danger: #c0392b; --danger-bg: rgba(192,57,43,0.08);
     --transition: 0.3s ease;
   }
   [data-theme="dark"] {
     --bg: #0f0f0f; --bg-alt: #1a1a1a; --text: #f5f5f5; --text-muted: #888;
-    --border: #2a2a2a; --border-input: #333; --btn-bg: #f5f5f5; --btn-text: #0f0f0f;
-    --btn-hover: #d4d4d4; --nav-bg: #0f0f0f; --success: #7aa589; --success-bg: rgba(122,165,137,0.1);
-    --warning: #d4a017; --warning-bg: rgba(212,160,23,0.12); --danger: #e74c3c; --danger-bg: rgba(231,76,60,0.1);
+    --text-light: #aaa; --text-lighter: #444; --border: #2a2a2a; --border-input: #333;
+    --btn-bg: #f5f5f5; --btn-text: #0f0f0f; --btn-hover: #d4d4d4; --nav-bg: #0f0f0f;
+    --success: #7aa589; --success-bg: rgba(122,165,137,0.1);
+    --warning: #d4a017; --warning-bg: rgba(212,160,23,0.12);
+    --danger: #e74c3c; --danger-bg: rgba(231,76,60,0.1);
   }
-  body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif; color: var(--text); background: var(--bg); min-height: 100vh; display: flex; flex-direction: column; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: var(--text); background: var(--bg); -webkit-font-smoothing: antialiased;
+    display: flex; flex-direction: column; min-height: 100vh;
+  }
   
   .navbar { position: fixed; top: 0; left: 0; right: 0; height: 70px; background: var(--nav-bg); display: flex; align-items: center; justify-content: center; z-index: 9999; border-bottom: 1px solid var(--border); }
   .nav-inner { display: flex; align-items: center; gap: 20px; max-width: 1400px; width: 100%; padding: 0 24px; justify-content: space-between; }
@@ -38,27 +46,30 @@
   .nav-logo-img { width: 48px; height: 48px; object-fit: contain; }
   .nav-logo-main { font-size: 22px; font-weight: 700; font-family: Georgia, serif; color: var(--text); }
   
-  .admin-btn { padding: 10px 20px; font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 8px; cursor: pointer; font-family: inherit; transition: all 0.25s ease; border: 1px solid var(--border-input); background: transparent; color: var(--text); text-decoration: none; display: inline-block; }
-  .admin-btn:hover { background: var(--bg-alt); border-color: var(--text); }
-  .admin-btn-primary { background: var(--btn-bg); color: var(--btn-text); border-color: var(--btn-bg); }
-  .admin-btn-danger { border-color: var(--danger); color: var(--danger); }
-  .admin-btn-danger:hover { background: var(--danger-bg); }
-  .admin-btn-test { border-color: var(--success); color: var(--success); background: var(--success-bg); }
-  .admin-btn-test:hover { background: var(--success); color: #fff; }
-
   .admin-panel { flex: 1; padding: 100px 40px 60px; background: var(--bg); }
   .admin-container { max-width: 1400px; margin: 0 auto; }
   .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; flex-wrap: wrap; gap: 20px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
   .admin-header h1 { font-size: 36px; font-weight: 300; font-style: italic; color: var(--text); font-family: Georgia, serif; }
   .admin-header-actions { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  
+  .admin-btn { padding: 10px 20px; font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 8px; cursor: pointer; font-family: inherit; transition: all 0.25s ease; border: 1px solid var(--border-input); background: transparent; color: var(--text); text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+  .admin-btn:hover { background: var(--bg-alt); border-color: var(--text); }
+  .admin-btn-primary { background: var(--btn-bg); color: var(--btn-text); border-color: var(--btn-bg); }
+  .admin-btn-primary:hover { background: var(--btn-hover); }
+  .admin-btn-danger { border-color: var(--danger); color: var(--danger); }
+  .admin-btn-danger:hover { background: var(--danger-bg); }
+  .admin-btn-test { border-color: var(--success); color: var(--success); background: var(--success-bg); }
+  .admin-btn-test:hover { background: var(--success); color: #fff; }
 
   .main-tabs { display: flex; gap: 10px; margin-bottom: 32px; border-bottom: 1px solid var(--border); overflow-x: auto; }
   .main-tab { padding: 12px 22px; background: transparent; border: none; border-bottom: 3px solid transparent; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); cursor: pointer; white-space: nowrap; }
   .main-tab.active { color: var(--text); border-bottom-color: var(--text); }
   .tab-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding: 0 6px; background: var(--danger); color: #fff; border-radius: 100px; font-size: 11px; font-weight: 700; margin-left: 6px; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
 
-  .admin-list { display: flex; flex-direction: column; gap: 16px; }
-  .order-card { background: var(--bg); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; border-left: 4px solid var(--warning); }
+  /* --- SİPARİŞLER --- */
+  .order-card { background: var(--bg); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; border-left: 4px solid var(--warning); margin-bottom: 16px; }
   .order-card.status-approved { border-left-color: var(--success); }
   .order-header { padding: 18px 24px; background: var(--bg-alt); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
   .masa-info { font-size: 20px; font-weight: 800; color: var(--text); }
@@ -72,25 +83,64 @@
   .status-badge.pending { background: var(--warning-bg); color: var(--warning); border: 1px solid var(--warning); }
   .status-badge.approved { background: var(--success-bg); color: var(--success); border: 1px solid var(--success); }
 
+  /* --- MENÜ YÖNETİMİ --- */
+  .form-card { background: var(--bg-alt); border: 1px solid var(--border); border-radius: 16px; padding: 28px 32px; margin-bottom: 32px; }
+  .form-card-title { font-size: 18px; font-weight: 600; color: var(--text); margin-bottom: 22px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .form-group { margin-bottom: 18px; }
+  .form-group label { display: block; font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
+  .form-group input[type="text"], .form-group input[type="number"], .form-group textarea {
+    width: 100%; padding: 14px 16px; border: 1px solid var(--border-input); border-radius: 10px; font-size: 15px; color: var(--text); background: var(--bg); outline: none; font-family: inherit;
+  }
+  .form-group input:focus, .form-group textarea:focus { border-color: var(--text); }
+  .form-grid-full { grid-column: 1 / -1; }
+  
+  .category-pills { display: flex; flex-wrap: wrap; gap: 10px; }
+  .category-pill { position: relative; }
+  .category-pill input { position: absolute; opacity: 0; }
+  .category-pill label { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; font-size: 12px; font-weight: 500; text-transform: uppercase; color: var(--text); background: var(--bg); border: 1px solid var(--border-input); border-radius: 100px; cursor: pointer; margin: 0; }
+  .category-pill input:checked + label { background: var(--btn-bg); color: var(--btn-text); border-color: var(--btn-bg); }
+
+  .photo-upload-zone { border: 2px dashed var(--border-input); border-radius: 12px; padding: 20px; text-align: center; background: var(--bg); position: relative; }
+  .photo-upload-zone input[type="file"] { display: none; }
+  .photo-file-btn { display: inline-flex; padding: 12px 24px; font-size: 12px; font-weight: 600; border-radius: 100px; background: var(--btn-bg); color: var(--btn-text); cursor: pointer; }
+  .photo-preview-wrap { margin-top: 14px; display: none; align-items: center; gap: 16px; padding: 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; }
+  .photo-preview-wrap.show { display: flex; }
+  .photo-preview-img { width: 80px; height: 80px; border-radius: 10px; object-fit: cover; }
+  .photo-remove-btn { padding: 8px 14px; font-size: 11px; border-radius: 8px; border: 1px solid var(--danger); color: var(--danger); background: transparent; cursor: pointer; }
+
+  .admin-search { flex: 1; padding: 14px 18px; border: 1px solid var(--border-input); border-radius: 10px; background: var(--bg); color: var(--text); font-size: 14px; outline: none; margin-bottom: 20px; }
+  
+  .product-card { background: var(--bg); border: 1px solid var(--border); border-radius: 16px; padding: 16px 22px; display: grid; grid-template-columns: 60px 1fr 120px 100px 90px; align-items: center; gap: 16px; margin-bottom: 12px; }
+  .product-thumb { width: 60px; height: 60px; border-radius: 10px; background: var(--bg-alt); display: flex; align-items: center; justify-content: center; font-size: 24px; overflow: hidden; }
+  .product-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .product-name { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+  .product-desc { font-size: 12px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .product-category { font-size: 11px; background: var(--bg-alt); padding: 4px 10px; border-radius: 100px; justify-self: start; }
+  .product-price { font-size: 16px; font-weight: 700; font-style: italic; text-align: right; }
+  .product-actions { display: flex; gap: 6px; justify-content: flex-end; }
+  .icon-btn { width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--border-input); background: transparent; color: var(--text); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .icon-btn.danger:hover { background: var(--danger-bg); color: var(--danger); border-color: var(--danger); }
+
+  /* --- MODAL --- */
   .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 100000; }
   .modal-overlay.show { display: flex; }
-  .modal-box { background: var(--bg); border: 1px solid var(--border); border-radius: 20px; padding: 32px; max-width: 400px; width: 90%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3); transform: scale(0.95); transition: transform 0.2s; }
-  .modal-overlay.show .modal-box { transform: scale(1); }
-  .modal-icon { font-size: 40px; margin-bottom: 16px; display: block; }
+  .modal-box { background: var(--bg); border: 1px solid var(--border); border-radius: 20px; padding: 32px; max-width: 400px; width: 90%; text-align: center; }
   .modal-box h3 { font-size: 22px; font-weight: 700; margin-bottom: 10px; font-family: Georgia, serif; }
-  .modal-box p { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.5; }
+  .modal-box p { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
   .modal-actions { display: flex; gap: 12px; justify-content: center; }
-  .modal-actions .admin-btn { flex: 1; padding: 14px; justify-content: center; }
-
-  .admin-empty { text-align: center; padding: 80px 20px; color: var(--text-muted); }
-  .admin-empty h3 { font-size: 22px; font-weight: 400; font-style: italic; color: var(--text); margin-bottom: 8px; }
+  .modal-actions .admin-btn { flex: 1; }
 
   @media (max-width: 768px) {
     .admin-panel { padding: 90px 16px 40px; }
     .admin-header h1 { font-size: 26px; }
-    .order-header, .order-body, .order-footer { padding: 14px; }
-    .order-actions { width: 100%; }
-    .order-actions .admin-btn { flex: 1; text-align: center; }
+    .form-grid { grid-template-columns: 1fr; }
+    .product-card { grid-template-columns: 50px 1fr auto; grid-template-areas: "thumb info actions" "thumb price price"; gap: 8px; padding: 14px; }
+    .product-thumb { grid-area: thumb; width: 50px; height: 50px; }
+    .product-info { grid-area: info; }
+    .product-price { grid-area: price; text-align: left; }
+    .product-actions { grid-area: actions; }
+    .product-category { display: none; }
   }
 </style>
 </head>
@@ -118,17 +168,73 @@
       </div>
 
       <div class="main-tabs">
-        <button class="main-tab active" data-tab="orders">
-          📋 Siparişler <span class="tab-badge" id="tabBadge" style="display:none;">0</span>
-        </button>
+        <button class="main-tab active" data-tab="orders">📋 Siparişler <span class="tab-badge" id="tabBadge" style="display:none;">0</span></button>
+        <button class="main-tab" data-tab="menu">🍽️ Menü Yönetimi</button>
       </div>
 
+      <!-- SİPARİŞLER SEKMESİ -->
       <div class="tab-content active" id="tab-orders">
         <div class="admin-list" id="ordersList"></div>
-        <div class="admin-empty" id="ordersEmpty" style="display:none;">
+        <div class="admin-empty" id="ordersEmpty" style="display:none; text-align:center; padding:60px; color:var(--text-muted);">
           <h3>Henüz sipariş yok</h3>
           <p>Müşteriler sipariş verdiğinde burada görünecek</p>
         </div>
+      </div>
+
+      <!-- MENÜ YÖNETİMİ SEKMESİ -->
+      <div class="tab-content" id="tab-menu">
+        
+        <div class="form-card">
+          <div class="form-card-title" id="formTitle">➕ Yeni Ürün Ekle</div>
+          <form id="productForm">
+            <input type="hidden" id="editId" value="">
+            <div class="form-group">
+              <label>Kategori Seçin</label>
+              <div class="category-pills">
+                <div class="category-pill"><input type="radio" name="category" id="cat-kofte" value="kofte" checked><label for="cat-kofte">Köfte</label></div>
+                <div class="category-pill"><input type="radio" name="category" id="cat-tavuk" value="tavuk"><label for="cat-tavuk">Tavuk</label></div>
+                <div class="category-pill"><input type="radio" name="category" id="cat-sucuk" value="sucuk"><label for="cat-sucuk">Sucuk</label></div>
+                <div class="category-pill"><input type="radio" name="category" id="cat-ekmek" value="ekmek"><label for="cat-ekmek">Ekmek Arası</label></div>
+                <div class="category-pill"><input type="radio" name="category" id="cat-yan" value="yan"><label for="cat-yan">Yan Ürünler</label></div>
+                <div class="category-pill"><input type="radio" name="category" id="cat-icecek" value="icecek"><label for="cat-icecek">İçecekler</label></div>
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Ürün Adı</label>
+                <input type="text" id="productName" placeholder="Örn: Izgara Köfte" required>
+              </div>
+              <div class="form-group">
+                <label>Fiyat (₺)</label>
+                <input type="number" id="productPrice" placeholder="Örn: 180" required min="0" step="0.01">
+              </div>
+              <div class="form-group form-grid-full">
+                <label>Açıklama (Opsiyonel)</label>
+                <textarea id="productDesc" placeholder="Örn: Özel baharatlarla hazırlanmış..." rows="2"></textarea>
+              </div>
+              <div class="form-group form-grid-full">
+                <label>Ürün Fotoğrafı</label>
+                <div class="photo-upload-zone">
+                  <input type="file" id="photoInput" accept="image/*">
+                  <label for="photoInput" class="photo-file-btn">📁 Dosya Seç</label>
+                </div>
+                <div class="photo-preview-wrap" id="photoPreviewWrap">
+                  <img class="photo-preview-img" id="photoPreviewImg" alt="Önizleme">
+                  <button type="button" class="photo-remove-btn" id="photoRemoveBtn">🗑️ Kaldır</button>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:12px; margin-top:10px;">
+              <button type="submit" class="admin-btn admin-btn-primary" id="submitBtn">➕ Ürünü Ekle</button>
+              <button type="button" class="admin-btn" id="cancelEditBtn" style="display:none;">İptal</button>
+            </div>
+          </form>
+        </div>
+
+        <input type="text" class="admin-search" id="adminSearch" placeholder="🔍 Ürün adı ara...">
+        <div class="admin-list" id="adminList"></div>
       </div>
 
     </div>
@@ -136,9 +242,8 @@
 
   <div class="modal-overlay" id="deleteModal">
     <div class="modal-box">
-      <span class="modal-icon">🗑️</span>
-      <h3>Siparişi Sil</h3>
-      <p>Bu siparişi kalıcı olarak silmek istediğinize emin misiniz? Bu işlem geri alınamaz.</p>
+      <h3>Emin misiniz?</h3>
+      <p id="deleteModalText">Bu işlemi kalıcı olarak yapmak üzeresiniz.</p>
       <div class="modal-actions">
         <button class="admin-btn" id="cancelDeleteBtn">Vazgeç</button>
         <button class="admin-btn admin-btn-danger" id="confirmDeleteBtn">Evet, Sil</button>
@@ -149,32 +254,32 @@
   <audio id="notificationSound" src="bildirim.mp3" preload="auto"></audio>
 
   <script type="module">
-    import { getOrders, updateOrder, deleteOrder } from './firebase-config.js';
+    import { 
+      getOrders, updateOrder, deleteOrder, 
+      getMenuItems, addMenuItem, updateMenuItem, deleteMenuItem 
+    } from './firebase-config.js';
 
+    /* --- DEĞİŞKENLER --- */
     let allOrders = [];
-    let orderToDelete = null;
+    let allItems = [];
     let knownOrderIds = new Set();
     let audioUnlocked = false;
+    let orderToDelete = null;
+    let itemToDelete = null;
+    let currentPhoto = '';
 
     const notificationAudio = document.getElementById('notificationSound');
 
-    // --- SES VE BİLDİRİM İZİNLERİ ---
-    
-    // Üstteki butona basıldığında çalışır
+    /* --- SES VE BİLDİRİM --- */
     document.getElementById('enableNotificationsBtn').addEventListener('click', async function() {
-      // 1. Ses kilidini aç (Kısa bir sessiz ses çal)
       if (!audioUnlocked && notificationAudio) {
         notificationAudio.volume = 0;
-        await notificationAudio.play().catch(e => console.warn("Ses kiliti hatası:", e));
+        await notificationAudio.play().catch(e => {});
         notificationAudio.pause();
         notificationAudio.volume = 1;
         audioUnlocked = true;
       }
-      
-      // 2. Ses testi çal
       playSound();
-
-      // 3. Masaüstü bildirim izni iste
       if ('Notification' in window) {
         if (Notification.permission === 'granted') {
           this.textContent = '✅ Bildirimler Aktif';
@@ -182,67 +287,59 @@
           const permission = await Notification.requestPermission();
           if (permission === 'granted') {
             this.textContent = '✅ Bildirimler Aktif';
-            new Notification("Harika!", { body: "Masaüstü bildirimleri başarıyla açıldı. Artık yeni siparişleri kaçırmayacaksınız." });
-          } else {
-            this.textContent = '⚠️ Bildirim İzni Verilmedi';
+            new Notification("Harika!", { body: "Masaüstü bildirimleri açıldı." });
           }
         }
       }
     });
 
-    // Ses Çalma Fonksiyonu
     function playSound() {
       if (!notificationAudio) return;
-      try {
-        notificationAudio.currentTime = 0;
-        notificationAudio.volume = 1;
-        notificationAudio.play().catch(e => console.warn("Ses çalınamadı:", e));
-      } catch (e) { console.error(e); }
+      notificationAudio.currentTime = 0;
+      notificationAudio.volume = 1;
+      notificationAudio.play().catch(e => {});
     }
 
-    function escapeHtml(str) { 
-      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;'); 
-    }
-    function fmtPrice(n) { 
-      return Number(n).toLocaleString('tr-TR', { minimumFractionDigits: 2 }) + ' ₺'; 
-    }
+    /* --- YARDIMCILAR --- */
+    function escapeHtml(str) { return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;'); }
+    function fmtPrice(n) { return Number(n).toLocaleString('tr-TR', { minimumFractionDigits: 2 }) + ' ₺'; }
 
-    // --- SİPARİŞLERİ YÜKLE VE KONTROL ET ---
+    /* --- SEKME GEÇİŞLERİ --- */
+    document.querySelectorAll('.main-tab').forEach(tab => {
+      tab.addEventListener('click', function () {
+        document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        this.classList.add('active');
+        document.getElementById('tab-' + this.getAttribute('data-tab')).classList.add('active');
+        
+        if (this.getAttribute('data-tab') === 'menu') {
+          renderMenu();
+        }
+      });
+    });
+
+    /* --- SİPARİŞLERİ YÜKLE --- */
     async function loadOrders() {
       try {
         const freshOrders = await getOrders();
         freshOrders.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)); 
 
         let newOrdersFound = [];
-
-        // Yeni sipariş var mı?
         freshOrders.forEach(o => {
-          // Eğer daha önce görmediysek ve sistem ilk kez yüklenmiyorsa
-          if (!knownOrderIds.has(o.id) && knownOrderIds.size > 0) {
-            newOrdersFound.push(o);
-          }
+          if (!knownOrderIds.has(o.id) && knownOrderIds.size > 0) newOrdersFound.push(o);
           knownOrderIds.add(o.id); 
         });
 
         allOrders = freshOrders;
         renderOrders();
 
-        // Eğer yeni sipariş(ler) bulunduysa bildir
         if (newOrdersFound.length > 0) {
-          playSound(); // 1. Ses çal
-          
-          // 2. Tarayıcı bildirimi gönder
+          playSound();
           if ('Notification' in window && Notification.permission === 'granted') {
-            new Notification("🍽️ Yeni Sipariş!", { 
-              body: `Masa: ${newOrdersFound[0].masaNo}\nTutar: ${fmtPrice(newOrdersFound[0].total)}`,
-              icon: 'favicon-source.png'
-            });
+            new Notification("🍽️ Yeni Sipariş!", { body: `Masa: ${newOrdersFound[0].masaNo}\nTutar: ${fmtPrice(newOrdersFound[0].total)}` });
           }
         }
-
-      } catch (e) {
-        console.error(e);
-      }
+      } catch (e) { console.error(e); }
     }
 
     function renderOrders() {
@@ -263,7 +360,6 @@
       list.innerHTML = allOrders.map(order => {
         const isPending = order.status === 'pending';
         const dateStr = new Date(order.createdAt).toLocaleString('tr-TR', { hour: '2-digit', minute: '2-digit' });
-        
         const itemsHtml = order.items.map(i => `
           <div class="order-item">
             <span>${escapeHtml(i.name)} <strong style="color:var(--text-muted)">x${i.qty}</strong></span>
@@ -278,16 +374,14 @@
                 <span class="masa-info">📍 ${escapeHtml(order.masaNo || 'Bilinmeyen')}</span>
                 <div class="order-meta">Sipariş Saati: ${dateStr}</div>
               </div>
-              <span class="status-badge ${order.status}">
-                ${isPending ? '⏳ Onay Bekliyor' : '✅ Onaylandı'}
-              </span>
+              <span class="status-badge ${order.status}">${isPending ? '⏳ Onay Bekliyor' : '✅ Onaylandı'}</span>
             </div>
             <div class="order-body">${itemsHtml}</div>
             <div class="order-footer">
               <div class="order-total">${fmtPrice(order.total)}</div>
               <div class="order-actions">
                 ${isPending ? `<button class="admin-btn admin-btn-primary" onclick="approveOrder('${order.id}')">✅ Onayla</button>` : ''}
-                <button class="admin-btn admin-btn-danger" onclick="openDeleteModal('${order.id}')">🗑️ Sil</button>
+                <button class="admin-btn admin-btn-danger" onclick="openOrderDeleteModal('${order.id}')">🗑️ Sil</button>
               </div>
             </div>
           </div>
@@ -295,42 +389,220 @@
       }).join('');
     }
 
-    window.approveOrder = async function(id) {
+    /* --- MENÜ YÖNETİMİ --- */
+    async function loadMenuItems() {
       try {
-        await updateOrder(id, { status: 'approved' });
-        await loadOrders();
-      } catch (e) { alert('Sipariş onaylanamadı.'); }
+        allItems = await getMenuItems();
+        renderMenu();
+      } catch (e) { console.error(e); }
+    }
+
+    function renderMenu() {
+      const list = document.getElementById('adminList');
+      const search = document.getElementById('adminSearch').value.toLowerCase();
+      
+      let filtered = allItems;
+      if (search) filtered = filtered.filter(i => i.name.toLowerCase().includes(search));
+      
+      filtered.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+      const catNames = { kofte: 'Köfte', tavuk: 'Tavuk', sucuk: 'Sucuk', ekmek: 'Ekmek Arası', yan: 'Yan Ürünler', icecek: 'İçecekler' };
+
+      list.innerHTML = filtered.map(item => {
+        const thumb = item.photo ? `<img src="${item.photo}">` : '🍽️';
+        return `
+          <div class="product-card">
+            <div class="product-thumb">${thumb}</div>
+            <div class="product-info">
+              <div class="product-name">${escapeHtml(item.name)}</div>
+              <div class="product-desc">${escapeHtml(item.desc || 'Açıklama yok')}</div>
+            </div>
+            <div class="product-category">${catNames[item.category] || '?'}</div>
+            <div class="product-price">${fmtPrice(item.price)}</div>
+            <div class="product-actions">
+              <button class="icon-btn" onclick="editItem('${item.id}')">✏️</button>
+              <button class="icon-btn danger" onclick="openItemDeleteModal('${item.id}')">🗑️</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    document.getElementById('adminSearch').addEventListener('input', renderMenu);
+
+    /* --- FOTOĞRAF YÜKLEME (BASE64) --- */
+    const photoInput = document.getElementById('photoInput');
+    const photoPreviewWrap = document.getElementById('photoPreviewWrap');
+    const photoPreviewImg = document.getElementById('photoPreviewImg');
+    const photoRemoveBtn = document.getElementById('photoRemoveBtn');
+
+    function setPhoto(dataUrl) {
+      currentPhoto = dataUrl || '';
+      if (!currentPhoto) {
+        photoPreviewWrap.classList.remove('show');
+        photoPreviewImg.src = '';
+        return;
+      }
+      photoPreviewImg.src = currentPhoto;
+      photoPreviewWrap.classList.add('show');
+    }
+
+    photoInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        const img = new Image();
+        img.onload = function() {
+          // Resmi 600px'e küçült
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+          const maxSize = 600;
+          if (width > height && width > maxSize) { height *= maxSize / width; width = maxSize; }
+          else if (height > maxSize) { width *= maxSize / height; height = maxSize; }
+          canvas.width = width;
+          canvas.height = height;
+          canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+          
+          setPhoto(canvas.toDataURL('image/jpeg', 0.75));
+        };
+        img.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    photoRemoveBtn.addEventListener('click', function() {
+      setPhoto('');
+      photoInput.value = '';
+    });
+
+    /* --- ÜRÜN EKLEME / DÜZENLEME --- */
+    window.editItem = function(id) {
+      const item = allItems.find(i => i.id === id);
+      if (!item) return;
+      document.getElementById('editId').value = id;
+      document.getElementById('productName').value = item.name;
+      document.getElementById('productPrice').value = item.price;
+      document.getElementById('productDesc').value = item.desc || '';
+      
+      const radio = document.getElementById('cat-' + item.category);
+      if (radio) radio.checked = true;
+      
+      setPhoto(item.photo || '');
+      
+      document.getElementById('formTitle').textContent = '✏️ Ürünü Düzenle';
+      document.getElementById('submitBtn').textContent = '💾 Kaydet';
+      document.getElementById('cancelEditBtn').style.display = 'inline-flex';
+      
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    window.openDeleteModal = function(id) {
+    document.getElementById('cancelEditBtn').addEventListener('click', resetForm);
+
+    function resetForm() {
+      document.getElementById('productForm').reset();
+      document.getElementById('editId').value = '';
+      document.getElementById('cat-kofte').checked = true;
+      setPhoto('');
+      photoInput.value = '';
+      document.getElementById('formTitle').textContent = '➕ Yeni Ürün Ekle';
+      document.getElementById('submitBtn').textContent = '➕ Ürünü Ekle';
+      document.getElementById('cancelEditBtn').style.display = 'none';
+    }
+
+    document.getElementById('productForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.textContent = '⏳ Kaydediliyor...';
+
+      const id = document.getElementById('editId').value;
+      const name = document.getElementById('productName').value.trim();
+      const price = parseFloat(document.getElementById('productPrice').value);
+      const desc = document.getElementById('productDesc').value.trim();
+      const category = document.querySelector('input[name="category"]:checked').value;
+
+      const payload = { name, price, desc, category, photo: currentPhoto };
+
+      try {
+        if (id) {
+          await updateMenuItem(id, payload);
+        } else {
+          await addMenuItem(payload);
+        }
+        resetForm();
+        await loadMenuItems();
+      } catch (err) {
+        alert('Kaydedilemedi.');
+      }
+      
+      btn.disabled = false;
+      btn.textContent = id ? '💾 Kaydet' : '➕ Ürünü Ekle';
+    });
+
+    /* --- SİLME İŞLEMLERİ (MODAL) --- */
+    window.openOrderDeleteModal = function(id) {
       orderToDelete = id;
+      itemToDelete = null;
+      document.getElementById('deleteModalText').textContent = 'Siparişi silmek istediğinize emin misiniz?';
       document.getElementById('deleteModal').classList.add('show');
     };
 
-    function closeDeleteModal() {
+    window.openItemDeleteModal = function(id) {
+      itemToDelete = id;
       orderToDelete = null;
+      document.getElementById('deleteModalText').textContent = 'Ürünü silmek istediğinize emin misiniz?';
+      document.getElementById('deleteModal').classList.add('show');
+    };
+
+    function closeModal() {
+      orderToDelete = null;
+      itemToDelete = null;
       document.getElementById('deleteModal').classList.remove('show');
     }
 
+    document.getElementById('cancelDeleteBtn').addEventListener('click', closeModal);
+
     document.getElementById('confirmDeleteBtn').addEventListener('click', async function() {
-      if (!orderToDelete) return;
       this.disabled = true;
       this.textContent = '⏳ Siliniyor...';
+
       try {
-        await deleteOrder(orderToDelete);
-        closeDeleteModal();
-        await loadOrders();
-      } catch (e) { alert('Sipariş silinemedi.'); }
+        if (orderToDelete) {
+          await deleteOrder(orderToDelete);
+          await loadOrders();
+        } else if (itemToDelete) {
+          await deleteMenuItem(itemToDelete);
+          await loadMenuItems();
+        }
+      } catch (e) {
+        alert('Silinemedi.');
+      }
+      
+      closeModal();
       this.disabled = false;
       this.textContent = 'Evet, Sil';
     });
 
-    document.getElementById('cancelDeleteBtn').addEventListener('click', closeDeleteModal);
-    document.getElementById('refreshBtn').addEventListener('click', loadOrders);
+    /* --- ONAYLA --- */
+    window.approveOrder = async function(id) {
+      try {
+        await updateOrder(id, { status: 'approved' });
+        await loadOrders();
+      } catch (e) { alert('Onaylanamadı.'); }
+    };
 
-    // İlk Yükleme ve 10 Saniyede Bir Kontrol
+    document.getElementById('refreshBtn').addEventListener('click', () => {
+      loadOrders();
+      loadMenuItems();
+    });
+
+    /* --- BAŞLAT --- */
     loadOrders();
-    setInterval(loadOrders, 10000);
+    loadMenuItems();
+    setInterval(loadOrders, 10000); // Siparişleri 10 sn'de bir kontrol et
 
   </script>
 </body>
