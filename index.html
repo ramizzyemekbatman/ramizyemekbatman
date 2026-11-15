@@ -47,72 +47,82 @@
   [data-theme="dark"] .theme-toggle .icon-sun { opacity: 1; transform: rotate(180deg) scale(1); }
   [data-theme="dark"] .theme-toggle .icon-moon { opacity: 0; transform: rotate(-180deg) scale(0); }
 
-  /* MASA SEÇİM EKRANI */
-  .masa-secim-screen { display: flex; flex-direction: column; align-items: center; padding: 100px 20px 40px; flex: 1; }
-  .masa-title { font-size: 28px; font-weight: 700; font-family: Georgia, serif; margin-bottom: 8px; text-align: center; }
-  .masa-desc { font-size: 15px; color: var(--text-muted); margin-bottom: 30px; text-align: center; }
+  /* MEKAN VE MASA SEÇİM EKRANI */
+  .secim-screen { display: flex; flex-direction: column; align-items: center; padding: 100px 20px 40px; flex: 1; width: 100%; }
   
+  .secim-title { font-size: 28px; font-weight: 700; font-family: Georgia, serif; margin-bottom: 8px; text-align: center; }
+  .secim-desc { font-size: 15px; color: var(--text-muted); margin-bottom: 30px; text-align: center; }
+
+  /* 1. MEKAN SEÇİMİ (SALON / TERAS) */
+  .mekan-grid { display: flex; gap: 20px; width: 100%; max-width: 600px; margin-bottom: 30px; }
+  .mekan-btn {
+    flex: 1; padding: 40px 20px; background: var(--bg-alt); border: 2px solid var(--border);
+    border-radius: 20px; font-size: 24px; font-weight: 700; color: var(--text);
+    cursor: pointer; transition: all 0.3s; display: flex; flex-direction: column; align-items: center; gap: 12px;
+  }
+  .mekan-btn:hover { border-color: var(--text); transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+  .mekan-btn .icon { font-size: 48px; }
+
   /* KROKİ PLANI */
   .kroki-container {
     width: 100%; max-width: 850px; background: var(--bg-alt);
     border: 2px dashed var(--border); border-radius: 12px;
-    position: relative;
-    aspect-ratio: 16/10;
-    margin: 0 auto;
+    position: relative; aspect-ratio: 16/10; margin: 0 auto;
   }
   
-  /* MASA BUTONLARI */
   .masa-btn {
-    position: absolute;
-    width: 60px; height: 60px; border-radius: 12px;
+    position: absolute; width: 60px; height: 60px; border-radius: 12px;
     background: var(--bg); border: 2px solid var(--border-input);
     display: flex; align-items: center; justify-content: center;
     font-size: 18px; font-weight: 700; color: var(--text);
-    cursor: pointer; transition: all 0.2s ease;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     transform: translate(-50%, -50%);
   }
   .masa-btn:hover { border-color: var(--text); transform: translate(-50%, -50%) scale(1.05); }
   .masa-btn.selected { background: var(--btn-bg); color: var(--btn-text); border-color: var(--btn-bg); transform: translate(-50%, -50%) scale(1.05); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
 
-  /* --- YERLEŞİMLER --- */
+  /* SALON YERLEŞİMLERİ */
+  .s-11 { top: 30%; left: 15%; }
+  .s-12 { top: 70%; left: 15%; }
+  .s-2 { top: 30%; right: 15%; }
+  .s-1 { top: 70%; right: 15%; }
+  .s-6 { top: 35%; left: 37%; }
+  .s-5 { top: 35%; left: 45.5%; }
+  .s-4 { top: 35%; left: 54.5%; }
+  .s-3 { top: 35%; left: 63%; }
+  .s-10 { top: 65%; left: 37%; }
+  .s-9  { top: 65%; left: 45.5%; }
+  .s-8  { top: 65%; left: 54.5%; }
+  .s-7  { top: 65%; left: 63%; }
 
-  /* Sol Kolon */
-  .masa-11 { top: 30%; left: 15%; }
-  .masa-12 { top: 70%; left: 15%; }
+  /* TERAS YERLEŞİMLERİ */
+  .t-6 { top: 20%; left: 35%; }
+  .t-7 { top: 40%; left: 35%; }
+  .t-8 { top: 60%; left: 35%; }
+  .t-5 { top: 20%; right: 25%; }
+  .t-4 { top: 40%; right: 25%; }
+  .t-3 { top: 60%; right: 25%; }
+  .t-2 { top: 80%; right: 25%; }
+  .t-1 { top: 95%; right: 25%; }
 
-  /* Sağ Kolon */
-  .masa-2 { top: 30%; right: 15%; }
-  .masa-1 { top: 70%; right: 15%; }
-
-  /* Orta Üst Sıra (6,5,4,3) */
-  .masa-6 { top: 35%; left: 37%; }
-  .masa-5 { top: 35%; left: 45.5%; }
-  .masa-4 { top: 35%; left: 54.5%; }
-  .masa-3 { top: 35%; left: 63%; }
-
-  /* Orta Alt Sıra (10,9,8,7) */
-  .masa-10 { top: 65%; left: 37%; }
-  .masa-9  { top: 65%; left: 45.5%; }
-  .masa-8  { top: 65%; left: 54.5%; }
-  .masa-7  { top: 65%; left: 63%; }
-
-  /* Kapı */
   .kapi-box { 
     position: absolute; width: 70px; height: 32px; background: var(--bg); border: 2px solid var(--border); 
     display: flex; align-items: center; justify-content: center; 
     border-radius: 8px; color: var(--text-muted); font-weight: 700; font-size: 11px;
-    top: 50%; left: 2%; transform: translateY(-50%) rotate(90deg);
-    letter-spacing: 2px;
+    top: 50%; left: 2%; transform: translateY(-50%) rotate(90deg); letter-spacing: 2px;
+  }
+  .kapi-teras {
+    position: absolute; width: 70px; height: 32px; background: var(--bg); border: 2px solid var(--border); 
+    display: flex; align-items: center; justify-content: center; 
+    border-radius: 8px; color: var(--text-muted); font-weight: 700; font-size: 11px;
+    top: 40%; left: 5%; transform: translateY(-50%); letter-spacing: 1px; font-size: 10px;
   }
   
-  /* Kasa */
   .kasa-box { 
     position: absolute; width: 65px; height: 65px; background: var(--bg); border: 2px dashed var(--warning); 
     display: flex; flex-direction: column; align-items: center; justify-content: center; 
     border-radius: 12px; color: var(--warning); font-weight: 700; font-size: 13px;
-    top: 82%; left: 24%; transform: rotate(-10deg);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    top: 82%; left: 24%; transform: rotate(-10deg); box-shadow: 0 4px 10px rgba(0,0,0,0.05);
   }
 
   .secim-devam-btn {
@@ -124,7 +134,7 @@
   .secim-devam-btn.active { opacity: 1; pointer-events: auto; }
   .secim-devam-btn.active:hover { background: var(--btn-hover); transform: translateY(-2px); }
 
-  /* --- MENÜ EKRANI (BAŞLANGIÇTA GİZLİ) --- */
+  /* ANA MENÜ */
   .main-menu-wrap { display: none; flex: 1; flex-direction: column; }
   .main-menu-wrap.active { display: flex; }
 
@@ -138,12 +148,11 @@
   .cat-tabs { display: flex; gap: 10px; margin-bottom: 30px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
   .cat-tabs::-webkit-scrollbar { display: none; }
   .cat-tab { padding: 12px 24px; background: var(--bg-alt); border: 1px solid var(--border); border-radius: 100px; font-size: 14px; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: all 0.2s ease; white-space: nowrap; flex-shrink: 0; }
-  .cat-tab:hover { border-color: var(--border-input); color: var(--text); }
   .cat-tab.active { background: var(--btn-bg); color: var(--btn-text); border-color: var(--btn-bg); }
 
   .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
   .food-card { background: var(--bg); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; transition: all 0.25s ease; display: flex; flex-direction: column; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-  .food-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.1); border-color: var(--border-input); }
+  .food-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.1); }
   .food-image { width: 100%; aspect-ratio: 4/3; background: var(--bg-alt); display: flex; align-items: center; justify-content: center; font-size: 64px; overflow: hidden; }
   .food-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .food-body { padding: 16px 18px 18px; display: flex; flex-direction: column; flex: 1; gap: 8px; }
@@ -152,15 +161,12 @@
   .food-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; padding-top: 10px; }
   .food-price { font-size: 20px; font-weight: 800; font-style: italic; color: var(--text); letter-spacing: -0.02em; }
   .add-to-cart-btn { padding: 10px 18px; background: var(--btn-bg); color: var(--btn-text); border: none; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
-  .add-to-cart-btn:hover { background: var(--btn-hover); transform: scale(1.02); }
   .add-to-cart-btn.added { background: var(--success); color: #fff; }
 
-  .loading-box { text-align: center; padding: 60px 20px; color: var(--text-muted); grid-column: 1 / -1; }
-  .empty-box { text-align: center; padding: 60px 20px; color: var(--text-muted); grid-column: 1 / -1; font-size: 15px; font-style: italic; }
-
-  .floating-cart { position: fixed; bottom: 30px; right: 30px; display: none; align-items: center; justify-content: center; gap: 10px; padding: 16px 28px; background: var(--btn-bg); color: var(--btn-text); border-radius: 100px; text-decoration: none; font-weight: 700; font-size: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); z-index: 1000; transition: all 0.3s ease; }
+  .loading-box, .empty-box { text-align: center; padding: 60px 20px; color: var(--text-muted); grid-column: 1 / -1; }
+  
+  .floating-cart { position: fixed; bottom: 30px; right: 30px; display: none; align-items: center; justify-content: center; gap: 10px; padding: 16px 28px; background: var(--btn-bg); color: var(--btn-text); border-radius: 100px; text-decoration: none; font-weight: 700; font-size: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); z-index: 1000; }
   .floating-cart.show { display: inline-flex; }
-  .floating-cart:hover { transform: translateY(-4px); background: var(--btn-hover); }
   .floating-cart-count { background: var(--danger); color: #fff; border-radius: 100px; padding: 2px 10px; font-size: 13px; }
 
   footer { background: #000; color: #fff; padding: 40px 20px 20px; margin-top: auto; }
@@ -169,22 +175,41 @@
   .footer-col p, .footer-col a { font-size: 14px; color: #fff; opacity: 0.6; text-decoration: none; display: block; margin-bottom: 8px; }
   .footer-copyright { max-width: 1200px; margin: 30px auto 0; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; font-size: 12px; color: #666; }
 
+  /* Mobil Uyum */
   @media (max-width: 768px) {
+    .mekan-grid { flex-direction: column; gap: 12px; }
+    .mekan-btn { padding: 24px; font-size: 20px; flex-direction: row; justify-content: center; }
+    .mekan-btn .icon { font-size: 32px; }
+    
     .kroki-container { aspect-ratio: 1/1; }
     .masa-btn { width: 45px; height: 45px; font-size: 14px; }
-    .masa-11 { top: 20%; left: 15%; }
-    .masa-12 { top: 80%; left: 15%; }
-    .masa-2 { top: 20%; right: 15%; }
-    .masa-1 { top: 80%; right: 15%; }
-    .masa-6 { top: 35%; left: 34%; }
-    .masa-5 { top: 35%; left: 44.6%; }
-    .masa-4 { top: 35%; left: 55.3%; }
-    .masa-3 { top: 35%; left: 66%; }
-    .masa-10 { top: 65%; left: 34%; }
-    .masa-9  { top: 65%; left: 44.6%; }
-    .masa-8  { top: 65%; left: 55.3%; }
-    .masa-7  { top: 65%; left: 66%; }
+    
+    /* Mobilde Salon Sıkıştırma */
+    .s-11 { top: 20%; left: 15%; }
+    .s-12 { top: 80%; left: 15%; }
+    .s-2 { top: 20%; right: 15%; }
+    .s-1 { top: 80%; right: 15%; }
+    .s-6 { top: 35%; left: 34%; }
+    .s-5 { top: 35%; left: 44.6%; }
+    .s-4 { top: 35%; left: 55.3%; }
+    .s-3 { top: 35%; left: 66%; }
+    .s-10 { top: 65%; left: 34%; }
+    .s-9  { top: 65%; left: 44.6%; }
+    .s-8  { top: 65%; left: 55.3%; }
+    .s-7  { top: 65%; left: 66%; }
+
+    /* Mobilde Teras Sıkıştırma */
+    .t-6 { top: 10%; left: 30%; }
+    .t-7 { top: 30%; left: 30%; }
+    .t-8 { top: 50%; left: 30%; }
+    .t-5 { top: 10%; right: 30%; }
+    .t-4 { top: 30%; right: 30%; }
+    .t-3 { top: 50%; right: 30%; }
+    .t-2 { top: 70%; right: 30%; }
+    .t-1 { top: 90%; right: 30%; }
+
     .kapi-box { left: 0%; transform: translateY(-50%) rotate(90deg); width: 50px; height: 25px; font-size: 9px; }
+    .kapi-teras { left: 0%; width: 60px; height: 25px; font-size: 8px; }
     .kasa-box { top: 90%; left: 28%; width: 50px; height: 50px; font-size: 11px; }
 
     .menu-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
@@ -215,31 +240,73 @@
     </div>
   </nav>
 
-  <!-- 1. MASA SEÇİM EKRANI -->
-  <div class="masa-secim-screen" id="masaSecimScreen">
-    <h1 class="masa-title">Hoş Geldiniz</h1>
-    <p class="masa-desc">Lütfen oturduğunuz masayı seçin</p>
+  <!-- 1. SEÇİM EKRANI -->
+  <div class="secim-screen" id="secimScreen">
     
-    <div class="kroki-container">
-      <div class="kapi-box">GİRİŞ</div>
-      <div class="kasa-box">KASA</div>
-
-      <button class="masa-btn masa-11" data-masa="11">11</button>
-      <button class="masa-btn masa-12" data-masa="12">12</button>
-      <button class="masa-btn masa-6" data-masa="6">6</button>
-      <button class="masa-btn masa-5" data-masa="5">5</button>
-      <button class="masa-btn masa-4" data-masa="4">4</button>
-      <button class="masa-btn masa-3" data-masa="3">3</button>
-      <button class="masa-btn masa-10" data-masa="10">10</button>
-      <button class="masa-btn masa-9" data-masa="9">9</button>
-      <button class="masa-btn masa-8" data-masa="8">8</button>
-      <button class="masa-btn masa-7" data-masa="7">7</button>
-      <button class="masa-btn masa-2" data-masa="2">2</button>
-      <button class="masa-btn masa-1" data-masa="1">1</button>
+    <!-- MEKAN SEÇİMİ -->
+    <div id="mekanSecimWrap" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+      <h1 class="secim-title">Hoş Geldiniz</h1>
+      <p class="secim-desc">Lütfen oturduğunuz alanı seçin</p>
+      <div class="mekan-grid">
+        <button class="mekan-btn" data-mekan="salon">
+          <span class="icon">🍽️</span> Salon
+        </button>
+        <button class="mekan-btn" data-mekan="teras">
+          <span class="icon">🌳</span> Teras
+        </button>
+      </div>
     </div>
+
+    <!-- SALON KROKİSİ -->
+    <div id="salonKrokiWrap" style="display: none; width: 100%; flex-direction: column; align-items: center;">
+      <button class="admin-btn" id="backToMekanBtn" style="margin-bottom: 20px; align-self: flex-start;">← Mekan Değiştir</button>
+      <h1 class="secim-title">Salon Masa Seçimi</h1>
+      <p class="secim-desc">Lütfen oturduğunuz masayı seçin</p>
+      
+      <div class="kroki-container">
+        <div class="kapi-box">GİRİŞ</div>
+        <div class="kasa-box">KASA</div>
+
+        <button class="masa-btn s-11" data-masa="11" data-mekanadi="Salon">11</button>
+        <button class="masa-btn s-12" data-masa="12" data-mekanadi="Salon">12</button>
+        <button class="masa-btn s-6" data-masa="6" data-mekanadi="Salon">6</button>
+        <button class="masa-btn s-5" data-masa="5" data-mekanadi="Salon">5</button>
+        <button class="masa-btn s-4" data-masa="4" data-mekanadi="Salon">4</button>
+        <button class="masa-btn s-3" data-masa="3" data-mekanadi="Salon">3</button>
+        <button class="masa-btn s-10" data-masa="10" data-mekanadi="Salon">10</button>
+        <button class="masa-btn s-9" data-masa="9" data-mekanadi="Salon">9</button>
+        <button class="masa-btn s-8" data-masa="8" data-mekanadi="Salon">8</button>
+        <button class="masa-btn s-7" data-masa="7" data-mekanadi="Salon">7</button>
+        <button class="masa-btn s-2" data-masa="2" data-mekanadi="Salon">2</button>
+        <button class="masa-btn s-1" data-masa="1" data-mekanadi="Salon">1</button>
+      </div>
+      <button class="secim-devam-btn" id="salonConfirmBtn">Devam Et →</button>
+    </div>
+
+    <!-- TERAS KROKİSİ -->
+    <div id="terasKrokiWrap" style="display: none; width: 100%; flex-direction: column; align-items: center;">
+      <button class="admin-btn" id="backToMekanBtn2" style="margin-bottom: 20px; align-self: flex-start;">← Mekan Değiştir</button>
+      <h1 class="secim-title">Teras Masa Seçimi</h1>
+      <p class="secim-desc">Lütfen oturduğunuz masayı seçin</p>
+      
+      <div class="kroki-container">
+        <div class="kapi-teras">TERAS GİRİŞİ</div>
+
+        <button class="masa-btn t-6" data-masa="T6" data-mekanadi="Teras">T6</button>
+        <button class="masa-btn t-7" data-masa="T7" data-mekanadi="Teras">T7</button>
+        <button class="masa-btn t-8" data-masa="T8" data-mekanadi="Teras">T8</button>
+        <button class="masa-btn t-5" data-masa="T5" data-mekanadi="Teras">T5</button>
+        <button class="masa-btn t-4" data-masa="T4" data-mekanadi="Teras">T4</button>
+        <button class="masa-btn t-3" data-masa="T3" data-mekanadi="Teras">T3</button>
+        <button class="masa-btn t-2" data-masa="T2" data-mekanadi="Teras">T2</button>
+        <button class="masa-btn t-1" data-masa="T1" data-mekanadi="Teras">T1</button>
+      </div>
+      <button class="secim-devam-btn" id="terasConfirmBtn">Devam Et →</button>
+    </div>
+
   </div>
 
-  <!-- 2. MENÜ EKRANI -->
+  <!-- 2. ANA MENÜ EKRANI -->
   <div class="main-menu-wrap" id="mainMenuWrap">
     <header class="hero-banner">
       <div class="hero-content">
@@ -288,8 +355,9 @@
     let allItems = [];
     let currentCat = 'all';
     let selectedMasa = null;
+    let selectedMekan = null;
 
-    // Sepet
+    // Sepet İşlemleri
     function getCart() { try { return JSON.parse(localStorage.getItem('ramiz_cart')) || []; } catch (e) { return []; } }
     function saveCart(cart) { localStorage.setItem('ramiz_cart', JSON.stringify(cart)); updateCartCount(); }
     function updateCartCount() {
@@ -302,44 +370,99 @@
     function escapeHtml(str) { return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;'); }
 
     /* =========================================
-       1. MASA SEÇİMİ VE OTOMATİK GEÇİŞ
+       1. MEKAN VE MASA SEÇİMİ MANTIĞI
        ========================================= */
-    const masaSecimScreen = document.getElementById('masaSecimScreen');
+    const secimScreen = document.getElementById('secimScreen');
     const mainMenuWrap = document.getElementById('mainMenuWrap');
+    const mekanSecimWrap = document.getElementById('mekanSecimWrap');
+    const salonKrokiWrap = document.getElementById('salonKrokiWrap');
+    const terasKrokiWrap = document.getElementById('terasKrokiWrap');
+    
+    const salonConfirmBtn = document.getElementById('salonConfirmBtn');
+    const terasConfirmBtn = document.getElementById('terasConfirmBtn');
 
-    // MASAYA TIKLANDIĞI AN MENÜYE GEÇ
-    document.querySelectorAll('.masa-btn').forEach(btn => {
+    // Mekan Seçimi (Salon / Teras)
+    document.querySelectorAll('.mekan-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        const masa = btn.getAttribute('data-masa');
-        localStorage.setItem('ramiz_masa', masa);
+        const mekan = btn.getAttribute('data-mekan');
+        mekanSecimWrap.style.display = 'none';
         
-        // Ekranı değiştir
-        masaSecimScreen.style.display = 'none';
-        mainMenuWrap.classList.add('active');
-        
-        // Menüyü yükle (eğer yüklenmediyse)
-        loadMenuIfNeeded();
+        if (mekan === 'salon') {
+          salonKrokiWrap.style.display = 'flex';
+        } else {
+          terasKrokiWrap.style.display = 'flex';
+        }
       });
     });
 
-    /* =========================================
-       2. SAYFA YENİLENDİĞİNDE MASA SIFIRLA
-       ========================================= */
-    // Her sayfa yenilenişinde masa hafızadan silinir, böylece masa seçim ekranı gelir.
-    localStorage.removeItem('ramiz_masa');
+    // Mekanı Geri Değiştir
+    document.getElementById('backToMekanBtn').addEventListener('click', () => {
+      salonKrokiWrap.style.display = 'none';
+      mekanSecimWrap.style.display = 'flex';
+      resetSalonSelection();
+    });
+    document.getElementById('backToMekanBtn2').addEventListener('click', () => {
+      terasKrokiWrap.style.display = 'none';
+      mekanSecimWrap.style.display = 'flex';
+      resetTerasSelection();
+    });
 
-    /* =========================================
-       3. MENÜ YÜKLEME
-       ========================================= */
-    let menuLoaded = false;
+    function resetSalonSelection() {
+      document.querySelectorAll('#salonKrokiWrap .masa-btn').forEach(b => b.classList.remove('selected'));
+      salonConfirmBtn.classList.remove('active');
+      selectedMasa = null;
+    }
+    function resetTerasSelection() {
+      document.querySelectorAll('#terasKrokiWrap .masa-btn').forEach(b => b.classList.remove('selected'));
+      terasConfirmBtn.classList.remove('active');
+      selectedMasa = null;
+    }
 
-    function loadMenuIfNeeded() {
-      if (menuLoaded) return;
-      menuLoaded = true;
+    // Masaya Tıklama
+    document.querySelectorAll('#salonKrokiWrap .masa-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#salonKrokiWrap .masa-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedMasa = btn.getAttribute('data-masa');
+        salonConfirmBtn.classList.add('active');
+      });
+    });
+
+    document.querySelectorAll('#terasKrokiWrap .masa-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#terasKrokiWrap .masa-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedMasa = btn.getAttribute('data-masa');
+        terasConfirmBtn.classList.add('active');
+      });
+    });
+
+    // Devam Et Butonları
+    salonConfirmBtn.addEventListener('click', () => openMenu('Salon'));
+    terasConfirmBtn.addEventListener('click', () => openMenu('Teras'));
+
+    function openMenu(mekanAdi) {
+      if (!selectedMasa) return;
+      
+      // Masayı kaydet (Örn: "Salon 11" veya "Teras T3")
+      const masaString = mekanAdi + ' ' + selectedMasa;
+      localStorage.setItem('ramiz_masa', masaString);
+      
+      // Ekranı değiştir
+      secimScreen.style.display = 'none';
+      mainMenuWrap.classList.add('active');
+      
+      // Menüyü yükle
       renderCategories();
       loadMenuData();
     }
 
+    // Sayfa yenilendiğinde her zaman mekan seçme ekranı gelsin
+    localStorage.removeItem('ramiz_masa');
+
+    /* =========================================
+       2. MENÜ YÜKLEME
+       ========================================= */
     async function loadMenuData() {
       try {
         allItems = await getMenuItems();
@@ -415,14 +538,16 @@
       if (btn) addToCart(btn.getAttribute('data-add-id'), btn);
     });
 
-    // Tema
-    const themeToggle = document.getElementById('themeToggle');
-    themeToggle.addEventListener('click', function () {
-      const current = document.documentElement.getAttribute('data-theme');
-      if (current === 'dark') { document.documentElement.removeAttribute('data-theme'); localStorage.setItem('theme', 'light'); }
-      else { document.documentElement.setAttribute('data-theme', 'dark'); localStorage.setItem('theme', 'dark'); }
-    });
+    (function () {
+      const themeToggle = document.getElementById('themeToggle');
+      themeToggle.addEventListener('click', function () {
+        const current = document.documentElement.getAttribute('data-theme');
+        if (current === 'dark') { document.documentElement.removeAttribute('data-theme'); localStorage.setItem('theme', 'light'); }
+        else { document.documentElement.setAttribute('data-theme', 'dark'); localStorage.setItem('theme', 'dark'); }
+      });
+    })();
 
+    updateCartCount();
   </script>
 </body>
 </html>
