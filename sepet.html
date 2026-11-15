@@ -245,7 +245,7 @@
       const subTotal = cart.reduce((s, i) => s + Number(i.price) * (i.qty || 1), 0);
 
       const newOrder = {
-        masaNo: masa, // Masa numarasını kaydediyoruz
+        masaNo: masa,
         items: cart.map(i => ({
           id: i.id, name: i.name, price: i.price, photo: i.photo || '', category: i.category, qty: i.qty || 1
         })),
@@ -258,10 +258,9 @@
         if (!docId) throw new Error('Sipariş kaydedilemedi');
 
         localStorage.removeItem('ramiz_cart');
-        // Müşterinin işi bitti, masa hafızasını sıfırla (sonraki müşteri için)
-        localStorage.removeItem('ramiz_masa');
+        // Sipariş başarılıysa Hakkımızda sayfasına yönlendir
+        window.location.href = 'hakkimizda.html?siparis=basarili';
 
-        window.location.href = 'tamamlandi.html?masa=' + masa;
       } catch (err) {
         showToast('❌ Gönderilemedi, tekrar deneyin.', 'danger');
         this.disabled = false;
