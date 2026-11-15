@@ -66,64 +66,40 @@
     flex-direction: column;
   }
 
+  /* NAVBAR */
   .navbar {
     position: fixed; top: 0; left: 0; right: 0; height: 70px;
     background: var(--nav-bg); display: flex; align-items: center;
     justify-content: center; z-index: 9999;
     border-bottom: 1px solid var(--border);
   }
-
   .nav-inner {
     display: flex; align-items: center; gap: 24px;
     max-width: 1400px; width: 100%; padding: 0 24px;
     justify-content: space-between;
   }
-
   .nav-logo {
-    display: flex; flex-direction: row;
-    align-items: center; gap: 12px;
-    line-height: 1;
-    text-decoration: none;
-    flex-shrink: 0;
+    display: flex; flex-direction: row; align-items: center; gap: 12px;
+    line-height: 1; text-decoration: none; flex-shrink: 0;
   }
-
-  .nav-logo-img {
-    width: 52px; height: 52px;
-    object-fit: contain;
-    flex-shrink: 0; display: block;
-  }
-
-  .nav-logo-text {
-    display: flex; flex-direction: column;
-    align-items: flex-start; line-height: 1.1;
-  }
-
+  .nav-logo-img { width: 52px; height: 52px; object-fit: contain; flex-shrink: 0; display: block; }
+  .nav-logo-text { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1; }
   .nav-logo-main {
-    font-size: 24px; font-weight: 700;
-    letter-spacing: -0.01em;
-    color: var(--text);
-    font-family: Georgia, 'Times New Roman', serif;
-    line-height: 1; margin-bottom: 3px;
+    font-size: 24px; font-weight: 700; letter-spacing: -0.01em; color: var(--text);
+    font-family: Georgia, 'Times New Roman', serif; line-height: 1; margin-bottom: 3px;
   }
-
   .nav-logo-sub {
-    font-size: 10px; font-weight: 500;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--text-muted); line-height: 1;
+    font-size: 10px; font-weight: 500; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--text-muted); line-height: 1;
   }
-
   .nav-spacer { flex: 1; }
-
   .nav-back {
     font-size: 13px; font-weight: 500; letter-spacing: 0.08em;
     text-transform: uppercase; color: var(--text);
     text-decoration: none; opacity: 0.7;
-    transition: opacity 0.3s;
-    white-space: nowrap;
+    transition: opacity 0.3s; white-space: nowrap;
   }
   .nav-back:hover { opacity: 1; }
-
   .theme-toggle {
     width: 44px; height: 44px; border-radius: 50%;
     border: 1px solid var(--border-input); background: transparent;
@@ -133,335 +109,183 @@
     position: relative; overflow: hidden; font-family: inherit;
   }
   .theme-toggle:hover { border-color: var(--text); transform: scale(1.08); }
-
   .theme-toggle .icon {
     position: absolute;
-    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
-    line-height: 1;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease; line-height: 1;
   }
   .theme-toggle .icon-sun { transform: rotate(0deg) scale(1); opacity: 0; }
   .theme-toggle .icon-moon { transform: rotate(0deg) scale(1); opacity: 1; }
   [data-theme="dark"] .theme-toggle .icon-sun { transform: rotate(180deg) scale(1); opacity: 1; }
   [data-theme="dark"] .theme-toggle .icon-moon { transform: rotate(-180deg) scale(0); opacity: 0; }
 
+  /* SİPARİŞ BAŞARILI KUTUSU */
+  #siparisBasariliKutu {
+    margin-top: 70px; /* Navbar payı */
+    background: #2a5040; color: white; padding: 20px; text-align: center;
+    border-bottom: 4px solid #1e3a2f; z-index: 9998; position: relative;
+  }
+
   /* HERO */
   .hero {
-    margin-top: 70px;
-    padding: 100px 24px 60px;
+    padding: 60px 24px 40px;
     background: linear-gradient(180deg, var(--bg-alt) 0%, var(--bg) 100%);
     text-align: center;
   }
-
   .hero-label {
-    display: inline-block;
-    font-size: 12px; font-weight: 700;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--success);
-    background: var(--success-bg);
-    padding: 8px 20px;
-    border-radius: 100px;
-    margin-bottom: 24px;
-    border: 1px solid var(--success);
+    display: inline-block; font-size: 12px; font-weight: 700;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--success); background: var(--success-bg);
+    padding: 8px 20px; border-radius: 100px;
+    margin-bottom: 24px; border: 1px solid var(--success);
   }
-
   .hero-title {
     font-size: 72px; font-weight: 600; font-style: italic;
     line-height: 1.1; letter-spacing: -0.03em;
-    color: var(--text);
-    margin-bottom: 20px;
+    color: var(--text); margin-bottom: 20px;
     font-family: Georgia, 'Times New Roman', serif;
   }
-
   .hero-sub {
     font-size: 17px; color: var(--text-muted);
-    max-width: 700px; margin: 0 auto;
-    line-height: 1.7;
+    max-width: 700px; margin: 0 auto; line-height: 1.7;
   }
 
   /* İÇERİK */
   .wrap {
     max-width: 900px; margin: 0 auto;
-    padding: 60px 24px 80px;
-    width: 100%;
+    padding: 40px 24px 80px; width: 100%;
   }
-
   .content-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 48px 44px;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
-    margin-bottom: 30px;
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 20px; padding: 48px 44px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04); margin-bottom: 30px;
   }
-
   .content-card h2 {
-    font-size: 26px; font-weight: 700;
-    color: var(--text);
-    margin-bottom: 20px;
-    letter-spacing: -0.01em;
-    font-family: Georgia, 'Times New Roman', serif;
-    line-height: 1.3;
+    font-size: 26px; font-weight: 700; color: var(--text);
+    margin-bottom: 20px; letter-spacing: -0.01em;
+    font-family: Georgia, 'Times New Roman', serif; line-height: 1.3;
   }
-
   .content-card h2::after {
-    content: "";
-    display: block;
-    width: 50px; height: 3px;
-    background: var(--success);
-    margin-top: 12px;
-    border-radius: 3px;
+    content: ""; display: block; width: 50px; height: 3px;
+    background: var(--success); margin-top: 12px; border-radius: 3px;
   }
-
-  .content-card h3 {
-    font-size: 18px; font-weight: 700;
-    color: var(--text);
-    margin-top: 24px;
-    margin-bottom: 10px;
-    font-family: Georgia, 'Times New Roman', serif;
-  }
-
   .content-card p {
-    font-size: 15px; line-height: 1.9;
-    color: var(--text-light);
-    margin-bottom: 16px;
+    font-size: 15px; line-height: 1.9; color: var(--text-light); margin-bottom: 16px;
   }
-
   .content-card p:last-child { margin-bottom: 0; }
-
-  .content-card strong {
-    color: var(--text);
-    font-weight: 700;
-  }
+  .content-card strong { color: var(--text); font-weight: 700; }
 
   .mission-quote {
-    background: var(--success-bg);
-    border-left: 4px solid var(--success);
-    padding: 22px 26px;
-    border-radius: 10px;
-    margin: 24px 0;
-    font-size: 17px;
-    font-style: italic;
-    font-weight: 600;
-    color: var(--success);
-    line-height: 1.6;
-    font-family: Georgia, 'Times New Roman', serif;
+    background: var(--success-bg); border-left: 4px solid var(--success);
+    padding: 22px 26px; border-radius: 10px; margin: 24px 0;
+    font-size: 17px; font-style: italic; font-weight: 600;
+    color: var(--success); line-height: 1.6; font-family: Georgia, 'Times New Roman', serif;
   }
 
-  .features-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    margin-top: 20px;
-  }
-
+  .features-list { display: flex; flex-direction: column; gap: 16px; margin-top: 20px; }
   .feature-item {
-    background: var(--bg-alt);
-    border: 1px solid var(--border);
-    border-left: 4px solid var(--success);
-    border-radius: 10px;
-    padding: 18px 22px;
-    transition: all 0.25s ease;
+    background: var(--bg-alt); border: 1px solid var(--border);
+    border-left: 4px solid var(--success); border-radius: 10px;
+    padding: 18px 22px; transition: all 0.25s ease;
   }
-
   .feature-item:hover {
-    transform: translateX(4px);
-    border-left-color: var(--btn-bg);
+    transform: translateX(4px); border-left-color: var(--btn-bg);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
   }
-
   .feature-item h4 {
-    font-size: 15px; font-weight: 700;
-    color: var(--text);
-    margin-bottom: 6px;
-    display: flex; align-items: center; gap: 8px;
+    font-size: 15px; font-weight: 700; color: var(--text);
+    margin-bottom: 6px; display: flex; align-items: center; gap: 8px;
   }
-
-  .feature-item p {
-    font-size: 14px; line-height: 1.7;
-    color: var(--text-muted);
-    margin: 0;
-  }
+  .feature-item p { font-size: 14px; line-height: 1.7; color: var(--text-muted); margin: 0; }
 
   .closing-box {
     background: linear-gradient(135deg, #2a5040 0%, #3d6b57 100%);
-    color: #fff;
-    border-radius: 20px;
-    padding: 48px 44px;
-    text-align: center;
-    margin-top: 20px;
+    color: #fff; border-radius: 20px; padding: 48px 44px;
+    text-align: center; margin-top: 20px;
   }
-
   .closing-box h2 {
     font-size: 28px; font-weight: 700; font-style: italic;
-    margin-bottom: 16px;
-    font-family: Georgia, 'Times New Roman', serif;
-    color: #fff;
+    margin-bottom: 16px; font-family: Georgia, 'Times New Roman', serif; color: #fff;
   }
-
-  .closing-box p {
-    font-size: 16px; line-height: 1.8;
-    opacity: 0.95;
-    margin-bottom: 12px;
-    color: #fff;
-  }
-
-  .closing-box p:last-child {
-    margin-bottom: 0;
-    font-weight: 700;
-    font-style: italic;
-    letter-spacing: 0.05em;
-  }
+  .closing-box p { font-size: 16px; line-height: 1.8; opacity: 0.95; margin-bottom: 12px; color: #fff; }
+  .closing-box p:last-child { margin-bottom: 0; font-weight: 700; font-style: italic; letter-spacing: 0.05em; }
 
   .cta-box {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 40px 32px;
-    text-align: center;
-    margin-top: 30px;
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 20px; padding: 40px 32px; text-align: center; margin-top: 30px;
   }
-
   .cta-box h3 {
-    font-size: 22px; font-weight: 700;
-    color: var(--text);
-    margin-bottom: 12px;
-    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 22px; font-weight: 700; color: var(--text);
+    margin-bottom: 12px; font-family: Georgia, 'Times New Roman', serif;
   }
-
-  .cta-box p {
-    font-size: 15px; color: var(--text-muted);
-    margin-bottom: 24px;
-    line-height: 1.7;
-  }
-
+  .cta-box p { font-size: 15px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.7; }
   .cta-btn {
-    display: inline-flex; align-items: center;
-    gap: 10px;
-    padding: 16px 36px;
-    background: var(--btn-bg);
-    color: var(--btn-text);
-    border-radius: 100px;
-    font-size: 13px; font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: all 0.25s;
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 16px 36px; background: var(--btn-bg); color: var(--btn-text);
+    border-radius: 100px; font-size: 13px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    text-decoration: none; transition: all 0.25s;
   }
+  .cta-btn:hover { background: var(--btn-hover); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); }
 
-  .cta-btn:hover {
-    background: var(--btn-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  }
-
-  /* Sipariş Sonrası Ana Sayfaya Dön Butonu */
-  .back-home-wrap {
-    text-align: center;
-    padding: 0 20px 60px;
-  }
+  .back-home-wrap { text-align: center; padding: 0 20px 60px; }
   .back-home-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 16px 32px;
-    background: var(--btn-bg);
-    color: var(--btn-text);
-    border-radius: 100px;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    transition: all 0.25s ease;
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: 8px; padding: 16px 32px; background: var(--btn-bg); color: var(--btn-text);
+    border-radius: 100px; text-decoration: none; font-size: 14px; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase; transition: all 0.25s ease;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   }
-  .back-home-btn:hover {
-    background: var(--btn-hover);
-    transform: translateY(-2px);
-  }
+  .back-home-btn:hover { background: var(--btn-hover); transform: translateY(-2px); }
 
-  footer {
-    background: #000; color: #fff;
-    padding: 60px 40px 30px;
-    margin-top: auto;
-  }
-
+  footer { background: #000; color: #fff; padding: 60px 40px 30px; margin-top: auto; }
   .footer-container {
-    max-width: 1200px; margin: 0 auto;
-    display: grid; grid-template-columns: repeat(4, 1fr);
-    gap: 40px 60px;
-    padding-bottom: 40px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    max-width: 1200px; margin: 0 auto; display: grid;
+    grid-template-columns: repeat(4, 1fr); gap: 40px 60px;
+    padding-bottom: 40px; border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
-
   .footer-col h4 {
-    font-size: 13px; font-weight: 600;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    color: #fff; margin-bottom: 20px;
+    font-size: 13px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #fff; margin-bottom: 20px;
   }
-
-  .footer-col p,
-  .footer-col a {
-    font-size: 14px; color: #fff;
-    opacity: 0.75; text-decoration: none;
-    line-height: 1.8; display: block;
-    margin-bottom: 6px;
-    transition: opacity 0.3s;
+  .footer-col p, .footer-col a {
+    font-size: 14px; color: #fff; opacity: 0.75;
+    text-decoration: none; line-height: 1.8; display: block; margin-bottom: 6px; transition: opacity 0.3s;
   }
   .footer-col a:hover { opacity: 1; }
+  .footer-copyright { text-align: center; padding-top: 30px; font-size: 13px; color: #666; }
 
-  .footer-copyright {
-    text-align: center; padding-top: 30px;
-    font-size: 13px; color: #666;
-  }
-
-  @media (max-width: 900px) {
-    .hero-title { font-size: 52px; }
-  }
-
+  @media (max-width: 900px) { .hero-title { font-size: 52px; } }
   @media (max-width: 768px) {
     .nav-inner { padding: 0 16px; }
     .nav-logo-main { font-size: 15px; }
     .nav-logo-sub { font-size: 9px; }
     .nav-logo-img { width: 44px; height: 44px; }
     .theme-toggle { width: 40px; height: 40px; }
-
-    .hero { padding: 70px 20px 40px; }
+    .hero { padding: 40px 20px 30px; }
     .hero-title { font-size: 38px; }
     .hero-label { font-size: 10px; letter-spacing: 0.25em; padding: 6px 16px; }
     .hero-sub { font-size: 14px; }
-
-    .wrap { padding: 40px 16px 60px; }
+    .wrap { padding: 30px 16px 60px; }
     .content-card { padding: 32px 22px; border-radius: 16px; }
     .content-card h2 { font-size: 20px; }
-    .content-card h3 { font-size: 16px; }
     .content-card p { font-size: 14px; }
-
     .mission-quote { padding: 18px 20px; font-size: 15px; }
-
     .feature-item { padding: 14px 18px; }
     .feature-item h4 { font-size: 14px; }
     .feature-item p { font-size: 13px; }
-
     .closing-box { padding: 32px 22px; border-radius: 16px; }
     .closing-box h2 { font-size: 22px; }
     .closing-box p { font-size: 14px; }
-
     .cta-box { padding: 30px 20px; }
     .cta-box h3 { font-size: 18px; }
     .cta-btn { padding: 14px 28px; font-size: 12px; }
-
     .back-home-btn { padding: 14px 24px; font-size: 13px; }
-
     footer { padding: 50px 24px 25px; }
     .footer-container { grid-template-columns: 1fr 1fr; gap: 32px 24px; }
     .footer-col h4 { font-size: 12px; margin-bottom: 14px; }
     .footer-col p, .footer-col a { font-size: 13px; }
     .footer-copyright { font-size: 12px; }
   }
-
   @media (max-width: 480px) {
     .hero-title { font-size: 30px; }
     .footer-container { grid-template-columns: 1fr; gap: 28px; }
@@ -469,6 +293,12 @@
 </style>
 </head>
 <body>
+
+  <!-- SİPARİŞ BAŞARILI KUTUSU (Varsayılan olarak gizli) -->
+  <div id="siparisBasariliKutu" style="display: none; margin-top: 70px; background: #2a5040; color: white; padding: 20px; text-align: center; border-bottom: 4px solid #1e3a2f; z-index: 9998; position: relative;">
+    <div style="font-size: 24px; margin-bottom: 8px;">✅ Siparişiniz Alındı!</div>
+    <div style="font-size: 15px; opacity: 0.9;">Siparişiniz şu anda mutfak tarafından onaylanıyor. Lütfen masanızdan ayrılmayın, kısa süre içinde hazırlanacaktır.</div>
+  </div>
 
   <nav class="navbar">
     <div class="nav-inner">
@@ -507,11 +337,9 @@
 
     <div class="content-card">
       <h2>Misyonumuz</h2>
-
       <div class="mission-quote">
         "Açlığı En Lezzetli ve En Hesaplı Yoldan Unutturmak"
       </div>
-
       <p>
         Bizim varlık sebebimiz son derece net ve içten: İnsanları gerçekten kaliteli malzemelerle, doyurucu porsiyonlarla ve güler yüzle doyurmak.
       </p>
@@ -525,23 +353,19 @@
       <p>
         Sizi sadece bir müşteri olarak değil, asırlık soframızın bir misafiri olarak görüyoruz. Bizi diğer mekanlardan ayıran en temel özelliklerimiz:
       </p>
-
       <div class="features-list">
         <div class="feature-item">
           <h4>🏛️ Asırlık Kurumsal Güven (1928'den Beri)</h4>
           <p>Yaklaşık yüz yıllık deneyimimiz, yüksek hijyen standartlarımız ve gıda güvenliğine verdiğimiz önemle ne yediğinizden her zaman emin olursunuz.</p>
         </div>
-
         <div class="feature-item">
           <h4>🔥 Damak Çatlatan Eşsiz Lezzet</h4>
           <p>Ustalıkla seçilen etlerimiz, özel baharat dengemiz ve yılların getirdiği pişirme teknikleriyle hazırlanan menülerimizle gerçek köfte lezzetini sunuyoruz.</p>
         </div>
-
         <div class="feature-item">
           <h4>💰 Kaliteli Hizmet, Uygun Fiyat</h4>
           <p>"İyi yemek herkesin hakkıdır" anlayışıyla, kurumsal standartlardaki lezzetlerimizi piyasa şartlarına göre çok daha cazip ve ekonomik fiyatlarla sofranıza getiriyoruz.</p>
         </div>
-
         <div class="feature-item">
           <h4>🤝 Hem Kurumsal Hem Samimi</h4>
           <p>Bir yandan ulusal bir markanın profesyonelliğini sunarken, diğer yandan Batman'ın sıcak, güler yüzlü ve misafirperver ruhunu dükkanımızda yaşatıyoruz.</p>
@@ -567,14 +391,11 @@
     <div class="cta-box">
       <h3>Lezzetlerimizi Keşfedin</h3>
       <p>Köfteden tavuğa, sucuktan ekmek arasına kadar tüm menümüzü inceleyin.</p>
-      <a href="index.html" class="cta-btn">
-        🍽️ Menüye Git
-      </a>
+      <a href="index.html" class="cta-btn">🍽️ Menüye Git</a>
     </div>
-
   </div>
 
-  <!-- Sipariş Sonrası Ana Sayfaya Dön Butonu -->
+  <!-- Ana Sayfaya Dön Butonu -->
   <div class="back-home-wrap">
     <a href="index.html" class="back-home-btn">
       <span style="font-size: 18px;">←</span> Ana Sayfaya Dön
@@ -605,9 +426,7 @@
         <a href="cerez.html">Çerez Politikası</a>
       </div>
     </div>
-    <div class="footer-copyright">
-      © 2026 Ramiz Köfte · Tüm hakları saklıdır.
-    </div>
+    <div class="footer-copyright">© 2026 Ramiz Köfte · Tüm hakları saklıdır.</div>
   </footer>
 
   <script>
@@ -630,11 +449,12 @@
     (function() {
       const params = new URLSearchParams(window.location.search);
       if (params.get('siparis') === 'basarili') {
-        const alertBox = document.createElement('div');
-        alertBox.style.cssText = 'position: fixed; top: 80px; left: 50%; transform: translateX(-50%); background: #2a5040; color: white; padding: 16px 24px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 99999; font-weight: 600; text-align: center; font-size: 14px; max-width: 90%;';
-        alertBox.innerHTML = '✅ Siparişiniz Alındı!<br><span style="font-size: 12px; font-weight: 400;">Mutfakta hazırlanıyor, lütfen masanızdan ayrılmayın.</span>';
-        document.body.appendChild(alertBox);
-        setTimeout(() => { alertBox.style.transition = 'opacity 0.5s'; alertBox.style.opacity = '0'; setTimeout(() => alertBox.remove(), 500); }, 5000);
+        const box = document.getElementById('siparisBasariliKutu');
+        if (box) {
+          box.style.display = 'block';
+          // Kullanıcı sayfayı yenilerse mesajın tekrar çıkmaması için URL'den parametreyi temizle
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
       }
     })();
   </script>
