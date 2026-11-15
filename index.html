@@ -114,8 +114,8 @@
   .kapi-teras {
     position: absolute; width: 70px; height: 32px; background: var(--bg); border: 2px solid var(--border); 
     display: flex; align-items: center; justify-content: center; 
-    border-radius: 8px; color: var(--text-muted); font-weight: 700; font-size: 11px;
-    top: 40%; left: 5%; transform: translateY(-50%); letter-spacing: 1px; font-size: 10px;
+    border-radius: 8px; color: var(--text-muted); font-weight: 700; font-size: 10px;
+    top: 40%; left: 5%; transform: translateY(-50%); letter-spacing: 1px;
   }
   
   .kasa-box { 
@@ -175,43 +175,60 @@
   .footer-col p, .footer-col a { font-size: 14px; color: #fff; opacity: 0.6; text-decoration: none; display: block; margin-bottom: 8px; }
   .footer-copyright { max-width: 1200px; margin: 30px auto 0; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; font-size: 12px; color: #666; }
 
-  /* Mobil Uyum */
+  /* =========================================
+     MOBİL DÜZELTMELER
+     ========================================= */
   @media (max-width: 768px) {
     .mekan-grid { flex-direction: column; gap: 12px; }
     .mekan-btn { padding: 24px; font-size: 20px; flex-direction: row; justify-content: center; }
     .mekan-btn .icon { font-size: 32px; }
     
-    .kroki-container { aspect-ratio: 1/1; }
-    .masa-btn { width: 45px; height: 45px; font-size: 14px; }
+    /* Kroki alanını telefonda biraz daha geniş ve kareye yakın yap */
+    .kroki-container { aspect-ratio: 1/1.1; padding: 10px; }
     
-    /* Mobilde Salon Sıkıştırma */
-    .s-11 { top: 20%; left: 15%; }
-    .s-12 { top: 80%; left: 15%; }
-    .s-2 { top: 20%; right: 15%; }
-    .s-1 { top: 80%; right: 15%; }
-    .s-6 { top: 35%; left: 34%; }
-    .s-5 { top: 35%; left: 44.6%; }
-    .s-4 { top: 35%; left: 55.3%; }
-    .s-3 { top: 35%; left: 66%; }
-    .s-10 { top: 65%; left: 34%; }
-    .s-9  { top: 65%; left: 44.6%; }
-    .s-8  { top: 65%; left: 55.3%; }
-    .s-7  { top: 65%; left: 66%; }
+    /* Buton boyutları */
+    .masa-btn { width: 42px; height: 42px; font-size: 13px; }
 
-    /* Mobilde Teras Sıkıştırma */
-    .t-6 { top: 10%; left: 30%; }
-    .t-7 { top: 30%; left: 30%; }
-    .t-8 { top: 50%; left: 30%; }
-    .t-5 { top: 10%; right: 30%; }
-    .t-4 { top: 30%; right: 30%; }
-    .t-3 { top: 50%; right: 30%; }
-    .t-2 { top: 70%; right: 30%; }
+    /* Başlık ve butonları hizala */
+    .secim-title { font-size: 24px; }
+    .secim-desc { font-size: 13px; margin-bottom: 20px; }
+    #backToMekanBtn, #backToMekanBtn2 { margin-left: 10px !important; font-size: 11px; padding: 8px 12px; }
+
+    /* SALON MOBİL YERLEŞİM (Araları açıldı) */
+    .s-11 { top: 20%; left: 18%; }
+    .s-12 { top: 80%; left: 18%; }
+    .s-2 { top: 20%; right: 18%; }
+    .s-1 { top: 80%; right: 18%; }
+    
+    /* Orta Üst (6-5-4-3) */
+    .s-6 { top: 40%; left: 28%; }
+    .s-5 { top: 40%; left: 43%; }
+    .s-4 { top: 40%; left: 58%; }
+    .s-3 { top: 40%; left: 73%; }
+    
+    /* Orta Alt (10-9-8-7) */
+    .s-10 { top: 60%; left: 28%; }
+    .s-9  { top: 60%; left: 43%; }
+    .s-8  { top: 60%; left: 58%; }
+    .s-7  { top: 60%; left: 73%; }
+
+    /* Kapı ve Kasa */
+    .kapi-box { left: 2%; transform: translateY(-50%) rotate(90deg); width: 55px; height: 25px; font-size: 9px; }
+    .kasa-box { top: 92%; left: 28%; width: 55px; height: 55px; font-size: 11px; }
+
+    /* TERAS MOBİL YERLEŞİM (Araları açıldı) */
+    .t-6 { top: 15%; left: 30%; }
+    .t-7 { top: 35%; left: 30%; }
+    .t-8 { top: 55%; left: 30%; }
+    .t-5 { top: 15%; right: 30%; }
+    .t-4 { top: 35%; right: 30%; }
+    .t-3 { top: 55%; right: 30%; }
+    .t-2 { top: 75%; right: 30%; }
     .t-1 { top: 90%; right: 30%; }
 
-    .kapi-box { left: 0%; transform: translateY(-50%) rotate(90deg); width: 50px; height: 25px; font-size: 9px; }
-    .kapi-teras { left: 0%; width: 60px; height: 25px; font-size: 8px; }
-    .kasa-box { top: 90%; left: 28%; width: 50px; height: 50px; font-size: 11px; }
+    .kapi-teras { left: 0%; width: 70px; height: 25px; font-size: 9px; }
 
+    /* Menü Kartları */
     .menu-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
     .food-body { padding: 12px 12px 14px; gap: 6px; }
     .food-name { font-size: 14px; }
@@ -259,7 +276,7 @@
 
     <!-- SALON KROKİSİ -->
     <div id="salonKrokiWrap" style="display: none; width: 100%; flex-direction: column; align-items: center;">
-      <button class="admin-btn" id="backToMekanBtn" style="margin-bottom: 20px; align-self: flex-start;">← Mekan Değiştir</button>
+      <button class="admin-btn" id="backToMekanBtn" style="margin-bottom: 20px; align-self: flex-start; margin-left: 15%;">← Mekan Değiştir</button>
       <h1 class="secim-title">Salon Masa Seçimi</h1>
       <p class="secim-desc">Lütfen oturduğunuz masayı seçin</p>
       
@@ -285,7 +302,7 @@
 
     <!-- TERAS KROKİSİ -->
     <div id="terasKrokiWrap" style="display: none; width: 100%; flex-direction: column; align-items: center;">
-      <button class="admin-btn" id="backToMekanBtn2" style="margin-bottom: 20px; align-self: flex-start;">← Mekan Değiştir</button>
+      <button class="admin-btn" id="backToMekanBtn2" style="margin-bottom: 20px; align-self: flex-start; margin-left: 15%;">← Mekan Değiştir</button>
       <h1 class="secim-title">Teras Masa Seçimi</h1>
       <p class="secim-desc">Lütfen oturduğunuz masayı seçin</p>
       
@@ -355,7 +372,6 @@
     let allItems = [];
     let currentCat = 'all';
     let selectedMasa = null;
-    let selectedMekan = null;
 
     // Sepet İşlemleri
     function getCart() { try { return JSON.parse(localStorage.getItem('ramiz_cart')) || []; } catch (e) { return []; } }
